@@ -1,0 +1,12 @@
+<% content_for :title, "Território Inteligente" %>
+
+<h1>Território Inteligente</h1>
+
+<p>
+  O mapa colaborativo das academias ao ar livre do nosso território,
+  feito por quem vive nele.
+</p>
+
+<% unless user_signed_in? %>
+  <p><%= link_to "Quero participar", new_user_registration_path %></p>
+<% end %>

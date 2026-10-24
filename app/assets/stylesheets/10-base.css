@@ -1,0 +1,97 @@
+/*
+ * 10-base.css — A aparência padrão das tags HTML, usando os tokens.
+ * Ponto de partida do time de design. Pode (e deve) mudar!
+ */
+
+body {
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: var(--fonte-texto);
+    font-size: var(--texto-m);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--fonte-titulo);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+h1 { font-size: var(--texto-xg); }
+h2 { font-size: var(--texto-gg); }
+h3 { font-size: var(--texto-g); }
+
+a {
+    color: var(--cor-link);
+    text-underline-offset: 0.2em;
+}
+
+/* Estrutura da página */
+main,
+nav {
+    max-width: var(--largura-conteudo);
+    margin-inline: auto;
+    padding: var(--espaco-2);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    background: var(--cor-roxo);
+    color: var(--cor-branco);
+    max-width: none;
+}
+
+nav a { color: var(--cor-amarelo); }
+
+/* Mensagens do Rails (flash) */
+.notice:not(:empty),
+.alert:not(:empty) {
+    padding: var(--espaco-1) var(--espaco-2);
+    border-radius: var(--raio);
+    margin-block: var(--espaco-2);
+}
+.notice:not(:empty) { background: var(--cor-sucesso); color: var(--cor-branco); }
+.alert:not(:empty)  { background: var(--cor-erro);    color: var(--cor-branco); }
+
+/* Formulários */
+form {
+    display: grid;
+    gap: var(--espaco-2);
+    max-width: 28rem;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: var(--espaco-1);
+    border: 2px solid var(--cor-roxo);
+    border-radius: var(--raio);
+    background: var(--cor-branco);
+}
+
+button,
+input[type="submit"] {
+    justify-self: start;
+    padding: var(--espaco-1) var(--espaco-3);
+    border: 0;
+    border-radius: var(--raio);
+    background: var(--cor-roxo);
+    color: var(--cor-branco);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background: var(--cor-laranja-escuro);
+}
+
+/* Foco visível: quem navega pelo teclado precisa ver onde está */
+:focus-visible {
+    outline: 3px solid var(--cor-laranja);
+    outline-offset: 2px;
+}

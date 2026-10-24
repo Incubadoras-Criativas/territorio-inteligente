@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="pt-BR">
 <html>
   <head>
     <title><%= content_for(:title) || "Territorio Inteligente" %></title>
@@ -24,6 +24,21 @@
   </head>
 
   <body>
+  <nav>
+    <% if user_signed_in? %>
+      <span><%= current_user.email %></span>
+      <%= button_to "Sair", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to "Entrar", new_user_session_path %>
+      <%= link_to "Cadastrar", new_user_registration_path %>
+    <% end %>
+  </nav>
+
+  <main>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
     <%= yield %>
-  </body>
+  </main>
+</body>
 </html>
