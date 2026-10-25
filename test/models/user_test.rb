@@ -14,4 +14,28 @@ class UserTest < ActiveSupport::TestCase
     user = User.create!(email: "ana2@exemplo.com", password: "senha-segura-123", nome: "Ana Souza")
     assert_equal "ana-1", user.login
   end
+
+  def auth_google(email:, verificado: true, nome: "Bia Santos", uid: "123")
+    OmniAuth::AuthHash.new(provider: "google_oauth2", uid: uid,
+                           info: { email: email, name: nome, email_verified: verificado })
+  end
+
+  test "cria conta nova com o Google, já confirmada" do
+    user = User.from_omniauth(auth_google(email: "bia@gmail.com"))
+    assert user.persisted?
+    assert user.confirmed?
+    assert_equal "bia", user.login
+    assert user.comum?
+  end
+
+  test "junta o Google a uma conta existente quando o e-mail é verificado" do
+    user = User.from_omniauth(auth_google(email: "ana@exemplo.com", nome: "Ana"))
+    assert_equal users(:ana), user
+    assert_equal "google_oauth2", user.provider
+  end
+
+  test "não junta contas quando o Google não garante o e-mail" do
+    user = User.from_omniauth(auth_google(email: "ana@exemplo.com", verificado: false))
+    assert_not user.persisted?
+  end
 end
