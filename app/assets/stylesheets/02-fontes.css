@@ -1,0 +1,64 @@
+/*
+ * 02-fontes.css — Fontes hospedadas no próprio projeto.
+ * Os arquivos ficam em app/assets/fonts/.
+ * Hospedar aqui evita enviar o IP do visitante ao Google (LGPD).
+ * Licença das fontes: SIL Open Font License (uso livre).
+ */
+
+/* ---------- Baloo 2 (títulos) ---------- */
+@font-face {
+    font-family: "Baloo 2";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url("/baloo-2-v23-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Baloo 2";
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    src: url("/baloo-2-v23-latin-800.woff2") format("woff2");
+}
+
+/* ---------- Open Sans (texto) ---------- */
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url("/open-sans-v44-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+    src: url("/open-sans-v44-latin-italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: url("/open-sans-v44-latin-500.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: url("/open-sans-v44-latin-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+    src: url("/open-sans-v44-latin-700italic.woff2") format("woff2");
+}

@@ -1,0 +1,26 @@
+pt-BR:
+  activerecord:
+    models:
+      user:
+        one: "usuário"
+        other: "usuários"
+    attributes:
+      user:
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"
+        current_password: "Senha atual"
+        remember_me: "Lembrar-me"
+        # Etapas 0110 e 0120:
+        role: "Nível de acesso"
+        nome: "Nome"
+        login: "Identificador"
+        avatar: "Avatar"
+
+  # Nomes dos níveis de acesso (enum role), usados com:
+  #   t("user.roles.#{user.role}")
+  user:
+    roles:
+      admin: "Administrador"
+      moderador: "Moderador"
+      comum: "Comum"

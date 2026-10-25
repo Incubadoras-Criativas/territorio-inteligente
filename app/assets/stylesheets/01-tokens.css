@@ -1,0 +1,59 @@
+/*
+ * 01-tokens.css — As decisões de design do Território Inteligente.
+ * Cores, fontes e espaçamentos ficam AQUI, com nome.
+ * No resto do CSS, use sempre var(--nome), nunca o código da cor direto.
+ *
+ * Paleta inspirada nas peças da turma de publicidade do Incubadoras Criativas.
+ * Os códigos são APROXIMADOS (tirados de print). Time de design: confirme
+ * com a publicidade os códigos oficiais e ajuste aqui.
+ */
+
+:root {
+    /* ---------- Cores da marca ---------- */
+    --cor-roxo: #4b1e5a;            /* principal: títulos, fundos de destaque */
+    --cor-laranja: #f47b20;         /* energia: faixas, ícones, botões grandes */
+    --cor-laranja-escuro: #a84500;  /* laranja para TEXTO e links (contraste) */
+    --cor-amarelo: #f8c21c;         /* destaques sobre o roxo */
+    --cor-creme: #f4e9cf;           /* fundo das páginas */
+    --cor-branco: #ffffff;
+
+    /* ---------- Cores com função ---------- */
+    --cor-fundo: var(--cor-creme);
+    --cor-texto: var(--cor-roxo);
+    --cor-link: var(--cor-laranja-escuro);
+    --cor-sucesso: #1e6b3a;
+    --cor-erro: #a1121f;
+
+    /* ---------- Fontes ---------- */
+    --fonte-titulo: "Baloo 2", "Trebuchet MS", sans-serif;
+    --fonte-texto: "Open Sans", "Segoe UI", Arial, sans-serif;
+
+    /* ---------- Tamanhos de texto ---------- */
+    --texto-p: 0.875rem;
+    --texto-m: 1rem;
+    --texto-g: 1.25rem;
+    --texto-gg: 1.75rem;
+    --texto-xg: 2.5rem;
+
+    /* ---------- Espaçamentos (múltiplos de 8px) ---------- */
+    --espaco-1: 0.5rem;   /*  8px */
+    --espaco-2: 1rem;     /* 16px */
+    --espaco-3: 1.5rem;   /* 24px */
+    --espaco-4: 2rem;     /* 32px */
+    --espaco-6: 3rem;     /* 48px */
+
+    /* ---------- Formas ---------- */
+    --raio: 0.5rem;
+    --largura-conteudo: 70rem;
+}
+
+/*
+ * Tabela de contraste (WCAG: texto normal precisa de 4.5 ou mais)
+ * roxo sobre creme ........ 10.7  ✔ texto
+ * branco sobre roxo ....... 12.9  ✔ texto
+ * amarelo sobre roxo ....... 7.8  ✔ texto
+ * laranja-escuro s/ creme .. 5.0  ✔ texto e links
+ * roxo sobre laranja ....... 4.7  ✔ texto
+ * laranja sobre creme ...... 2.3  ✘ só decoração, nunca texto
+ * branco sobre laranja ..... 2.7  ✘ só texto MUITO grande e grosso
+ */

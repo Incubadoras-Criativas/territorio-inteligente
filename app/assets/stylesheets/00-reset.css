@@ -1,0 +1,57 @@
+/*
+ * 00-reset.css — Zera as diferenças entre navegadores.
+ * Reset moderno e enxuto: remove margens, mas mantém o que ajuda a ler.
+ * Não mexa aqui sem combinar com a equipe: todo o resto do CSS depende dele.
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;   /* largura inclui borda e espaçamento: menos contas */
+}
+
+* {
+    margin: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;  /* celular não aumenta o texto sozinho */
+}
+
+body {
+    min-height: 100vh;
+    line-height: 1.5;                 /* 1.5 é o mínimo confortável para ler */
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;                  /* imagem nunca estoura a tela */
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;                    /* formulários usam a mesma fonte do site */
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;        /* palavra longa quebra em vez de estourar */
+}
+
+ul[role="list"],
+ol[role="list"] {
+    list-style: none;                 /* só some o marcador quando pedimos */
+    padding: 0;
+}

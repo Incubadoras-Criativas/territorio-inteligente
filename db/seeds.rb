@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Administrador de DESENVOLVIMENTO. A senha fica no código, então
+# este bloco nunca roda em produção: lá o admin é criado de outro jeito.
+if Rails.env.development?
+    User.find_or_create_by!(email: "admin@territorio.local") do |u|
+        u.nome = "Admin"
+        u.login = "admin"
+        u.password = "123456"
+        u.role = :admin
+        u.skip_confirmation!
+    end
+end
