@@ -16,6 +16,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false },
                     format: { with: /\A[a-z0-9]+(-[a-z0-9]+)*\z/ },
                     length: { maximum: 30 }
+  validates :avatar, inclusion: { in: ->(_) { User.avatares_disponiveis } }, allow_nil: true
 
   def self.from_omniauth(auth)
     # 1. Já entrou com o Google antes?
@@ -40,6 +41,16 @@ class User < ApplicationRecord
            password: Devise.friendly_token[0, 20]) do |novo|
       novo.skip_confirmation! if verificado
     end
+  end
+
+  def self.avatares_disponiveis
+    pasta = Rails.root.join("app/assets/images/avatares")
+    return [] unless pasta.directory?
+
+    pasta.children
+    .select { |arquivo| arquivo.extname.in?(%w[.svg .png]) }
+    .map { |arquivo| arquivo.basename.to_s }
+    .sort
   end
 
   private

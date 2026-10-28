@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "paginas#inicio"
 
+  resource :perfil, only: [ :edit, :update ], controller: "perfis"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

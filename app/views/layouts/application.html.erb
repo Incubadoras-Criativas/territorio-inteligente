@@ -26,7 +26,12 @@
   <body>
   <nav>
     <% if user_signed_in? %>
-      <span><%= current_user.email %></span>
+      <%= link_to edit_perfil_path, class: "menu-perfil" do %>
+        <% if current_user.avatar %>
+          <%= image_tag "avatares/#{current_user.avatar}", alt: "", width: 32, height: 32 %>
+        <% end %>
+          <span><%= current_user.nome %></span>
+        <% end %>
       <%= button_to "Sair", destroy_user_session_path, method: :delete %>
     <% else %>
       <%= link_to "Entrar", new_user_session_path %>
