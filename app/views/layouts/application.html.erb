@@ -32,6 +32,9 @@
         <% end %>
           <span><%= current_user.nome %></span>
         <% end %>
+        <% if current_user.admin? %>
+          <%= link_to "Usuários", admin_users_path %>
+        <% end %>
       <%= button_to "Sair", destroy_user_session_path, method: :delete %>
     <% else %>
       <%= link_to "Entrar", new_user_session_path %>

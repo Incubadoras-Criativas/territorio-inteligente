@@ -10,3 +10,11 @@ ana:
   login: ana
   encrypted_password: <%= Devise::Encryptor.digest(User, "senha-segura-123") %>
   confirmed_at: <%= Time.current %>
+
+admin:
+  email: admin@exemplo.com
+  nome: Admin
+  login: admin
+  role: admin
+  encrypted_password: <%= Devise::Encryptor.digest(User, "senha-segura-123") %>
+  confirmed_at: <%= Time.current %>

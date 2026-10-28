@@ -1,0 +1,27 @@
+/* 30-admin.css — Telas de administração */
+
+.lista-usuarios {
+  display: grid;
+  gap: var(--espaco-1);           /* espaço entre os cartões: o creme do fundo aparece aqui */
+  max-width: 40rem;
+  padding: 0;
+}
+
+.lista-usuarios li {
+  padding: var(--espaco-2);
+  border-radius: var(--raio);
+  line-height: 1.6;
+}
+
+.lista-usuarios li:nth-child(odd) {
+  background: var(--cor-branco);
+}
+
+.lista-usuarios li:nth-child(even) {
+  background: var(--cor-roxo-claro);
+}
+
+.lista-usuarios li a {
+  display: inline-block;
+  margin-top: var(--espaco-1);
+}

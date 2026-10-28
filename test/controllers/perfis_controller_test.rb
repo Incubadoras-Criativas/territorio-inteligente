@@ -18,4 +18,10 @@ class PerfisControllerTest < ActionDispatch::IntegrationTest
     patch perfil_url, params: { user: { nome: "Ana", role: "admin" } }
     assert users(:ana).reload.comum?
   end
+
+  test "não dá para editar outro usuário enviando um id" do
+    sign_in users(:ana)
+    patch perfil_url, params: { id: users(:admin).id, user: { nome: "Hackeado" } }
+    assert_equal "Admin", users(:admin).reload.nome
+  end
 end

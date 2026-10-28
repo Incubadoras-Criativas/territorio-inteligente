@@ -1,0 +1,21 @@
+<% content_for :title, "Nível de acesso" %>
+
+<h1>Nível de acesso de <%= @user.nome %></h1>
+
+<%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
+  <%= render "devise/shared/error_messages", resource: @user %>
+
+  <fieldset>
+    <legend>Nível de acesso</legend>
+    <% User.roles.each_key do |role| %>
+      <label>
+        <%= f.radio_button :role, role %>
+        <%= t("user.roles.#{role}") %>
+      </label>
+    <% end %>
+  </fieldset>
+
+  <%= f.submit "Salvar" %>
+<% end %>
+
+<p><%= link_to "Voltar", admin_users_path %></p>
