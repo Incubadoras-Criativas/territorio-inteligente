@@ -73,3 +73,7 @@ gem "letter_opener_web", "~> 3.0", group: :development
 
 gem "omniauth-google-oauth2", "~> 1.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
+
+gem "pagy", "~> 43.8"
+
+gem "faker", "~> 3.8", group: :development

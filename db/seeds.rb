@@ -18,4 +18,17 @@ if Rails.env.development?
         u.role = :admin
         u.skip_confirmation!
     end
+
+    # Usuários de exemplo, para ver a lista com volume
+    if User.count < 50
+        Faker::Config.locale = "pt-BR"
+
+        200.times do |i|
+            User.create!(nome: "#{Faker::Name.first_name} #{Faker::Name.last_name}",
+                         email: "exemplo#{i}@exemplo.com",
+                         password: "123456") do |u|
+                u.skip_confirmation!
+            end
+        end
+    end
 end

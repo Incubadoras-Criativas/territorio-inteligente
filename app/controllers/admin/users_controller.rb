@@ -3,7 +3,14 @@ module Admin
     before_action :set_user, only: [ :edit, :update ]
 
     def index
-      @users = User.order(:nome)
+      usuarios = User.order(:nome)
+
+      if params[:q].present?
+        termo = "%#{User.sanitize_sql_like(params[:q])}%"
+        usuarios = usuarios.where("nome ILIKE :termo OR login ILIKE :termo", termo: termo)
+      end
+
+      @pagy, @users = pagy(:offset, usuarios, limit: 20)
     end
 
     def edit

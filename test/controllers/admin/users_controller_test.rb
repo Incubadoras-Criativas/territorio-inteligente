@@ -30,4 +30,11 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     patch admin_user_url(users(:ana)), params: { user: { role: "admin" } }
     assert users(:ana).reload.comum?
   end
+
+  test "a busca encontra pelo nome e deixa os outros de fora" do
+    sign_in users(:admin)
+    get admin_users_url(q: "ana")
+    assert_match "ana@exemplo.com", response.body
+    assert_no_match "admin@exemplo.com", response.body
+  end
 end
