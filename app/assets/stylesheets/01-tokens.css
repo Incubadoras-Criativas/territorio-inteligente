@@ -16,6 +16,7 @@
     --cor-amarelo: #f8c21c;         /* destaques sobre o roxo */
     --cor-creme: #f4e9cf;           /* fundo das páginas */
     --cor-branco: #ffffff;
+    --cor-roxo-claro: #f1e9f3;      /* fundo suave: o roxo da marca bem diluído */
 
     /* ---------- Cores com função ---------- */
     --cor-fundo: var(--cor-creme);

@@ -1,0 +1,57 @@
+/* 30-admin.css — Telas de administração */
+
+.lista-usuarios {
+  display: grid;
+  gap: var(--espaco-1);           /* espaço entre os cartões: o creme do fundo aparece aqui */
+  max-width: 40rem;
+  padding: 0;
+}
+
+.lista-usuarios li {
+  padding: var(--espaco-2);
+  border-radius: var(--raio);
+  line-height: 1.6;
+}
+
+.lista-usuarios li:nth-child(odd) {
+  background: var(--cor-branco);
+}
+
+.lista-usuarios li:nth-child(even) {
+  background: var(--cor-roxo-claro);
+}
+
+.lista-usuarios li a {
+  display: inline-block;
+  margin-top: var(--espaco-1);
+}
+
+/* Cada página da rolagem é um bloco; o espaço entre elas é o mesmo dos cartões */
+turbo-frame {
+  display: block;
+}
+
+.lista-usuarios {
+  margin-bottom: var(--espaco-1);
+}
+
+.busca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--espaco-1);
+  margin-block: var(--espaco-2);
+  max-width: 40rem;
+}
+
+.busca label {
+  flex-basis: 100%;
+}
+
+.busca input[type="search"] {
+  flex: 1;
+  padding: var(--espaco-1);
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+}

@@ -1,0 +1,28 @@
+<% content_for :title, "Usuários" %>
+
+<h1>Usuários</h1>
+
+<%= form_with url: admin_users_path, method: :get, class: "busca" do |f| %>
+  <%= f.label :q, "Buscar por nome ou identificador" %>
+  <%= f.search_field :q, value: params[:q] %>
+  <%= f.submit "Buscar" %>
+<% end %>
+
+<%= turbo_frame_tag "pagina_#{@pagy.page}", target: "_top" do %>
+  <ul class="lista-usuarios" role="list">
+    <% @users.each do |user| %>
+      <li>
+        <strong><%= user.nome %></strong> (<%= user.login %>)<br>
+        <span><%= user.email %></span><br>
+        <span><%= t("user.roles.#{user.role}") %></span>
+        <%= link_to "Alterar nível", edit_admin_user_path(user) %>
+      </li>
+    <% end %>
+  </ul>
+
+  <% if @pagy.next %>
+    <%= turbo_frame_tag "pagina_#{@pagy.next}", src: @pagy.page_url(:next), loading: :lazy, target: "_top" do %>
+      <p>Carregando mais usuários…</p>
+    <% end %>
+  <% end %>
+<% end %>

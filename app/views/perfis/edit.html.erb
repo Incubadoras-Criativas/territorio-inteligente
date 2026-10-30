@@ -1,0 +1,31 @@
+<% content_for :title, "Meu perfil" %>
+
+<h1>Meu perfil</h1>
+
+<%= form_with model: @user, url: perfil_path, method: :patch do |f| %>
+  <%= render "devise/shared/error_messages", resource: @user %>
+
+  <div class="field">
+    <%= f.label :nome %>
+    <%= f.text_field :nome, autocomplete: "name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :login %>
+    <%= f.text_field :login, autocomplete: "username" %>
+  </div>
+
+  <fieldset class="galeria-avatares">
+    <legend>Escolha seu avatar</legend>
+    <% User.avatares_disponiveis.each_with_index do |arquivo, i| %>
+      <label>
+        <%= f.radio_button :avatar, arquivo %>
+        <%= image_tag "avatares/#{arquivo}", alt: "Avatar #{i + 1}", width: 64, height: 64 %>
+      </label>
+    <% end %>
+  </fieldset>
+
+  <%= f.submit "Salvar" %>
+<% end %>
+
+<p><%= link_to "Trocar e-mail ou senha", edit_user_registration_path %></p>
