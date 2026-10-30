@@ -18,6 +18,52 @@ bin/rails db:migrate
 
 O código chega, mas o botão do Google **ainda não aparece**. Ele só aparece depois que você criar as **suas** chaves de acesso, nas Partes 2 e 3. Até lá, o login por e-mail e senha continua funcionando normalmente.
 
+> 🕰️ **Opcional: estudar o projeto exatamente como neste capítulo.**
+> Se você está atrasado ou quer rever, crie uma branch de estudo a partir da tag do capítulo. Antes, **desligue o servidor** (Ctrl+C) e **desconecte o pgAdmin** (botão direito no servidor → *Disconnect Server*), porque o banco vai ser recriado.
+>
+> **1. Guarde uma cópia do seu banco** (um *dump*), para recuperar os seus dados na volta:
+>
+> ```bash
+> pg_dump -Fc -f ~/banco-antes-do-estudo.dump territorio_inteligente_development
+> ```
+>
+> - `pg_dump` copia o banco inteiro, estrutura e dados, para um arquivo.
+> - `-Fc` usa o formato próprio do PostgreSQL, que o `pg_restore` sabe ler.
+> - `-f ~/banco-antes-do-estudo.dump` é o arquivo da cópia, na sua pasta pessoal.
+>
+> **2. Viaje até o capítulo:**
+>
+> ```bash
+> git switch -c estudo-0130 cap-0130
+> bin/rails db:reset
+> ```
+>
+> O `db:reset` **apaga** o banco de desenvolvimento e o recria exatamente como neste capítulo.
+>
+> **3. Para voltar ao presente** (de novo com o servidor desligado e o pgAdmin desconectado):
+>
+> ```bash
+> git switch main
+> bin/rails db:drop db:create
+> pg_restore --no-owner -d territorio_inteligente_development ~/banco-antes-do-estudo.dump
+> bin/rails db:migrate
+> git branch -D estudo-0130
+> ```
+>
+> - `db:drop db:create` apaga o banco do capítulo antigo e cria um vazio.
+> - `pg_restore` devolve para ele a cópia do passo 1, com os seus cadastros. O `--no-owner` evita erro de permissão.
+> - `db:migrate` aplica as migrations que tenham chegado depois da cópia. Se não houver nenhuma, ele não faz nada.
+>
+> Sem a cópia do passo 1, troque as linhas do `db:drop` e do `pg_restore` por `bin/rails db:migrate` e `bin/rails db:seed`: o banco volta ao presente, mas só com o admin e os usuários de exemplo.
+>
+> Lembre: **a `main` é para trabalhar, as tags são para consultar.**
+
+> 📖 **Como ler este capítulo.** Os comandos de construção mostrados nas partes seguintes (`bin/rails generate`, `bundle add`, a criação e a edição de arquivos) **já estão no código** que você baixou com o `git pull`. Os blocos com esses comandos começam com a linha `# 📖 JÁ ESTÁ NO PROJETO`. **Não execute esses comandos de novo**: eles estão aqui para você entender como cada parte foi feita e saber repetir num projeto seu. Rodar um `generate` de novo, por exemplo, criaria uma segunda migration igual à primeira, e o `db:migrate` daria erro.
+>
+> Execute só os comandos desta seção ("Para ter o código deste capítulo") e os das partes de **testes**, de **exercícios** e de **teste no navegador**.
+>
+> **Exceção neste capítulo:** as Partes 2 e 3 (o projeto no Google Cloud e o cofre de credentials) **cada pessoa faz na própria máquina**, porque as chaves do Google são individuais e não vão para o GitHub.
+
 ---
 
 ## Parte 1 — Como funciona o "Entrar com o Google"
@@ -184,6 +230,7 @@ git status
 ## Parte 4 — As gems e a migration
 
 ```bash
+# 📖 JÁ ESTÁ NO PROJETO: não execute. Use estes comandos num projeto novo.
 bundle add omniauth-google-oauth2 omniauth-rails_csrf_protection
 ```
 
@@ -197,6 +244,7 @@ A segunda gem tem a ver com o "Sair" do capítulo 0100: ações importantes não
 Agora, a tabela `users` precisa saber **com qual conta Google** cada usuário entrou:
 
 ```bash
+# 📖 JÁ ESTÁ NO PROJETO: não execute. Use estes comandos num projeto novo.
 bin/rails generate migration AddOmniauthToUsers provider:string uid:string
 ```
 
@@ -367,7 +415,9 @@ module ApplicationHelper
 end
 ```
 
-**Helpers** são métodos que as views podem usar. Este responde: *"esta máquina tem as chaves do Google?"*. Se não tiver, o botão não aparece, e o sistema continua funcionando por e-mail e senha.
+Este helper responde: *"esta máquina tem as chaves do Google?"*. Se não tiver, o botão não aparece, e o sistema continua funcionando por e-mail e senha.
+
+> 🧰 **O que é um helper?** Pense na calculadora do caixa da padaria: em vez de fazer a conta de cabeça a cada venda, o caixa aperta um botão. Em termos técnicos, um **helper** é um **método Ruby que as views podem chamar** para não repetir lógica no HTML. Os helpers ficam em `app/helpers/`, e o Rails já traz muitos prontos: `link_to`, `image_tag`, `button_to` e `form_with` são helpers. Regra prática: se uma view começa a ter uma conta ou uma decisão complicada, ela vira um helper, e a view fica limpa.
 
 ### 8.2 O partial do botão
 
@@ -392,7 +442,9 @@ Crie `app/views/devise/shared/_google.html.erb`:
 | `image_tag "google-g.svg", alt: ""` | O logo. O `alt` fica vazio porque o texto do lado já diz tudo, e o leitor de tela não precisa ouvir duas vezes |
 | `<p class="divisor">ou</p>` | A linha "ou" que separa o Google do formulário |
 
-Um **partial** é um pedaço de view reaproveitável: o nome do arquivo começa com `_`. Usamos o mesmo botão em duas páginas, no topo do login (`sessions/new.html.erb`) e do cadastro (`registrations/new.html.erb`):
+> 🧩 **O que é um partial?** Pense num carimbo: você faz o desenho uma vez e carimba em quantas folhas quiser. Em termos técnicos, um **partial** é um **pedaço de view reaproveitável**, num arquivo cujo nome começa com `_` (como `_google.html.erb`). Ele é desenhado dentro de outra view com `render`, e o `_` não entra no nome usado no `render`. Se o botão mudar, muda num lugar só, e todas as páginas que o usam mudam juntas: é o DRY do capítulo 000 nas views.
+
+ Usamos o mesmo botão em duas páginas, no topo do login (`sessions/new.html.erb`) e do cadastro (`registrations/new.html.erb`):
 
 ```erb
 <%= render "devise/shared/google" %>
@@ -544,4 +596,4 @@ A sua conta aparece **uma vez só**, com `provider` igual a `google_oauth2`, `ro
 - Marcas têm regras de uso: o botão segue as do Google.
 - Ações importantes usam **botão** (`POST`), e não link.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0140 — Meu perfil: nome, identificador e avatar](0140-meu-perfil.md)

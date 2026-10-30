@@ -15,6 +15,50 @@ git pull
 bin/rails db:migrate
 ```
 
+> 🕰️ **Opcional: estudar o projeto exatamente como neste capítulo.**
+> Se você está atrasado ou quer rever, crie uma branch de estudo a partir da tag do capítulo. Antes, **desligue o servidor** (Ctrl+C) e **desconecte o pgAdmin** (botão direito no servidor → *Disconnect Server*), porque o banco vai ser recriado.
+>
+> **1. Guarde uma cópia do seu banco** (um *dump*), para recuperar os seus dados na volta:
+>
+> ```bash
+> pg_dump -Fc -f ~/banco-antes-do-estudo.dump territorio_inteligente_development
+> ```
+>
+> - `pg_dump` copia o banco inteiro, estrutura e dados, para um arquivo.
+> - `-Fc` usa o formato próprio do PostgreSQL, que o `pg_restore` sabe ler.
+> - `-f ~/banco-antes-do-estudo.dump` é o arquivo da cópia, na sua pasta pessoal.
+>
+> **2. Viaje até o capítulo:**
+>
+> ```bash
+> git switch -c estudo-0110 cap-0110
+> bin/rails db:reset
+> ```
+>
+> O `db:reset` **apaga** o banco de desenvolvimento e o recria exatamente como neste capítulo.
+>
+> **3. Para voltar ao presente** (de novo com o servidor desligado e o pgAdmin desconectado):
+>
+> ```bash
+> git switch main
+> bin/rails db:drop db:create
+> pg_restore --no-owner -d territorio_inteligente_development ~/banco-antes-do-estudo.dump
+> bin/rails db:migrate
+> git branch -D estudo-0110
+> ```
+>
+> - `db:drop db:create` apaga o banco do capítulo antigo e cria um vazio.
+> - `pg_restore` devolve para ele a cópia do passo 1, com os seus cadastros. O `--no-owner` evita erro de permissão.
+> - `db:migrate` aplica as migrations que tenham chegado depois da cópia. Se não houver nenhuma, ele não faz nada.
+>
+> Sem a cópia do passo 1, troque as linhas do `db:drop` e do `pg_restore` por `bin/rails db:migrate` e `bin/rails db:seed`: o banco volta ao presente, mas só com o admin e os usuários de exemplo.
+>
+> Lembre: **a `main` é para trabalhar, as tags são para consultar.**
+
+> 📖 **Como ler este capítulo.** Os comandos de construção mostrados nas partes seguintes (`bin/rails generate`, `bundle add`, a criação e a edição de arquivos) **já estão no código** que você baixou com o `git pull`. Os blocos com esses comandos começam com a linha `# 📖 JÁ ESTÁ NO PROJETO`. **Não execute esses comandos de novo**: eles estão aqui para você entender como cada parte foi feita e saber repetir num projeto seu. Rodar um `generate` de novo, por exemplo, criaria uma segunda migration igual à primeira, e o `db:migrate` daria erro.
+>
+> Execute só os comandos desta seção ("Para ter o código deste capítulo") e os das partes de **testes**, de **exercícios** e de **teste no navegador**.
+
 ---
 
 ## Parte 1 — Quem pode o quê
@@ -34,10 +78,60 @@ Quem se cadastra **sempre** começa como comum. Só um administrador pode promov
 ## Parte 2 — A migration
 
 ```bash
+# 📖 JÁ ESTÁ NO PROJETO: não execute. Use estes comandos num projeto novo.
 bin/rails generate migration AddRoleToUsers
 ```
 
-O nome `AddRoleToUsers` segue uma convenção: *"adicione role à tabela users"*. No arquivo gerado em `db/migrate/`, escrevemos:
+### O que é uma migration?
+
+Pense numa casa em reforma. Cada mudança vira uma **ordem de serviço** numerada: *"nº 1: construir o quarto"*, *"nº 2: abrir uma janela no quarto"*. O mestre de obras executa as ordens **na sequência** e anota num caderno quais já fez. Se outra equipe for construir uma casa igual, basta entregar a ela a mesma pilha de ordens.
+
+No Rails, a casa é o **banco de dados**, e cada ordem de serviço é uma **migration**.
+
+Em termos técnicos, uma migration é um **arquivo Ruby** que descreve **uma mudança na estrutura** do banco: criar uma tabela, acrescentar ou remover uma coluna, criar um índice. Ela muda a **estrutura**, as tabelas e colunas, e não os **dados** que estão dentro delas.
+
+```ruby
+class AddRoleToUsers < ActiveRecord::Migration[8.1]
+  def change
+    add_column :users, :role, :integer, null: false, default: 2
+  end
+end
+```
+
+| Trecho | O que significa |
+| --- | --- |
+| `< ActiveRecord::Migration[8.1]` | É uma migration, escrita para o Rails 8.1 |
+| `def change` | O que fazer ao rodar a migration. O Rails também sabe **desfazer** sozinho a maioria das mudanças |
+| `add_column :users, :role, ...` | Uma instrução em Ruby que o Rails transforma em SQL: `ALTER TABLE users ADD COLUMN role integer ...` |
+
+Por que não mexer no banco direto, pelo pgAdmin ou com SQL? Porque cada pessoa da equipe tem o **seu** banco, em cada máquina. As migrations vão para o **git** junto com o código, e assim todos os bancos recebem **as mesmas mudanças, na mesma ordem**. Elas são o **controle de versão do banco de dados**, como os commits são do código.
+
+| Na reforma | No Rails |
+| --- | --- |
+| A ordem de serviço numerada | O arquivo da migration, com data e hora no nome |
+| O mestre de obras | O comando `bin/rails db:migrate` (capítulo 0120) |
+| O caderno das ordens já feitas | A tabela `schema_migrations` (capítulo 035) |
+| A planta atualizada da casa | O arquivo `db/schema.rb`, retrato do banco depois de todas as migrations |
+
+### O que é o `generate migration`?
+
+Escrever o arquivo de uma migration à mão daria trabalho, e seria fácil errar o nome ou o número. Por isso o Rails tem um **gerador**:
+
+| Parte do comando | O que significa |
+| --- | --- |
+| `bin/rails generate` | "Rails, gere um arquivo para mim" |
+| `migration` | O tipo de arquivo: uma migration |
+| `AddRoleToUsers` | O nome da migration, que diz o que ela faz |
+
+O gerador cria um arquivo em `db/migrate/` com um nome como `20261024213203_add_role_to_users.rb`. O número no começo é a **data e a hora** em que ele foi criado: é assim que o Rails sabe a ordem em que as migrations devem rodar.
+
+O nome segue uma convenção: `AddRoleToUsers` quer dizer *"adicione role à tabela users"*. Quando o nome segue o padrão `Add...To...` e você informa as colunas no comando (como em `bin/rails generate migration AddAvatarToUsers avatar:string`, no capítulo 0140), o Rails já escreve o conteúdo do arquivo sozinho.
+
+> ⚠️ O `generate` **só cria o arquivo**. O banco ainda não mudou nada. Quem executa a migration e muda o banco de verdade é o `bin/rails db:migrate`, logo abaixo. O capítulo 0120 mostra em detalhe o que ele faz.
+
+### A migration dos níveis
+
+No arquivo gerado em `db/migrate/`, escrevemos:
 
 ```ruby
 def change
@@ -77,6 +171,21 @@ SELECT email, role FROM users;
 ---
 
 ## Parte 3 — O enum: dando nome aos números
+
+### O que é um enum?
+
+Pense num arquivo de pastas com **etiquetas coloridas**: vermelho é urgente, amarelo é pendente, verde é resolvido. Na pasta vai só um adesivo de cor, pequeno e rápido de conferir, mas todo mundo sabe o que cada cor significa, porque existe uma **legenda** pregada na parede.
+
+Em termos técnicos, um **enum** (de *enumeração*) é uma lista **fechada** de valores possíveis para um campo. No Rails, o banco guarda um **número inteiro** (a cor do adesivo), e o código usa um **nome** (a legenda). O Rails faz a tradução nos dois sentidos:
+
+| Quem | Vê |
+| --- | --- |
+| O banco (pgAdmin) | `role = 2` |
+| O código (console, models, views) | `user.role` → `"comum"` |
+
+Por que guardar número e não o texto? Número ocupa menos espaço e é mais rápido de comparar, e o nome pode mudar no código sem mexer nos dados. E por que usar nome no código? Porque `if user.comum?` se lê sozinho, e `if user.role == 2` obriga quem lê a lembrar o que é o 2.
+
+### O enum dos níveis
 
 Para o banco, `role` é só um número. Para nós, programando, ler `if user.role == 0` não diz nada. O **enum** dá nome a cada número. Em `app/models/user.rb`, abaixo da linha do `devise`:
 

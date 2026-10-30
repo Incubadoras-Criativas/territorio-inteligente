@@ -20,6 +20,50 @@ bin/rails test
 - `db:seed` cria o administrador de desenvolvimento (Parte 7).
 - `test` roda os testes automáticos (Parte 8). Devem passar todos.
 
+> 🕰️ **Opcional: estudar o projeto exatamente como neste capítulo.**
+> Se você está atrasado ou quer rever, crie uma branch de estudo a partir da tag do capítulo. Antes, **desligue o servidor** (Ctrl+C) e **desconecte o pgAdmin** (botão direito no servidor → *Disconnect Server*), porque o banco vai ser recriado.
+>
+> **1. Guarde uma cópia do seu banco** (um *dump*), para recuperar os seus dados na volta:
+>
+> ```bash
+> pg_dump -Fc -f ~/banco-antes-do-estudo.dump territorio_inteligente_development
+> ```
+>
+> - `pg_dump` copia o banco inteiro, estrutura e dados, para um arquivo.
+> - `-Fc` usa o formato próprio do PostgreSQL, que o `pg_restore` sabe ler.
+> - `-f ~/banco-antes-do-estudo.dump` é o arquivo da cópia, na sua pasta pessoal.
+>
+> **2. Viaje até o capítulo:**
+>
+> ```bash
+> git switch -c estudo-0120 cap-0120
+> bin/rails db:reset
+> ```
+>
+> O `db:reset` **apaga** o banco de desenvolvimento e o recria exatamente como neste capítulo.
+>
+> **3. Para voltar ao presente** (de novo com o servidor desligado e o pgAdmin desconectado):
+>
+> ```bash
+> git switch main
+> bin/rails db:drop db:create
+> pg_restore --no-owner -d territorio_inteligente_development ~/banco-antes-do-estudo.dump
+> bin/rails db:migrate
+> git branch -D estudo-0120
+> ```
+>
+> - `db:drop db:create` apaga o banco do capítulo antigo e cria um vazio.
+> - `pg_restore` devolve para ele a cópia do passo 1, com os seus cadastros. O `--no-owner` evita erro de permissão.
+> - `db:migrate` aplica as migrations que tenham chegado depois da cópia. Se não houver nenhuma, ele não faz nada.
+>
+> Sem a cópia do passo 1, troque as linhas do `db:drop` e do `pg_restore` por `bin/rails db:migrate` e `bin/rails db:seed`: o banco volta ao presente, mas só com o admin e os usuários de exemplo.
+>
+> Lembre: **a `main` é para trabalhar, as tags são para consultar.**
+
+> 📖 **Como ler este capítulo.** Os comandos de construção mostrados nas partes seguintes (`bin/rails generate`, `bundle add`, a criação e a edição de arquivos) **já estão no código** que você baixou com o `git pull`. Os blocos com esses comandos começam com a linha `# 📖 JÁ ESTÁ NO PROJETO`. **Não execute esses comandos de novo**: eles estão aqui para você entender como cada parte foi feita e saber repetir num projeto seu. Rodar um `generate` de novo, por exemplo, criaria uma segunda migration igual à primeira, e o `db:migrate` daria erro.
+>
+> Execute só os comandos desta seção ("Para ter o código deste capítulo") e os das partes de **testes**, de **exercícios** e de **teste no navegador**.
+
 ---
 
 ## Parte 1 — O que vamos guardar
@@ -36,6 +80,7 @@ O **identificador** (`login`) aparece em público, por exemplo, ao lado das fich
 ## Parte 2 — Uma migration para um banco com dados
 
 ```bash
+# 📖 JÁ ESTÁ NO PROJETO: não execute. Use estes comandos num projeto novo.
 bin/rails generate migration AddNomeAndLoginToUsers
 ```
 
@@ -403,7 +448,29 @@ Agora entre no sistema com `admin@territorio.local` e a senha `troque-esta-senha
 
 ## Parte 8 — Os primeiros testes automáticos
 
-Até aqui, testamos tudo **à mão**: abrir o navegador, cadastrar, conferir. Um **teste automático** é um código que faz essa conferência sozinho, em segundos, toda vez que você quiser.
+Até aqui, testamos tudo **à mão**: abrir o navegador, cadastrar, conferir. Funciona, mas é lento, e ninguém refaz todas as conferências a cada mudança.
+
+### O que é um teste automático?
+
+Antes de cada decolagem, o piloto de avião percorre um **checklist**: combustível, flaps, freios, rádio. Não importa se ele voou ontem: o checklist é feito toda vez, item por item, porque um esquecimento custa caro.
+
+Em termos técnicos, um **teste automático** é um **código que confere outro código**. Cada teste monta uma situação, executa uma ação e **afirma** o resultado esperado. Se o resultado for outro, o teste falha e avisa exatamente onde.
+
+```ruby
+test "usuário novo nasce comum" do
+  assert User.new.comum?
+end
+```
+
+*"Crie um usuário novo e afirme que ele é comum."* Os testes rodam com `bin/rails test`, num **banco separado** só para testes, e a suíte inteira leva menos de um segundo.
+
+| | Teste à mão | Teste automático |
+| --- | --- | --- |
+| Quanto tempo leva | Minutos | Frações de segundo |
+| Quem lembra de fazer | Você, quando lembra | O comando, sempre igual |
+| Pega problemas antigos que voltaram | Raramente | Sempre: o teste continua lá |
+
+O teste à mão não some: ele continua bom para ver se a tela está bonita e fácil de usar. O automático garante que **o que já funcionava continua funcionando** depois de cada mudança.
 
 ### 8.1 As fixtures
 
@@ -498,6 +565,28 @@ A partir de agora, a regra da equipe é: **rode `bin/rails test` antes de cada c
 
 ---
 
+## Parte 9 — Testando no navegador: tente quebrar
+
+Com o servidor ligado (`bin/dev`), cadastre contas novas e veja o que o sistema faz:
+
+| Tente | O que o sistema deve fazer |
+| --- | --- |
+| Cadastrar com o **nome em branco** | Recusar: *"Nome não pode ficar em branco"* |
+| Um nome feito **só de emojis**, como 🌳🌳 | Aceitar o nome e gerar o identificador `usuario` (com um número no fim, se `usuario` já existir) |
+| Um nome com **mais de 80 letras** | Recusar: nome longo demais |
+| Um nome **com acento**, como "Júlia" | Gerar o identificador `julia`, sem acento |
+| Duas contas com o **mesmo primeiro nome** | A segunda ganha o número: `maria`, depois `maria-1` |
+
+Depois, confira no pgAdmin os identificadores gerados:
+
+```sql
+SELECT nome, login FROM users ORDER BY id;
+```
+
+Algum caso deu diferente da tabela? Anote o passo a passo e avise o educador: pode ser um bug.
+
+---
+
 ## Palavras novas deste capítulo
 
 | Palavra | O que significa |
@@ -524,4 +613,4 @@ A partir de agora, a regra da equipe é: **rode `bin/rails test` antes de cada c
 - O primeiro administrador nasce no seed, **só em desenvolvimento**.
 - Testes automáticos conferem em segundos o que levaríamos minutos para testar à mão.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0130 — Login com o Google](0130-login-com-google.md)
