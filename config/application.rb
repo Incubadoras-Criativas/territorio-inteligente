@@ -24,5 +24,8 @@ module TerritorioInteligente
     config.i18n.default_locale = :"pt-BR"
     config.time_zone = "Brasilia"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # caminho dos arquivos com html dos equipamentos
+    config.x.pasta_equipamentos = Rails.root.join("conteudo/equipamentos")
   end
 end

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     resources :users, only: [ :index, :edit, :update ]
   end
 
+  resources :equipamentos, only: [ :index, :show ], param: :slug
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

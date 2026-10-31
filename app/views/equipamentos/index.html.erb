@@ -1,0 +1,18 @@
+<% content_for :title, "Guia dos equipamentos" %>
+
+<h1>Guia dos equipamentos</h1>
+
+<ul class="lista-equipamentos" role="list">
+  <% @equipamentos.each do |equipamento| %>
+    <li>
+      <%= link_to equipamento_path(equipamento), class: "cartao-equipamento" do %>
+        <% if equipamento.imagem %>
+          <%= image_tag equipamento.imagem, alt: "", width: 64, height: 64 %>
+        <% else %>
+          <span class="sem-imagem" aria-hidden="true">?</span>
+        <% end %>
+        <span><%= equipamento.nome %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
