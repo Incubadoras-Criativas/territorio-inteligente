@@ -16,6 +16,10 @@ pt-BR:
         nome: "Nome"
         login: "Identificador"
         avatar: "Avatar"
+      equipamento:
+        nome: "Nome"
+        slug: "Endereço"
+        visivel: "Visível"
 
   # Nomes dos níveis de acesso (enum role), usados com:
   #   t("user.roles.#{user.role}")

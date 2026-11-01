@@ -12,6 +12,9 @@
           <span class="sem-imagem" aria-hidden="true">?</span>
         <% end %>
         <span><%= equipamento.nome %></span>
+        <% unless equipamento.visivel %>
+          <span class="etiqueta-rascunho">Rascunho</span>
+        <% end %>
       <% end %>
     </li>
   <% end %>

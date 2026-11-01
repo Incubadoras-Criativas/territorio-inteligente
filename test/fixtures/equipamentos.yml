@@ -1,7 +1,14 @@
 barra_fixa:
   nome: Barra fixa
   slug: barra-fixa
+  visivel: true
 
 remada:
   nome: Remada sentada
   slug: remada-sentada
+  visivel: true
+
+rascunho:
+  nome: Rotação diagonal
+  slug: rotacao-diagonal
+  visivel: false

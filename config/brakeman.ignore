@@ -3,13 +3,13 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
-      "fingerprint": "7d3c06baa0e33268afb30fbee3a63eb45e36f53bd3e3170234722e02873b24e3",
+      "fingerprint": "f38aa55e8b9390d59f49aa65b97b8e40d239f58a6a9e65cc2f294aeffa8b578c",
       "check_name": "CrossSiteScripting",
-      "message": "Unescaped model attribute",
+      "message": "Unescaped parameter value",
       "file": "app/views/equipamentos/show.html.erb",
-      "line": 7,
+      "line": 11,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "Equipamento.find_by!(:slug => params[:slug]).conteudo",
+      "code": "equipamentos_permitidos.find_by!(:slug => params[:slug]).conteudo",
       "render_path": [
         {
           "type": "controller",
@@ -27,12 +27,12 @@
         "type": "template",
         "template": "equipamentos/show"
       },
-      "user_input": null,
-      "confidence": "Medium",
+      "user_input": "params[:slug]",
+      "confidence": "Weak",
       "cwe_id": [
         79
       ],
-      "note": "Conteúdo vem só de arquivos HTML em conteudo/equipamentos, revisados via PR; o slug é validado no model."
+      "note": "Conteúdo vem só de arquivos HTML em conteudo/equipamentos, revisados via PR. O params[:slug] só escolhe o registro no banco; o slug é validado no model."
     }
   ],
   "brakeman_version": "8.1.0"

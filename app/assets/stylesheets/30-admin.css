@@ -55,3 +55,25 @@ turbo-frame {
   border-radius: var(--raio);
   background: var(--cor-branco);
 }
+
+.campo {
+  margin-bottom: var(--espaco-2);
+}
+
+.dica {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.erro-campo {
+  color: #b00020;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.aviso-rascunho {
+  padding: var(--espaco-1) var(--espaco-2);
+  border-radius: var(--raio);
+  background: var(--cor-amarelo);
+  font-weight: 700;
+}

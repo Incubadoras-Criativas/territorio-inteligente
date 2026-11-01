@@ -18,4 +18,19 @@ class EquipamentoTest < ActiveSupport::TestCase
   test "sem arquivo, não há conteúdo" do
     assert_nil equipamentos(:remada).conteudo
   end
+
+  test "o slug não muda quando já existe guia" do
+    equipamento = equipamentos(:barra_fixa)
+    assert_not equipamento.update(slug: "outro-nome")
+    assert_includes equipamento.errors[:slug].first, "já tem guia"
+  end
+
+  test "o slug muda quando ainda não existe guia" do
+    equipamento = equipamentos(:remada)
+    assert equipamento.update(slug: "remada-sentada")
+  end
+
+  test "visiveis deixa os rascunhos de fora" do
+    assert_not_includes Equipamento.visiveis, equipamentos(:rascunho)
+  end
 end

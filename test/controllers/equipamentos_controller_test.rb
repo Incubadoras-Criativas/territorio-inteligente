@@ -20,4 +20,25 @@ class EquipamentosControllerTest < ActionDispatch::IntegrationTest
     get "/equipamentos/nao-existe"
     assert_response :not_found
   end
+
+  test "visitante não vê rascunho na lista nem na página" do
+    get equipamentos_url
+    assert_no_match "Rotação diagonal", response.body
+
+    get equipamento_url(equipamentos(:rascunho))
+    assert_response :not_found
+  end
+
+  test "admin vê a página do rascunho com aviso" do
+    sign_in users(:admin)
+    get equipamento_url(equipamentos(:rascunho))
+    assert_response :success
+    assert_select ".aviso-rascunho"
+  end
+
+  test "admin vê o rascunho na lista, com a etiqueta" do
+    sign_in users(:admin)
+    get equipamentos_url
+    assert_select ".etiqueta-rascunho", count: 1
+  end
 end
