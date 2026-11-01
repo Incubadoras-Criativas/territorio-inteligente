@@ -30,5 +30,10 @@ class Admin::EquipamentosControllerTest < ActionDispatch::IntegrationTest
     post admin_equipamentos_url, params: { equipamento: { nome: "" } }
     assert_response :unprocessable_content
     assert_select ".erro-campo"
+
+    assert_select "input#equipamento_nome.com-erro[aria-invalid=true][aria-describedby=equipamento_nome_erro]"
+    assert_select "p#equipamento_nome_erro.erro-campo"
+    assert_select ".aviso-erros[role=alert]"
+    assert_select ".field_with_errors", count: 0
   end
 end

@@ -3,6 +3,7 @@
 <%= render "devise/shared/google" %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= f.aviso_erros %>
   <div class="field">
     <p><%= f.label :email %></p>
     <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
@@ -19,6 +20,8 @@
       <p><%= f.label :remember_me %></p>
     </div>
   <% end %>
+
+  <%= f.erros_restantes %>
 
   <div class="actions">
     <%= f.submit t('.sign_in') %>
