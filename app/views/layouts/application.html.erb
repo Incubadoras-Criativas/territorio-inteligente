@@ -24,29 +24,68 @@
   </head>
 
   <body>
-  <nav>
-    <% if user_signed_in? %>
-      <%= link_to edit_perfil_path, class: "menu-perfil" do %>
-        <% if current_user.avatar %>
-          <%= image_tag "avatares/#{current_user.avatar}", alt: "", width: 32, height: 32 %>
-        <% end %>
-          <span><%= current_user.nome %></span>
-        <% end %>
-        <% if current_user.admin? %>
-          <%= link_to "Usuários", admin_users_path %>
-        <% end %>
-      <%= button_to "Sair", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "Entrar", new_user_session_path %>
-      <%= link_to "Cadastrar", new_user_registration_path %>
-    <% end %>
-  </nav>
+    <header class="topo">
+      <%= link_to "Território Inteligente", root_path, class: "marca" %>
+    </header>
 
-  <main>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <main>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
 
-    <%= yield %>
-  </main>
-</body>
+      <%= yield %>
+    </main>
+
+    <nav class="barra-abas" aria-label="Navegação principal">
+      <%= link_to root_path, class: "aba", aria: { current: ("page" if current_page?(root_path)) } do %>
+        <%= icone("house") %><span>Início</span>
+      <% end %>
+
+      <%= link_to equipamentos_path, class: "aba", aria: { current: ("page" if controller_name == "equipamentos") } do %>
+        <%= icone("dumbbell") %><span>Equipamentos</span>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <%= link_to edit_perfil_path, class: "aba", aria: { current: ("page" if controller_name == "perfis") } do %>
+          <% if current_user.avatar %>
+            <%= image_tag "avatares/#{current_user.avatar}", alt: "", class: "icone" %>
+          <% else %>
+            <%= icone("user") %>
+          <% end %>
+          <span>Perfil</span>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path, class: "aba" do %>
+          <%= icone("log-in") %><span>Entrar</span>
+        <% end %>
+      <% end %>
+
+      <button type="button" class="aba" popovertarget="menu-completo">
+        <%= icone("menu") %><span>Menu</span>
+      </button>
+    </nav>
+
+    <div id="menu-completo" class="menu-completo" popover>
+      <button type="button" class="fechar-menu" popovertarget="menu-completo" popovertargetaction="hide">
+        <%= icone("x") %><span>Fechar</span>
+      </button>
+
+      <ul role="list">
+        <li><%= link_to "Início", root_path %></li>
+        <li><%= link_to "Equipamentos", equipamentos_path %></li>
+        <% if user_signed_in? %>
+          <li><%= link_to "Meu perfil", edit_perfil_path %></li>
+          <% if current_user.admin? %>
+            <li><%= link_to "Usuários", admin_users_path %></li>
+          <% end %>
+          <li><%= link_to "Trocar e-mail ou senha", edit_user_registration_path %></li>
+          <li><%= button_to "Sair", destroy_user_session_path, method: :delete %></li>
+        <% else %>
+          <li><%= link_to "Entrar", new_user_session_path %></li>
+          <li><%= link_to "Cadastrar", new_user_registration_path %></li>
+        <% end %>
+      </ul>
+    </div>
+
+
+  </body>
 </html>

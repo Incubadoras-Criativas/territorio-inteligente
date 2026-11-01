@@ -1,0 +1,13 @@
+<% content_for :title, @equipamento.nome %>
+
+<article class="guia-equipamento">
+  <h1><%= @equipamento.nome %></h1>
+
+  <% if (conteudo = @equipamento.conteudo) %>
+    <%= conteudo.html_safe %>
+  <% else %>
+    <p>Este guia ainda está em construção.</p>
+  <% end %>
+</article>
+
+<p><%= link_to "Todos os equipamentos", equipamentos_path %></p>

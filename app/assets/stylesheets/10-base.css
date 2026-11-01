@@ -28,23 +28,11 @@ a {
 }
 
 /* Estrutura da página */
-main,
-nav {
-    max-width: var(--largura-conteudo);
-    margin-inline: auto;
-    padding: var(--espaco-2);
+main  {
+ padding: var(--espaco-2);
 }
 
-nav {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-2);
-    background: var(--cor-roxo);
-    color: var(--cor-branco);
-    max-width: none;
-}
 
-nav a { color: var(--cor-amarelo); }
 
 /* Mensagens do Rails (flash) */
 .notice:not(:empty),

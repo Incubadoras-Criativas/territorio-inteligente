@@ -1,0 +1,54 @@
+/* 40-equipamentos.css — Guia dos equipamentos */
+
+.lista-equipamentos {
+  display: grid;
+  gap: var(--espaco-1);
+  max-width: 40rem;
+  padding: 0;
+}
+
+.lista-equipamentos li {
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+}
+
+.cartao-equipamento {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  padding: var(--espaco-1) var(--espaco-2);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cartao-equipamento img,
+.sem-imagem {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: var(--raio);
+  object-fit: cover;
+}
+
+.sem-imagem {
+  display: grid;
+  place-items: center;
+  background: var(--cor-roxo-claro);
+  font-size: var(--texto-gg);
+}
+
+.guia-equipamento {
+  max-width: 40rem;
+}
+
+.guia-equipamento h2 {
+  margin-top: var(--espaco-3);
+}
+
+.guia-equipamento figure img {
+  border-radius: var(--raio);
+}
+
+.guia-equipamento figcaption {
+  font-size: var(--texto-p);
+}

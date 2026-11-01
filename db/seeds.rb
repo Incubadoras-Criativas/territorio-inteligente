@@ -32,3 +32,20 @@ if Rails.env.development?
         end
     end
 end
+
+# Equipamentos das academias ao ar livre (lista provisória: ajustar com o levantamento de campo)
+[
+    "Simulador de caminhada",
+    "Simulador de cavalgada",
+    "Remada sentada",
+    "Puxador alto",
+    "Leg press",
+    "Surf",
+    "Esqui",
+    "Rotação diagonal",
+    "Rotação vertical",
+    "Multiexercitador",
+    "Alongador"
+].each do |nome|
+    Equipamento.find_or_create_by!(nome: nome)
+end

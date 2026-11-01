@@ -1,0 +1,39 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "7d3c06baa0e33268afb30fbee3a63eb45e36f53bd3e3170234722e02873b24e3",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/equipamentos/show.html.erb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Equipamento.find_by!(:slug => params[:slug]).conteudo",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "EquipamentosController",
+          "method": "show",
+          "line": 8,
+          "file": "app/controllers/equipamentos_controller.rb",
+          "rendered": {
+            "name": "equipamentos/show",
+            "file": "app/views/equipamentos/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "equipamentos/show"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        79
+      ],
+      "note": "Conteúdo vem só de arquivos HTML em conteudo/equipamentos, revisados via PR; o slug é validado no model."
+    }
+  ],
+  "brakeman_version": "8.1.0"
+}
