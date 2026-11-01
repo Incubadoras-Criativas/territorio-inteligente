@@ -36,4 +36,29 @@ class Admin::EquipamentosControllerTest < ActionDispatch::IntegrationTest
     assert_select ".aviso-erros[role=alert]"
     assert_select ".field_with_errors", count: 0
   end
+
+  test "admin envia a capa e uma foto da galeria" do
+    sign_in users(:admin)
+    equipamento = equipamentos(:rascunho)
+
+    patch admin_equipamento_url(equipamento), params: { equipamento: {
+                                                                      capa: fixture_file_upload("foto.jpg", "image/jpeg"),
+                                                                      fotos: [ fixture_file_upload("foto.jpg", "image/jpeg") ]
+                                                                     } }
+
+    equipamento.reload
+    assert equipamento.capa.attached?
+    assert_equal 1, equipamento.fotos.count
+  end
+
+  test "arquivo que não é imagem mostra o erro embaixo do campo" do
+    sign_in users(:admin)
+
+    patch admin_equipamento_url(equipamentos(:rascunho)), params: { equipamento: {
+                                                                                  capa: fixture_file_upload("nao-e-imagem.txt", "text/plain")
+                                                                                 } }
+
+    assert_response :unprocessable_content
+    assert_select "#equipamento_capa_erro", text: /JPG, PNG ou WebP/
+        end
 end

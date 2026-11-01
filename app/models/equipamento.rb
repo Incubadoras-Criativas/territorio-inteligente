@@ -11,6 +11,21 @@ class Equipamento < ApplicationRecord
 
   scope :visiveis, -> { where(visivel: true) }
 
+  TIPOS_DE_IMAGEM = %w[image/jpeg image/png image/webp].freeze
+  TAMANHO_MAXIMO = 10.megabytes
+
+  # A foto do cartão e do topo da página
+  has_one_attached :capa do |anexo|
+    anexo.variant :miniatura, resize_to_limit: [ 160, 160 ], format: :webp
+  end
+
+  # A galeria, abaixo do guia
+  has_many_attached :fotos do |anexo|
+    anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
+  end
+
+  validate :imagens_validas
+
   # Nas URLs, o equipamento aparece pelo slug: /equipamentos/barra-fixa
   # Usa o slug do banco: se uma edição falhar, o formulário continua no endereço certo
   def to_param = slug_in_database || slug
@@ -42,5 +57,20 @@ class Equipamento < ApplicationRecord
     return unless will_save_change_to_slug? && arquivo(slug_in_database).exist?
 
     errors.add(:slug, "não pode mudar: este equipamento já tem guia. Renomeie o arquivo por Pull Request.")
+  end
+
+  def imagens_validas
+    anexos = fotos.attachments.to_a
+    anexos << capa.attachment if capa.attached?
+
+    anexos.each do |anexo|
+      unless anexo.blob.content_type.in?(TIPOS_DE_IMAGEM)
+        errors.add(anexo.name.to_sym, "precisa ser uma imagem JPG, PNG ou WebP")
+      end
+
+      if anexo.blob.byte_size > TAMANHO_MAXIMO
+        errors.add(anexo.name.to_sym, "precisa ter no máximo 10 MB")
+      end
+    end
   end
 end

@@ -22,6 +22,28 @@
     <%= f.label :visivel, "Visível para o público" %>
   </div>
 
+  <div class="campo">
+    <%= f.label :capa, "Foto de capa" %>
+    <% if equipamento.capa.attached? && equipamento.capa.persisted? %>
+      <%= image_tag equipamento.capa.variant(:miniatura), alt: "Capa atual", class: "miniatura" %>
+    <% end %>
+    <%= f.file_field :capa, accept: "image/jpeg,image/png,image/webp", data: { tamanho_maximo: Equipamento::TAMANHO_MAXIMO } %>
+    <p class="dica">JPG, PNG ou WebP, até 10 MB. Uma foto nova substitui a atual.</p>
+  </div>
+
+  <div class="campo">
+    <%= f.label :fotos, "Fotos da galeria" %>
+    <% equipamento.fotos.select(&:persisted?).each do |foto| %>
+      <label class="foto-existente">
+        <%= check_box_tag "equipamento[fotos][]", foto.signed_id, true, id: "manter_foto_#{foto.id}" %>
+        <%= image_tag foto.variant(:miniatura), alt: "" %>
+        Manter esta foto
+      </label>
+    <% end %>
+    <%= f.file_field :fotos, multiple: true, accept: "image/jpeg,image/png,image/webp", data: { tamanho_maximo: Equipamento::TAMANHO_MAXIMO } %>
+    <p class="dica">Pode escolher várias de uma vez. Para remover uma foto, desmarque "Manter esta foto".</p>
+  </div>
+
   <%= f.erros_restantes %>
 
   <%= f.submit "Salvar" %>

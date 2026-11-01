@@ -68,3 +68,23 @@
   font-size: 0.75rem;
   font-weight: 700;
 }
+
+.cartao-equipamento img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--raio);
+  object-fit: contain;
+}
+
+.capa,
+.galeria img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--raio);
+}
+
+.galeria {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: 0;
+}

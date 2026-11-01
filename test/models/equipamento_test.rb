@@ -33,4 +33,17 @@ class EquipamentoTest < ActiveSupport::TestCase
   test "visiveis deixa os rascunhos de fora" do
     assert_not_includes Equipamento.visiveis, equipamentos(:rascunho)
   end
+
+  test "aceita uma capa JPG" do
+    equipamento = equipamentos(:remada)
+    equipamento.capa.attach(io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg")
+    assert equipamento.valid?
+  end
+
+  test "recusa um arquivo que não é imagem" do
+    equipamento = equipamentos(:remada)
+    equipamento.capa.attach(io: file_fixture("nao-e-imagem.txt").open, filename: "nao-e-imagem.txt", content_type: "text/plain")
+    assert_not equipamento.valid?
+    assert_includes equipamento.errors[:capa].first, "JPG, PNG ou WebP"
+  end
 end

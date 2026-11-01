@@ -38,7 +38,7 @@ module Admin
     end
 
     def equipamento_params
-      params.expect(equipamento: [ :nome, :slug, :visivel ])
+      params.expect(equipamento: [ :nome, :slug, :visivel, :capa, fotos: [] ])
     end
   end
 end
