@@ -6,8 +6,8 @@
   <% @equipamentos.each do |equipamento| %>
     <li>
       <%= link_to equipamento_path(equipamento), class: "cartao-equipamento" do %>
-        <% if equipamento.imagem %>
-          <%= image_tag equipamento.imagem, alt: "", width: 64, height: 64 %>
+        <% if equipamento.capa.attached? %>
+          <%= image_tag equipamento.capa.variant(:miniatura), alt: "" %>
         <% else %>
           <span class="sem-imagem" aria-hidden="true">?</span>
         <% end %>

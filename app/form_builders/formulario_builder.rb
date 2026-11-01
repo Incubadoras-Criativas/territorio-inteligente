@@ -4,7 +4,7 @@
 class FormularioBuilder < ActionView::Helpers::FormBuilder
   CAMPOS = %i[
     text_field email_field password_field search_field
-    number_field telephone_field url_field date_field textarea
+    number_field telephone_field url_field date_field textarea file_field
     ]
 
   CAMPOS.each do |tipo|

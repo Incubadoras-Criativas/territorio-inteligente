@@ -7,10 +7,23 @@
 <article class="guia-equipamento">
   <h1><%= @equipamento.nome %></h1>
 
+  <% if @equipamento.capa.attached? %>
+    <%= image_tag @equipamento.capa.variant(:media), alt: "Foto do equipamento #{@equipamento.nome}", class: "capa" %>
+  <% end %>
+
   <% if (conteudo = @equipamento.conteudo) %>
     <%= conteudo.html_safe %>
   <% else %>
     <p>Este guia ainda está em construção.</p>
+  <% end %>
+
+  <% if @equipamento.fotos.attached? %>
+    <h2>Fotos</h2>
+    <ul class="galeria" role="list">
+      <% @equipamento.fotos.each_with_index do |foto, i| %>
+        <li><%= image_tag foto.variant(:media), alt: "Foto #{i + 1} do equipamento #{@equipamento.nome}", loading: "lazy" %></li>
+      <% end %>
+    </ul>
   <% end %>
 </article>
 

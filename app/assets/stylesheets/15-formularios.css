@@ -33,3 +33,41 @@ button {
   white-space: normal;
   height: auto;
 }
+
+.miniatura,
+.foto-existente img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--raio);
+  object-fit: cover;
+}
+
+.foto-existente {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  margin-bottom: var(--espaco-1);
+}
+
+input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.875rem;
+}
+
+/* O botão "Escolher arquivo", com a cara dos nossos botões */
+input[type="file"]::file-selector-button {
+  margin-right: var(--espaco-1);
+  padding: var(--espaco-1) var(--espaco-2);
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+  color: var(--cor-roxo);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--cor-roxo-claro);
+}

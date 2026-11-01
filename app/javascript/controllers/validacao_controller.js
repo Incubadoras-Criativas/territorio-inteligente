@@ -42,10 +42,25 @@ export default class extends Controller {
   }
 
   conferir(campo) {
+    this.conferirTamanho(campo)
     const valido = campo.checkValidity()
     this.limpar(campo)
     if (!valido) this.mostrar(campo, this.mensagem(campo))
       return valido
+  }
+
+  // Campos de arquivo com data-tamanho-maximo: confere antes de enviar
+  conferirTamanho(campo) {
+    const maximo = Number(campo.dataset.tamanhoMaximo)
+    if (campo.type !== "file" || !maximo) return
+
+      const grande = [ ...campo.files ].find((arquivo) => arquivo.size > maximo)
+      campo.setCustomValidity(grande ? `"${grande.name}" passa de ${maximo / 1024 / 1024} MB.` : "")
+  }
+
+  // Ao escolher um arquivo: confere na hora
+  escolher(event) {
+    if (this.validavel(event.target)) this.conferir(event.target)
   }
 
   // Mensagens nossas, iguais em qualquer navegador
@@ -55,7 +70,8 @@ export default class extends Controller {
     if (regra.valueMissing) return "Preencha este campo."
       if (regra.typeMismatch && campo.type === "email") return "Digite um e-mail válido, como nome@exemplo.com."
         if (regra.tooShort) return `Use pelo menos ${campo.minLength} caracteres.`
-          return campo.validationMessage
+          if (regra.customError)
+            return campo.validationMessage
   }
 
   mostrar(campo, texto) {

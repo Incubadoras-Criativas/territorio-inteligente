@@ -1,6 +1,6 @@
 class EquipamentosController < ApplicationController
   def index
-    @equipamentos = equipamentos_permitidos.order(:nome)
+    @equipamentos = equipamentos_permitidos.with_attached_capa.order(:nome)
   end
 
   def show
