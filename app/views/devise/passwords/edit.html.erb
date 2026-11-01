@@ -4,17 +4,17 @@
   <%= f.aviso_erros %>
   <%= f.hidden_field :reset_password_token %>
 
-  <div class="field">
-    <p><%= f.label :password, t('.new_password') %></p>
+  <div class="campo">
+    <%= f.label :password, t('.new_password') %>
     <% if @minimum_password_length %>
       <p><em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em></p>
     <% end %>
-    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
+    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation, t('.confirm_new_password') %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+  <div class="campo">
+    <%= f.label :password_confirmation, t('.confirm_new_password') %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <%= f.erros_restantes %>
