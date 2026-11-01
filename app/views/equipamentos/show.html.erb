@@ -1,3 +1,7 @@
+<% unless @equipamento.visivel %>
+  <p class="aviso-rascunho">Rascunho: este equipamento ainda não está visível para o público.</p>
+<% end %>
+
 <% content_for :title, @equipamento.nome %>
 
 <article class="guia-equipamento">

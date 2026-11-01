@@ -52,3 +52,19 @@
 .guia-equipamento figcaption {
   font-size: var(--texto-p);
 }
+
+.cartao-equipamento {
+  position: relative;
+}
+
+.etiqueta-rascunho {
+  position: absolute;
+  right: var(--espaco-1);
+  bottom: var(--espaco-1);
+  padding: 2px var(--espaco-1);
+  border-radius: var(--raio);
+  background: var(--cor-amarelo);
+  color: var(--cor-roxo);
+  font-size: 0.75rem;
+  font-weight: 700;
+}

@@ -1,0 +1,29 @@
+<%= form_with model: [ :admin, equipamento ] do |f| %>
+  <div class="campo">
+    <%= f.label :nome %>
+    <%= f.text_field :nome %>
+    <% equipamento.errors.full_messages_for(:nome).each do |msg| %>
+      <p class="erro-campo"><%= msg %></p>
+    <% end %>
+  </div>
+
+  <div class="campo">
+    <%= f.label :slug, "Endereço (slug)" %>
+    <%= f.text_field :slug, disabled: equipamento.persisted? && equipamento.tem_guia? %>
+    <% if equipamento.persisted? && equipamento.tem_guia? %>
+      <p class="dica">Este equipamento já tem guia. Para mudar o endereço, renomeie o arquivo por Pull Request.</p>
+    <% else %>
+      <p class="dica">Deixe em branco para gerar a partir do nome.</p>
+    <% end %>
+    <% equipamento.errors.full_messages_for(:slug).each do |msg| %>
+      <p class="erro-campo"><%= msg %></p>
+    <% end %>
+  </div>
+
+  <div class="campo">
+    <%= f.check_box :visivel %>
+    <%= f.label :visivel, "Visível para o público" %>
+  </div>
+
+  <%= f.submit "Salvar" %>
+<% end %>

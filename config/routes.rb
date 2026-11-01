@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users, only: [ :index, :edit, :update ]
+    resources :equipamentos, only: [ :index, :new, :create, :edit, :update ], param: :slug
   end
 
   resources :equipamentos, only: [ :index, :show ], param: :slug

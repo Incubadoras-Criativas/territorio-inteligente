@@ -1,0 +1,15 @@
+<h1>Equipamentos</h1>
+
+<p><%= link_to "Cadastrar equipamento", new_admin_equipamento_path %></p>
+
+<ul class="lista-usuarios" role="list">
+  <% @equipamentos.each do |equipamento| %>
+    <li>
+      <strong><%= equipamento.nome %></strong> (<%= equipamento.slug %>)<br>
+      <span><%= equipamento.visivel ? "Visível" : "Escondido" %></span> ·
+      <span><%= equipamento.tem_guia? ? "Tem guia" : "Falta guia" %></span><br>
+      <%= link_to "Editar", edit_admin_equipamento_path(equipamento) %> ·
+      <%= link_to "Ver página", equipamento_path(equipamento) %>
+    </li>
+  <% end %>
+</ul>
