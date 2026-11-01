@@ -28,7 +28,8 @@
       <%= link_to "Território Inteligente", root_path, class: "marca" %>
     </header>
 
-    <main>
+    <main data-controller="validacao"
+      data-action="focusout->validacao#sair input->validacao#digitar submit->validacao#enviar">
       <p class="notice" role="status"><%= notice %></p>
       <p class="alert" role="alert"><%= alert %></p>
 
