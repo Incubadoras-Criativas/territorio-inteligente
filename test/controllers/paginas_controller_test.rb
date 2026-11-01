@@ -22,4 +22,9 @@ class PaginasControllerTest < ActionDispatch::IntegrationTest
     get root_url
     assert_select ".barra-abas a[aria-current=page]", text: /Início/
   end
+
+  test "login errado mostra o alerta" do
+    post user_session_url, params: { user: { email: "ninguem@exemplo.com", password: "errada" } }
+    assert_select ".alert[role=alert]", text: /inválid/
+  end
 end

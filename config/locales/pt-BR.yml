@@ -32,3 +32,5 @@ pt-BR:
   devise:
     omniauth_callbacks:
       success: "Você entrou com a sua conta %{kind}."
+  formularios:
+    aviso_erros: "Não foi possível salvar. Confira os campos destacados abaixo."

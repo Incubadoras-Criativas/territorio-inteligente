@@ -1,0 +1,35 @@
+/* 15-formularios.css — Campos, dicas e erros de todos os formulários */
+
+:is(input, textarea, select).com-erro {
+  border-color: var(--cor-erro);
+  border-width: 3px;
+}
+
+.campo:has(.com-erro) label {
+  color: var(--cor-erro);
+  font-weight: 700;
+}
+
+.erro-campo {
+  margin-top: 4px;
+  color: var(--cor-erro);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.aviso-erros,
+.erros-restantes {
+  padding: var(--espaco-1) var(--espaco-2);
+  border-left: 4px solid var(--cor-erro);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+  color: var(--cor-erro);
+  font-weight: 700;
+}
+
+input[type="submit"],
+button {
+  max-width: 100%;
+  white-space: normal;
+  height: auto;
+}

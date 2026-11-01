@@ -3,7 +3,7 @@
 <h1>Meu perfil</h1>
 
 <%= form_with model: @user, url: perfil_path, method: :patch do |f| %>
-  <%= render "devise/shared/error_messages", resource: @user %>
+  <%= f.aviso_erros %>
 
   <div class="field">
     <%= f.label :nome %>
@@ -24,6 +24,8 @@
       </label>
     <% end %>
   </fieldset>
+
+  <%= f.erros_restantes %>
 
   <%= f.submit "Salvar" %>
 <% end %>

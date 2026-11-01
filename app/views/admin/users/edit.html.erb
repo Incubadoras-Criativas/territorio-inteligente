@@ -3,7 +3,7 @@
 <h1>Nível de acesso de <%= @user.nome %></h1>
 
 <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
-  <%= render "devise/shared/error_messages", resource: @user %>
+  <%= f.aviso_erros %>
 
   <fieldset>
     <legend>Nível de acesso</legend>
@@ -14,6 +14,8 @@
       </label>
     <% end %>
   </fieldset>
+
+  <%= f.erros_restantes %>
 
   <%= f.submit "Salvar" %>
 <% end %>

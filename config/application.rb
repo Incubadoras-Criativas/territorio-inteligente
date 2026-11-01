@@ -27,5 +27,8 @@ module TerritorioInteligente
 
     # caminho dos arquivos com html dos equipamentos
     config.x.pasta_equipamentos = Rails.root.join("conteudo/equipamentos")
+
+    # O FormularioBuilder cuida dos campos com erro; sem a div que o Rails põe em volta
+    config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
   end
 end
