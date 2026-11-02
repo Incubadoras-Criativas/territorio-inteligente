@@ -53,12 +53,23 @@ form {
 
 input[type="email"],
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+input[type="number"],
+select {
     width: 100%;
     padding: var(--espaco-1);
     border: 2px solid var(--cor-roxo);
     border-radius: var(--raio);
     background: var(--cor-branco);
+}
+
+form label {
+    display: block;
+}
+
+/* Caixa de marcar e o rótulo dela ficam na mesma linha */
+input[type="checkbox"] + label {
+    display: inline;
 }
 
 button,

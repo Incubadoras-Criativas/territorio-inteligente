@@ -18,6 +18,10 @@ class User < ApplicationRecord
                     length: { maximum: 30 }
   validates :avatar, inclusion: { in: ->(_) { User.avatares_disponiveis } }, allow_nil: true
 
+  has_many :academias, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
+
+  def pode_moderar? = admin? || moderador?
+
   def self.from_omniauth(auth)
     # 1. Já entrou com o Google antes?
     user = find_by(provider: auth.provider, uid: auth.uid)

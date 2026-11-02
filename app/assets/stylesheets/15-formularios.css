@@ -71,3 +71,21 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover {
   background: var(--cor-roxo-claro);
 }
+
+fieldset.campo {
+  padding: var(--espaco-2);
+  border: 1px solid var(--cor-roxo-claro);
+  border-radius: var(--raio);
+}
+
+.campo-quantidade {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espaco-1);
+  margin-bottom: var(--espaco-1);
+}
+
+.campo-quantidade input {
+  width: 5rem;
+}

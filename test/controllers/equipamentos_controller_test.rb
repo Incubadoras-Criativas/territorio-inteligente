@@ -41,4 +41,13 @@ class EquipamentosControllerTest < ActionDispatch::IntegrationTest
     get equipamentos_url
     assert_select ".etiqueta-rascunho", count: 1
   end
+
+  test "a página de um equipamento com capa abre" do
+    equipamento = equipamentos(:barra_fixa)
+    equipamento.capa.attach(io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg")
+
+    get equipamento_url(equipamento)
+    assert_response :success
+    assert_select "img.capa"
+  end
 end

@@ -1,0 +1,45 @@
+<% content_for :title, @academia.titulo %>
+
+<% unless @academia.visivel? %>
+  <p class="aviso-rascunho">Rascunho: esta academia ainda não está visível para o público.</p>
+<% end %>
+
+<h1><%= @academia.titulo %></h1>
+
+<p>
+  <%= @academia.territorio.nome %> · <%= @academia.categorias.map(&:nome).to_sentence %>
+</p>
+
+<% if @academia.referencia.present? %>
+  <p><%= @academia.referencia %></p>
+<% end %>
+
+<p>
+  <%= link_to "Ver no mapa",
+        "https://www.openstreetmap.org/?mlat=#{@academia.latitude}&mlon=#{@academia.longitude}#map=18/#{@academia.latitude}/#{@academia.longitude}",
+        target: "_blank", rel: "noopener" %>
+</p>
+
+<h2>Equipamentos</h2>
+<% if @academia.academia_equipamentos.any? %>
+  <ul>
+    <% @academia.academia_equipamentos.includes(:equipamento).each do |item| %>
+      <li>
+        <%= item.quantidade %> ×
+        <% if item.equipamento.visivel? %>
+          <%= link_to item.equipamento.nome, item.equipamento %>
+        <% else %>
+          <%= item.equipamento.nome %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhum equipamento registrado ainda.</p>
+<% end %>
+
+<% if @academia.editavel_por?(current_user) %>
+  <p><%= link_to "Editar", edit_academia_path(@academia) %></p>
+<% end %>
+
+<p><%= link_to "Todas as academias", academias_path %></p>

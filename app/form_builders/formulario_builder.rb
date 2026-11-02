@@ -23,6 +23,13 @@ class FormularioBuilder < ActionView::Helpers::FormBuilder
     super(atributo, escolhas, opcoes, opcoes_com_erro(atributo, html), &bloco) + mensagem_de_erro(atributo, mensagens)
   end
 
+  def collection_select(atributo, colecao, valor, texto, opcoes = {}, html = {})
+    mensagens = mensagens_de_erro(atributo)
+    return super if mensagens.empty?
+
+    super(atributo, colecao, valor, texto, opcoes, opcoes_com_erro(atributo, html)) + mensagem_de_erro(atributo, mensagens)
+  end
+
   # No topo do formulário: avisa que algo deu errado
   def aviso_erros
     return if sem_erros?
@@ -43,6 +50,16 @@ class FormularioBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  # Para grupos que não passam pelo builder (caixas de marcar, campos _tag):
+  # mostra os erros do atributo onde for chamado
+  def erro_de(atributo)
+    mensagens = mensagens_de_erro(atributo)
+    return if mensagens.empty?
+
+    mostrados.merge(atributos_do_campo(atributo))
+    mensagem_de_erro(atributo, mensagens)
+  end
+
   private
 
   def sem_erros?
@@ -53,14 +70,20 @@ class FormularioBuilder < ActionView::Helpers::FormBuilder
     @mostrados ||= Set.new
   end
 
+  # Um campo territorio_id mostra os erros de territorio_id e os da associação territorio
+  def atributos_do_campo(atributo)
+    nome = atributo.to_s
+    nome.end_with?("_id") ? [ atributo.to_sym, nome.delete_suffix("_id").to_sym ] : [ atributo.to_sym ]
+  end
+
   def mensagens_de_erro(atributo)
     return [] unless object.respond_to?(:errors)
 
-    object.errors.full_messages_for(atributo)
+    atributos_do_campo(atributo).flat_map { |nome| object.errors.full_messages_for(nome) }
   end
 
   def opcoes_com_erro(atributo, opcoes)
-    mostrados << atributo
+    mostrados.merge(atributos_do_campo(atributo))
     aria = (opcoes[:aria] || {}).merge(invalid: true, describedby: "#{field_id(atributo)}_erro")
 
     opcoes.merge(class: [ opcoes[:class], "com-erro" ].compact.join(" "), aria: aria)

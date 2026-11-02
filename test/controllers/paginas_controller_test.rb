@@ -19,8 +19,8 @@ class PaginasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "a aba da página atual fica marcada" do
-    get root_url
-    assert_select ".barra-abas a[aria-current=page]", text: /Início/
+    get academias_url
+    assert_select ".barra-abas a[aria-current=page]", text: /Academias/
   end
 
   test "login errado mostra o alerta" do

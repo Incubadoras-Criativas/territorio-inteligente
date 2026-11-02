@@ -49,3 +49,6 @@ end
 ].each do |nome|
     Equipamento.find_or_create_by!(nome: nome)
 end
+
+Territorio.find_or_create_by!(nome: "Ceilândia")
+Categoria.find_or_create_by!(nome: "Academia ao ar livre")

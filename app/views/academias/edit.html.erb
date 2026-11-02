@@ -1,0 +1,4 @@
+<% content_for :title, "Editar #{@academia.titulo}" %>
+<h1>Editar <%= @academia.titulo %></h1>
+<%= render "form", academia: @academia %>
+<%= link_to "Voltar", @academia %>

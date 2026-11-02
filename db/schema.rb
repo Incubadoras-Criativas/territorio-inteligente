@@ -10,9 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_190722) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "academia_categorias", force: :cascade do |t|
+    t.bigint "academia_id", null: false
+    t.bigint "categoria_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academia_id", "categoria_id"], name: "index_academia_categorias_on_academia_id_and_categoria_id", unique: true
+    t.index ["academia_id"], name: "index_academia_categorias_on_academia_id"
+    t.index ["categoria_id"], name: "index_academia_categorias_on_categoria_id"
+  end
+
+  create_table "academia_equipamentos", force: :cascade do |t|
+    t.bigint "academia_id", null: false
+    t.bigint "equipamento_id", null: false
+    t.integer "quantidade", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academia_id", "equipamento_id"], name: "index_academia_equipamentos_on_academia_id_and_equipamento_id", unique: true
+    t.index ["academia_id"], name: "index_academia_equipamentos_on_academia_id"
+    t.index ["equipamento_id"], name: "index_academia_equipamentos_on_equipamento_id"
+  end
+
+  create_table "academias", force: :cascade do |t|
+    t.string "nome"
+    t.string "referencia"
+    t.bigint "territorio_id", null: false
+    t.decimal "latitude", precision: 9, scale: 6, null: false
+    t.decimal "longitude", precision: 9, scale: 6, null: false
+    t.boolean "visivel", default: false, null: false
+    t.bigint "autor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["autor_id"], name: "index_academias_on_autor_id"
+    t.index ["territorio_id"], name: "index_academias_on_territorio_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -42,6 +77,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_190722) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "categorias", force: :cascade do |t|
+    t.string "nome"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_categorias_on_slug", unique: true
+  end
+
   create_table "equipamentos", force: :cascade do |t|
     t.string "nome", null: false
     t.string "slug", null: false
@@ -50,6 +93,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_190722) do
     t.datetime "updated_at", null: false
     t.boolean "visivel", default: false, null: false
     t.index ["slug"], name: "index_equipamentos_on_slug", unique: true
+  end
+
+  create_table "territorios", force: :cascade do |t|
+    t.string "nome"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_territorios_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,6 +128,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_190722) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "academia_categorias", "academias"
+  add_foreign_key "academia_categorias", "categorias"
+  add_foreign_key "academia_equipamentos", "academias"
+  add_foreign_key "academia_equipamentos", "equipamentos"
+  add_foreign_key "academias", "territorios"
+  add_foreign_key "academias", "users", column: "autor_id", on_delete: :nullify
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

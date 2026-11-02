@@ -37,8 +37,8 @@
     </main>
 
     <nav class="barra-abas" aria-label="Navegação principal">
-      <%= link_to root_path, class: "aba", aria: { current: ("page" if current_page?(root_path)) } do %>
-        <%= icone("house") %><span>Início</span>
+      <%= link_to academias_path, class: "aba", aria: { current: ("page" if controller_name == "academias") } do %>
+        <%= icone("map-pin") %><span>Academias</span>
       <% end %>
 
       <%= link_to equipamentos_path, class: "aba", aria: { current: ("page" if controller_name == "equipamentos") } do %>
@@ -72,6 +72,7 @@
 
       <ul role="list">
         <li><%= link_to "Início", root_path %></li>
+        <li><%= link_to "Academias", academias_path %></li>
         <li><%= link_to "Equipamentos", equipamentos_path %></li>
         <% if user_signed_in? %>
           <li><%= link_to "Meu perfil", edit_perfil_path %></li>
