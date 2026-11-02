@@ -1,0 +1,15 @@
+publicada:
+  nome: PEC da QNM 15
+  territorio: ceilandia
+  latitude: -15.816600
+  longitude: -48.106000
+  visivel: true
+  autor: ana
+
+rascunho_da_ana:
+  nome: Academia da Praça do Cidadão
+  territorio: ceilandia
+  latitude: -15.820000
+  longitude: -48.110000
+  visivel: false
+  autor: ana

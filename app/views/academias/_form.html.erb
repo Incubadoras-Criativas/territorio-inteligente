@@ -1,0 +1,65 @@
+<%= form_with model: academia do |f| %>
+  <%= f.aviso_erros %>
+
+  <div class="campo">
+    <%= f.label :nome %>
+    <%= f.text_field :nome %>
+    <p class="dica">Opcional. Se a academia não tem nome conhecido, deixe em branco.</p>
+  </div>
+
+  <div class="campo">
+    <%= f.label :referencia, "Endereço ou referência" %>
+    <%= f.text_field :referencia %>
+    <p class="dica">Por exemplo: QNM 15, ao lado da escola.</p>
+  </div>
+
+  <div class="campo">
+    <%= f.label :territorio_id, "Território" %>
+    <%= f.collection_select :territorio_id, Territorio.order(:nome), :id, :nome,
+                            { prompt: "Escolha o território" }, { required: true } %>
+  </div>
+
+  <div class="campo">
+    <%= f.label :latitude %>
+    <%= f.number_field :latitude, step: "any", required: true %>
+  </div>
+
+  <div class="campo">
+    <%= f.label :longitude %>
+    <%= f.number_field :longitude, step: "any", required: true %>
+    <p class="dica">Na próxima etapa, estes campos vão ser preenchidos pelo GPS do celular.</p>
+  </div>
+
+  <fieldset class="campo">
+    <legend>Categorias</legend>
+    <%= f.erro_de(:categorias) %>
+<%= f.erro_de(:categorias) %>
+    <%= f.collection_check_boxes :categoria_ids, Categoria.order(:nome), :id, :nome do |c| %>
+      <div><%= c.check_box %> <%= c.label %></div>
+    <% end %>
+  </fieldset>
+
+  <fieldset class="campo">
+    <legend>Equipamentos</legend>
+    <%= f.erro_de(:academia_equipamentos) %>
+    <p class="dica">Quantos de cada um? Deixe 0 para os que não existem nesta academia.</p>
+    <% quantidades = academia.quantidades %>
+    <% Equipamento.order(:nome).each do |equipamento| %>
+      <div class="campo-quantidade">
+        <%= label_tag "academia_quantidades_#{equipamento.id}", equipamento.nome %>
+        <%= number_field_tag "academia[quantidades][#{equipamento.id}]", quantidades.fetch(equipamento.id, 0),
+                             min: 0, id: "academia_quantidades_#{equipamento.id}" %>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <% if current_user.pode_moderar? %>
+    <div class="campo">
+      <%= f.check_box :visivel %>
+      <%= f.label :visivel, "Visível para o público" %>
+    </div>
+  <% end %>
+
+  <%= f.erros_restantes %>
+  <%= f.submit "Salvar" %>
+<% end %>

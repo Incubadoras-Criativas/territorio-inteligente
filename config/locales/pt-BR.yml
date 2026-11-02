@@ -20,6 +20,16 @@ pt-BR:
         nome: "Nome"
         slug: "Endereço"
         visivel: "Visível"
+      academia:
+        nome: "Nome"
+        referencia: "Endereço ou referência"
+        territorio: "Território"
+        territorio_id: "Território"
+        latitude: "Latitude"
+        longitude: "Longitude"
+        categorias: "Categorias"
+        visivel: "Visível"
+
 
   # Nomes dos níveis de acesso (enum role), usados com:
   #   t("user.roles.#{user.role}")

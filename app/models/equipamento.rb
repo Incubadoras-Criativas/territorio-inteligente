@@ -1,12 +1,8 @@
 class Equipamento < ApplicationRecord
-  normalizes :slug, with: ->(slug) { slug.strip.downcase }
+  include TemSlug
 
-  before_validation :gerar_slug
+  has_many :academia_equipamentos, dependent: :restrict_with_error
 
-  validates :nome, presence: true
-  validates :slug, presence: { if: -> { nome.present? } },
-                   uniqueness: true,
-                   format: { with: /\A[a-z0-9]+(-[a-z0-9]+)*\z/, allow_blank: true }
   validate :slug_travado_com_guia, on: :update
 
   scope :visiveis, -> { where(visivel: true) }
@@ -17,6 +13,7 @@ class Equipamento < ApplicationRecord
   # A foto do cartão e do topo da página
   has_one_attached :capa do |anexo|
     anexo.variant :miniatura, resize_to_limit: [ 160, 160 ], format: :webp
+    anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
   end
 
   # A galeria, abaixo do guia
@@ -26,10 +23,6 @@ class Equipamento < ApplicationRecord
 
   validate :imagens_validas
 
-  # Nas URLs, o equipamento aparece pelo slug: /equipamentos/barra-fixa
-  # Usa o slug do banco: se uma edição falhar, o formulário continua no endereço certo
-  def to_param = slug_in_database || slug
-
   def tem_guia? = arquivo.exist?
 
   # O guia é um arquivo HTML escrito por um aluno, lido do disco a cada pedido
@@ -37,21 +30,9 @@ class Equipamento < ApplicationRecord
     arquivo.read if tem_guia?
   end
 
-  # Foto principal: public/equipamentos/<slug>.jpg (ou .png / .webp)
-  def imagem
-    %w[jpg png webp].each do |ext|
-      return "/equipamentos/#{slug}.#{ext}" if Rails.public_path.join("equipamentos", "#{slug}.#{ext}").exist?
-    end
-    nil
-  end
-
   private
 
   def arquivo(s = slug) = Rails.configuration.x.pasta_equipamentos.join("#{s}.html")
-
-  def gerar_slug
-    self.slug = nome.to_s.parameterize if slug.blank?
-  end
 
   def slug_travado_com_guia
     return unless will_save_change_to_slug? && arquivo(slug_in_database).exist?

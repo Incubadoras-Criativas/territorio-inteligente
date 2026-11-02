@@ -88,3 +88,11 @@
   gap: var(--espaco-2);
   padding: 0;
 }
+
+.etiqueta-rascunho-texto {
+  padding: 0 var(--espaco-1);
+  border-radius: var(--raio);
+  background: var(--cor-amarelo);
+  font-size: 0.75rem;
+  font-weight: 700;
+}

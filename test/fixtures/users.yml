@@ -18,3 +18,11 @@ admin:
   role: admin
   encrypted_password: <%= Devise::Encryptor.digest(User, "senha-segura-123") %>
   confirmed_at: <%= Time.current %>
+
+bia:
+  nome: Bia Moderadora
+  login: biamod
+  email: bia@exemplo.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, "senha-segura-123") %>
+  confirmed_at: <%= Time.current %>
+  role: moderador

@@ -1,0 +1,19 @@
+<% content_for :title, "Academias" %>
+
+<h1>Academias</h1>
+
+<% if user_signed_in? %>
+  <p><%= link_to "Cadastrar academia", new_academia_path %></p>
+<% end %>
+
+<ul class="lista-usuarios" role="list">
+  <% @academias.each do |academia| %>
+    <li>
+      <strong><%= link_to academia.titulo, academia %></strong><br>
+      <span><%= academia.territorio.nome %></span>
+      <% unless academia.visivel? %>
+        · <span class="etiqueta-rascunho-texto">Rascunho</span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
