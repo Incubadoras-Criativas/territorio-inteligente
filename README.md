@@ -27,6 +27,6 @@ Todo trabalho entra por **Pull Request**, com os testes passando. Veja o fluxo n
 
 ## Licenças
 
-- **Código:** [MIT](LICENSE)
-- **Textos do guia e imagens:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br)
+- **Código:** [GNU AGPL-3.0](LICENSE)
+- **Textos do guia, relatos e imagens:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br)
 - **Ícones:** [Lucide](https://lucide.dev), licença ISC (`app/assets/images/icones/LICENSE-lucide.txt`)
