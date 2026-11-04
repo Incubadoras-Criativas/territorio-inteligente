@@ -378,7 +378,7 @@ As linhas do `%` e do `_` mostram o `sanitize_sql_like` funcionando. Sem ele, a 
 - Com Turbo Frames, a rolagem infinita sai em HTML puro.
 - Tutorial da internet tem prazo de validade: confira a versão da gem.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0170 — Guia dos equipamentos](0170-guia-dos-equipamentos.md)
 
 ---
 
