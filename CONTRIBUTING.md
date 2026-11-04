@@ -80,10 +80,22 @@ Depois do merge, o guia ainda passa pela **revisão de conteúdo** da fisioterap
 
 ## E as fotos?
 
-As fotos **não** vão no Pull Request. Elas são enviadas pelo formulário de administração do site, por um administrador.
+As fotos **não** vão no Git: foto de celular é pesada, e o Git guarda tudo para sempre.
 
+1. **Teste no seu computador.** Como admin de desenvolvimento, abra o equipamento em
+   *Menu → Gerenciar equipamentos → Editar* e envie a **foto de capa** e as **fotos da galeria**.
+   Veja como a página fica e escolha as melhores. Isso só existe na sua máquina.
+2. **Anexe no Pull Request.** Na descrição do PR, arraste as fotos escolhidas,
+   separando a capa das fotos da galeria:
+
+   **Capa:** (arraste aqui)
+   **Galeria:** (arraste aqui)
+
+3. Depois da revisão, um administrador envia as fotos para o site.
+
+Regras para as fotos:
 - Fotografe o **equipamento vazio**, sem pessoas. Rosto é dado pessoal, protegido pela LGPD.
-- Mande as fotos ao educador, com o nome do equipamento.
+- Não coloque fotos dentro do HTML (`<img>`): a capa e a galeria aparecem sozinhas na página.
 - Foto de celular serve: o site reduz o tamanho sozinho.
 
 ---
