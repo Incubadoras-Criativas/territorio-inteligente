@@ -15,14 +15,24 @@
     <%= f.text_field :login, autocomplete: "username" %>
   </div>
 
-  <fieldset class="galeria-avatares">
+  <fieldset class="campo">
     <legend>Escolha seu avatar</legend>
-    <% User.avatares_disponiveis.each_with_index do |arquivo, i| %>
-      <label>
-        <%= f.radio_button :avatar, arquivo %>
-        <%= image_tag "avatares/#{arquivo}", alt: "Avatar #{i + 1}", width: 64, height: 64 %>
+    <%= f.erro_de(:avatar) %>
+
+    <div class="opcoes-avatar">
+      <label class="opcao-avatar">
+        <%= f.radio_button :avatar, "", class: "visualmente-oculto" %>
+        <%= icone("user") %>
+        <span class="visualmente-oculto">Sem avatar</span>
       </label>
-    <% end %>
+
+      <% User.avatares_disponiveis.sort.each_with_index do |arquivo, i| %>
+        <label class="opcao-avatar">
+          <%= f.radio_button :avatar, arquivo, class: "visualmente-oculto" %>
+          <%= image_tag "avatares/#{arquivo}", alt: "Avatar #{i + 1}", loading: "lazy", width: 64, height: 64 %>
+        </label>
+      <% end %>
+    </div>
   </fieldset>
 
   <%= f.erros_restantes %>
