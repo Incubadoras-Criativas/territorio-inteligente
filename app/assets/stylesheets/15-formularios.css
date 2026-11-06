@@ -141,3 +141,36 @@ fieldset.campo {
   outline: 3px solid var(--cor-laranja);
   outline-offset: 3px;
 }
+
+.mapa-formulario {
+  height: 18rem;
+  margin-block: var(--espaco-1);
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+}
+
+.coordenadas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-1);
+}
+
+.botao-secundario {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  padding: var(--espaco-1) var(--espaco-2);
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+  color: var(--cor-roxo);
+  font-weight: 700;
+}
+
+/* O pino: uma gota laranja com borda roxa */
+.pino {
+  border: 3px solid var(--cor-roxo);
+  border-radius: 50% 50% 50% 0;
+  background: var(--cor-laranja);
+  transform: rotate(-45deg);
+}

@@ -19,16 +19,31 @@
                             { prompt: "Escolha o território" }, { required: true } %>
   </div>
 
-  <div class="campo">
-    <%= f.label :latitude %>
-    <%= f.number_field :latitude, step: "any", required: true %>
-  </div>
+  <fieldset class="campo" data-controller="localizacao">
+    <legend>Localização</legend>
 
-  <div class="campo">
-    <%= f.label :longitude %>
-    <%= f.number_field :longitude, step: "any", required: true %>
-    <p class="dica">Na próxima etapa, estes campos vão ser preenchidos pelo GPS do celular.</p>
-  </div>
+    <button type="button" class="botao-secundario" data-action="localizacao#localizar">
+      <%= icone("map-pin") %> Usar minha localização
+    </button>
+    <p class="dica" data-localizacao-target="status" role="status">
+      Ou toque no mapa para marcar o ponto. Depois, dá para arrastar o pino.
+    </p>
+
+    <div class="mapa-formulario" data-localizacao-target="mapa"></div>
+
+    <div class="coordenadas">
+      <div>
+        <%= f.label :latitude %>
+        <%= f.number_field :latitude, step: "any", required: true,
+                         data: { localizacao_target: "latitude", action: "change->localizacao#digitou" } %>
+      </div>
+      <div>
+        <%= f.label :longitude %>
+        <%= f.number_field :longitude, step: "any", required: true,
+                         data: { localizacao_target: "longitude", action: "change->localizacao#digitou" } %>
+      </div>
+    </div>
+  </fieldset>
 
   <fieldset class="campo">
     <legend>Categorias</legend>
