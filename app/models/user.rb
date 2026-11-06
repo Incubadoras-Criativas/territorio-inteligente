@@ -57,6 +57,12 @@ class User < ApplicationRecord
     .sort
   end
 
+  # O avatar escolhido, só se o arquivo ainda estiver na galeria.
+  # Um avatar removido da galeria não pode quebrar a página de quem o tinha escolhido.
+  def avatar_exibivel
+    avatar if avatar.present? && avatar.in?(self.class.avatares_disponiveis)
+  end
+
   private
 
   def gerar_login

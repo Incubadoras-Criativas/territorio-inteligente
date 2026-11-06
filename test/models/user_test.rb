@@ -38,4 +38,10 @@ class UserTest < ActiveSupport::TestCase
     user = User.from_omniauth(auth_google(email: "ana@exemplo.com", verificado: false))
     assert_not user.persisted?
   end
+
+  test "avatar que saiu da galeria não é exibido" do
+    user = users(:ana)
+    user.avatar = "avatar-que-nao-existe.png"
+    assert_nil user.avatar_exibivel
+  end
 end
