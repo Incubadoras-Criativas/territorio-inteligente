@@ -776,7 +776,7 @@ bin/brakeman --no-pager
 - Três perguntas de permissão, três lugares: quem vê, quem edita, quem publica.
 - Migration que já rodou não se edita: muda-se com uma migration nova.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0240 — Localização com mapa e GPS](0240-localizacao-com-mapa-e-gps.md)
 
 ---
 
