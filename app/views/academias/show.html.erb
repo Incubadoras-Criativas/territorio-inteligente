@@ -38,6 +38,18 @@
   <p>Nenhum equipamento registrado ainda.</p>
 <% end %>
 
+<h2>Observações</h2>
+
+<% if user_signed_in? %>
+  <p><%= link_to "Registrar observação", new_academia_observacao_path(@academia), class: "botao-secundario" %></p>
+<% end %>
+
+<% if @observacoes.any? %>
+  <%= render @observacoes %>
+<% else %>
+  <p>Nenhuma observação registrada ainda.</p>
+<% end %>
+
 <% if @academia.editavel_por?(current_user) %>
   <p><%= link_to "Editar", edit_academia_path(@academia) %></p>
 <% end %>

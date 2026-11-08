@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_112407) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_140904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,6 +45,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_112407) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["autor_id"], name: "index_academias_on_autor_id"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -93,6 +103,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_112407) do
     t.index ["slug"], name: "index_equipamentos_on_slug", unique: true
   end
 
+  create_table "observacoes", force: :cascade do |t|
+    t.bigint "academia_id", null: false
+    t.bigint "autor_id"
+    t.date "data_da_visita", null: false
+    t.integer "conservacao"
+    t.integer "acessibilidade"
+    t.integer "limpeza"
+    t.integer "iluminacao"
+    t.integer "uso"
+    t.boolean "visivel", default: false, null: false
+    t.boolean "exibir_autor", default: false, null: false
+    t.datetime "termo_fotos_aceito_em"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["academia_id"], name: "index_observacoes_on_academia_id"
+    t.index ["autor_id"], name: "index_observacoes_on_autor_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -125,4 +153,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_112407) do
   add_foreign_key "academias", "users", column: "autor_id", on_delete: :nullify
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "observacoes", "academias"
+  add_foreign_key "observacoes", "users", column: "autor_id", on_delete: :nullify
 end

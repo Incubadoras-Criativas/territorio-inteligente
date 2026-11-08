@@ -96,3 +96,20 @@
   font-size: 0.75rem;
   font-weight: 700;
 }
+
+.observacao {
+  margin-block: var(--espaco-2);
+  padding: var(--espaco-2);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+}
+
+.condicoes {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px var(--espaco-2);
+}
+
+.condicoes dt {
+  font-weight: 700;
+}

@@ -4,10 +4,12 @@ class AcademiasController < ApplicationController
   before_action :exigir_permissao_de_edicao, only: [ :edit, :update ]
 
   def index
-    @academias = academias_permitidas.order(:nome)
+    @academias = Academia.permitidas_para(current_user).order(:nome)
   end
 
   def show
+    @observacoes = @academia.observacoes.permitidas_para(current_user).recentes
+    .with_rich_text_relato.with_attached_fotos.includes(:autor)
   end
 
   def new
@@ -18,7 +20,8 @@ class AcademiasController < ApplicationController
     @academia = current_user.academias.build(academia_params)
 
     if @academia.save
-      redirect_to @academia, notice: aviso_de_cadastro
+      redirect_to new_academia_observacao_path(@academia),
+        notice: "#{aviso_de_cadastro} Agora, registre o que você observou."
     else
       render :new, status: :unprocessable_content
     end
@@ -37,16 +40,8 @@ class AcademiasController < ApplicationController
 
   private
 
-  # Visitante: só as publicadas. Comum: as publicadas e os próprios rascunhos. Moderador e admin: todas.
-  def academias_permitidas
-    return Academia.visiveis unless user_signed_in?
-    return Academia.all if current_user.pode_moderar?
-
-    Academia.visiveis.or(Academia.where(autor: current_user))
-  end
-
   def carregar_academia
-    @academia = academias_permitidas.find(params[:id])
+    @academia = Academia.permitidas_para(current_user).find(params[:id])
   end
 
   def exigir_permissao_de_edicao

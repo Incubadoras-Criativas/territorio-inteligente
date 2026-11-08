@@ -174,3 +174,27 @@ fieldset.campo {
   background: var(--cor-laranja);
   transform: rotate(-45deg);
 }
+
+.opcoes-escala {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-1);
+}
+
+.opcoes-escala label {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  padding: var(--espaco-1);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+}
+
+.opcoes-escala label:has(input:checked) {
+  outline: 3px solid var(--cor-laranja);
+}
+
+trix-editor {
+  min-height: 8rem;
+  background: var(--cor-branco);
+}

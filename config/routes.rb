@@ -23,7 +23,9 @@ Rails.application.routes.draw do
 
   resources :equipamentos, only: [ :index, :show ], param: :slug
 
-  resources :academias, only: [ :index, :show, :new, :create, :edit, :update ]
+  resources :academias, only: [ :index, :show, :new, :create, :edit, :update ] do
+    resources :observacoes, only: [ :new, :create, :edit, :update ]
+  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

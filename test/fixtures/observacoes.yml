@@ -1,0 +1,14 @@
+publicada:
+  academia: publicada
+  autor: ana
+  data_da_visita: 2026-11-01
+  conservacao: boa
+  limpeza: ruim
+  visivel: true
+
+rascunho_da_ana:
+  academia: publicada
+  autor: ana
+  data_da_visita: 2026-11-05
+  iluminacao: inutilizavel
+  visivel: false

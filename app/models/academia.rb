@@ -1,12 +1,15 @@
 class Academia < ApplicationRecord
-  belongs_to :autor, class_name: "User", optional: true
+  include Moderavel
+
+  # belongs_to :autor, class_name: "User", optional: true
 
   has_many :academia_categorias, dependent: :destroy
   has_many :categorias, through: :academia_categorias
   has_many :academia_equipamentos, dependent: :destroy, autosave: true
   has_many :equipamentos, through: :academia_equipamentos
+  has_many :observacoes, dependent: :destroy
 
-  scope :visiveis, -> { where(visivel: true) }
+  # scope :visiveis, -> { where(visivel: true) }
 
 
   validates :categorias, presence: true
@@ -16,13 +19,6 @@ class Academia < ApplicationRecord
   # Nome é opcional: na praça, nem sempre se sabe. A tela usa o título.
   def titulo
     nome.presence || referencia.presence || "Academia nº #{id}"
-  end
-
-  # Rascunho: o autor edita. Publicada: só quem modera.
-  def editavel_por?(user)
-    return false unless user
-
-    user.pode_moderar? || (autor_id == user.id && !visivel?)
   end
 
   # Para o formulário: { equipamento_id => quantidade }
