@@ -1,0 +1,38 @@
+<article class="observacao">
+  <header>
+    <strong><%= l(observacao.data_da_visita) %></strong>
+    <% if (autor = observacao.autor_publico) %>
+      · por <%= autor.login %>
+    <% elsif current_user&.pode_moderar? && observacao.autor %>
+      · <span class="dica">por <%= observacao.autor.login %> (só moderadores veem)</span>
+    <% end %>
+    <% unless observacao.visivel? %>
+      · <span class="etiqueta-rascunho-texto">Rascunho</span>
+    <% end %>
+  </header>
+
+  <dl class="condicoes">
+    <% (Observacao::CONDICOES + [ :uso ]).each do |condicao| %>
+      <% if (valor = observacao.public_send(condicao)) %>
+        <dt><%= Observacao.human_attribute_name(condicao) %></dt>
+        <dd><%= t("escalas.#{valor}") %></dd>
+      <% end %>
+    <% end %>
+  </dl>
+
+  <% if observacao.relato.present? %>
+    <div class="relato"><%= observacao.relato %></div>
+  <% end %>
+
+  <% if observacao.fotos.attached? %>
+    <ul class="galeria" role="list">
+      <% observacao.fotos.each_with_index do |foto, i| %>
+        <li><%= image_tag foto.variant(:media), alt: "Foto #{i + 1} da observação de #{l(observacao.data_da_visita)}", loading: "lazy" %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if observacao.editavel_por?(current_user) %>
+    <p><%= link_to "Editar observação", edit_academia_observacao_path(observacao.academia, observacao) %></p>
+  <% end %>
+</article>

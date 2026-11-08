@@ -1,0 +1,62 @@
+<%= form_with model: [ academia, observacao ] do |f| %>
+  <%= f.aviso_erros %>
+
+  <div class="campo">
+    <%= f.label :data_da_visita %>
+    <%= f.date_field :data_da_visita, required: true, max: Date.current %>
+  </div>
+
+  <% (Observacao::CONDICOES + [ :uso ]).each do |condicao| %>
+    <% escala = condicao == :uso ? Observacao::ESCALA_DE_USO : Observacao::ESCALA %>
+    <fieldset class="campo">
+      <legend><%= Observacao.human_attribute_name(condicao) %></legend>
+      <%= f.erro_de(condicao) %>
+      <div class="opcoes-escala">
+        <% escala.each_key do |valor| %>
+          <label><%= f.radio_button condicao, valor %> <%= t("escalas.#{valor}") %></label>
+        <% end %>
+        <label><%= f.radio_button condicao, "" %> Não observei</label>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <div class="campo">
+    <%= f.label :relato %>
+    <%= f.rich_textarea :relato %>
+    <p class="dica">O que você viu, e o que os moradores contaram.</p>
+  </div>
+
+  <div class="campo">
+    <%= f.label :fotos %>
+    <% observacao.fotos.select(&:persisted?).each do |foto| %>
+      <label class="foto-existente">
+        <%= check_box_tag "observacao[fotos][]", foto.signed_id, true, id: "manter_foto_#{foto.id}" %>
+        <%= image_tag foto.variant(:miniatura), alt: "" %>
+        Manter esta foto
+      </label>
+    <% end %>
+    <%= f.file_field :fotos, multiple: true, accept: "image/jpeg,image/png,image/webp",
+                             data: { tamanho_maximo: ValidaImagens::TAMANHO_MAXIMO } %>
+    <div>
+      <%= f.check_box :termo_fotos %>
+      <%= f.label :termo_fotos, "As fotos não mostram pessoas, ou as pessoas que aparecem autorizaram o uso." %>
+    </div>
+    <%= f.erro_de(:termo_fotos) %>
+  </div>
+
+  <fieldset class="campo">
+    <legend>Mostrar o seu identificador nesta observação?</legend>
+    <label><%= f.radio_button :exibir_autor, false %> Não, mostrar só a data</label>
+    <label><%= f.radio_button :exibir_autor, true %> Sim, mostrar "<%= (observacao.autor || current_user).login %>"</label>
+  </fieldset>
+
+  <% if current_user.pode_moderar? %>
+    <div class="campo">
+      <%= f.check_box :visivel %>
+      <%= f.label :visivel, "Visível para o público" %>
+    </div>
+  <% end %>
+
+  <%= f.erros_restantes %>
+  <%= f.submit "Salvar observação" %>
+<% end %>

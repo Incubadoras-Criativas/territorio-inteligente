@@ -4,6 +4,9 @@ pt-BR:
       user:
         one: "usuário"
         other: "usuários"
+      observacao:
+        one: "Observação"
+        other: "Observações"
     attributes:
       user:
         email: "E-mail"
@@ -27,7 +30,16 @@ pt-BR:
         longitude: "Longitude"
         categorias: "Categorias"
         visivel: "Visível"
-
+      observacao:
+        data_da_visita: "Data da visita"
+        conservacao: "Conservação"
+        acessibilidade: "Acessibilidade"
+        limpeza: "Limpeza"
+        iluminacao: "Iluminação"
+        uso: "Uso"
+        relato: "Relato"
+        fotos: "Fotos"
+        termo_fotos: "Termo das fotos"
 
   # Nomes dos níveis de acesso (enum role), usados com:
   #   t("user.roles.#{user.role}")
@@ -42,3 +54,13 @@ pt-BR:
       success: "Você entrou com a sua conta %{kind}."
   formularios:
     aviso_erros: "Não foi possível salvar. Confira os campos destacados abaixo."
+
+  escalas:
+    boa: "Boa"
+    regular: "Regular"
+    ruim: "Ruim"
+    inutilizavel: "Inutilizável"
+    nao_se_aplica: "Não se aplica"
+    muito_usada: "Muito usada"
+    pouco_usada: "Pouco usada"
+    sem_uso: "Sem uso"

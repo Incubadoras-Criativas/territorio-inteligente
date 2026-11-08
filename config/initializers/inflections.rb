@@ -3,4 +3,5 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular "academia", "academias"
   inflect.irregular "categoria", "categorias"
+  inflect.irregular "observacao", "observacoes"
 end

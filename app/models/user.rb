@@ -19,6 +19,7 @@ class User < ApplicationRecord
   validates :avatar, inclusion: { in: ->(_) { User.avatares_disponiveis } }, allow_nil: true
 
   has_many :academias, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
+  has_many :observacoes, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
 
   def pode_moderar? = admin? || moderador?
 
