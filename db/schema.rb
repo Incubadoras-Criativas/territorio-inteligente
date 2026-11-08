@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_112407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,7 +38,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
   create_table "academias", force: :cascade do |t|
     t.string "nome"
     t.string "referencia"
-    t.bigint "territorio_id", null: false
     t.decimal "latitude", precision: 9, scale: 6, null: false
     t.decimal "longitude", precision: 9, scale: 6, null: false
     t.boolean "visivel", default: false, null: false
@@ -46,7 +45,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["autor_id"], name: "index_academias_on_autor_id"
-    t.index ["territorio_id"], name: "index_academias_on_territorio_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -95,14 +93,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
     t.index ["slug"], name: "index_equipamentos_on_slug", unique: true
   end
 
-  create_table "territorios", force: :cascade do |t|
-    t.string "nome"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_territorios_on_slug", unique: true
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -132,7 +122,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_192653) do
   add_foreign_key "academia_categorias", "categorias"
   add_foreign_key "academia_equipamentos", "academias"
   add_foreign_key "academia_equipamentos", "equipamentos"
-  add_foreign_key "academias", "territorios"
   add_foreign_key "academias", "users", column: "autor_id", on_delete: :nullify
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"

@@ -13,12 +13,6 @@
     <p class="dica">Por exemplo: QNM 15, ao lado da escola.</p>
   </div>
 
-  <div class="campo">
-    <%= f.label :territorio_id, "Território" %>
-    <%= f.collection_select :territorio_id, Territorio.order(:nome), :id, :nome,
-                            { prompt: "Escolha o território" }, { required: true } %>
-  </div>
-
   <fieldset class="campo" data-controller="localizacao">
     <legend>Localização</legend>
 
@@ -48,7 +42,7 @@
   <fieldset class="campo">
     <legend>Categorias</legend>
     <%= f.erro_de(:categorias) %>
-<%= f.erro_de(:categorias) %>
+    <%= f.erro_de(:categorias) %>
     <%= f.collection_check_boxes :categoria_ids, Categoria.order(:nome), :id, :nome do |c| %>
       <div><%= c.check_box %> <%= c.label %></div>
     <% end %>

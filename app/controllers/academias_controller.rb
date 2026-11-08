@@ -4,7 +4,7 @@ class AcademiasController < ApplicationController
   before_action :exigir_permissao_de_edicao, only: [ :edit, :update ]
 
   def index
-    @academias = academias_permitidas.includes(:territorio).order(:nome)
+    @academias = academias_permitidas.order(:nome)
   end
 
   def show
@@ -61,7 +61,7 @@ class AcademiasController < ApplicationController
 
   # Só quem modera pode publicar: para os outros, o campo visivel é ignorado
   def academia_params
-    campos = [ :nome, :referencia, :territorio_id, :latitude, :longitude ]
+    campos = [ :nome, :referencia, :latitude, :longitude ]
     campos << :visivel if current_user.pode_moderar?
 
     params.expect(academia: [ *campos, categoria_ids: [], quantidades: {} ])

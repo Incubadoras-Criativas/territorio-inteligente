@@ -1,5 +1,5 @@
 # Nome obrigatório e slug gerado a partir dele, único e no formato
-# letras-numeros-e-hifens. Usado em Equipamento, Territorio e Categoria.
+# letras-numeros-e-hifens. Usado em Equipamento e Categoria.
 module TemSlug
   extend ActiveSupport::Concern
 
