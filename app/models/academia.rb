@@ -1,5 +1,4 @@
 class Academia < ApplicationRecord
-  belongs_to :territorio
   belongs_to :autor, class_name: "User", optional: true
 
   has_many :academia_categorias, dependent: :destroy

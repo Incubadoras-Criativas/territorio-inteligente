@@ -10,7 +10,6 @@
   <% @academias.each do |academia| %>
     <li>
       <strong><%= link_to academia.titulo, academia %></strong><br>
-      <span><%= academia.territorio.nome %></span>
       <% unless academia.visivel? %>
         · <span class="etiqueta-rascunho-texto">Rascunho</span>
       <% end %>

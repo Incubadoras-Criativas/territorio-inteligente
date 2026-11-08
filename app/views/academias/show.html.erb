@@ -7,7 +7,7 @@
 <h1><%= @academia.titulo %></h1>
 
 <p>
-  <%= @academia.territorio.nome %> · <%= @academia.categorias.map(&:nome).to_sentence %>
+  <%= @academia.categorias.map(&:nome).to_sentence %>
 </p>
 
 <% if @academia.referencia.present? %>

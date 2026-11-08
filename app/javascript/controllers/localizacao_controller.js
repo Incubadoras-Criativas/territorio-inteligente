@@ -7,8 +7,8 @@ import * as L from "leaflet"
 export default class extends Controller {
   static targets = [ "latitude", "longitude", "mapa", "status" ]
 
-  // Centro de Ceilândia, para quando ainda não há ponto
-  static values = { centro: { type: Array, default: [ -15.8166, -48.1060 ] } }
+  // Marco Zero do DF, na Rodoviária do Plano Piloto, para quando ainda não há ponto
+  static values = { centro: { type: Array, default: [ -15.7942, -47.8825 ] } }
 
   connect() {
     const ponto = this.pontoDosCampos()
@@ -19,10 +19,11 @@ export default class extends Controller {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.mapa)
 
-    if (ponto) this.colocarPino(ponto)
-
-      // Tocar no mapa também posiciona o pino
-      this.mapa.on("click", (evento) => this.moverPara(evento.latlng))
+    if (ponto) {
+      this.colocarPino(ponto)
+    } else {
+      this.localizarSeJaPermitido()
+    }
   }
 
   disconnect() {
@@ -109,5 +110,18 @@ export default class extends Controller {
 
   avisar(texto) {
     this.statusTarget.textContent = texto
+  }
+
+  // Se a pessoa já permitiu a localização antes, localiza sozinho, sem perguntar.
+  // Se não, espera o toque no botão: pedir a localização sem ação da pessoa é má prática.
+  async localizarSeJaPermitido() {
+    if (!navigator.permissions || !window.isSecureContext) return
+
+      try {
+        const permissao = await navigator.permissions.query({ name: "geolocation" })
+        if (permissao.state === "granted") this.localizar()
+      } catch {
+        // Navegador sem suporte a essa consulta: segue com o botão
+      }
   }
 }

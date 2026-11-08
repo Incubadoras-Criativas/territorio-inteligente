@@ -3,7 +3,7 @@ require "test_helper"
 class AcademiasControllerTest < ActionDispatch::IntegrationTest
   def dados_validos(extra = {})
     { academia: {
-                 nome: "Academia nova", territorio_id: territorios(:ceilandia).id,
+                 nome: "Academia nova",
                  latitude: "-15.81", longitude: "-48.10",
                  categoria_ids: [ categorias(:ao_ar_livre).id ]
                 }.merge(extra) }
@@ -47,10 +47,10 @@ class AcademiasControllerTest < ActionDispatch::IntegrationTest
     assert academias(:rascunho_da_ana).reload.visivel?
   end
 
-  test "sem território, o erro aparece embaixo do campo" do
+  test "sem coordenadas, o erro aparece embaixo da latitude" do
     sign_in users(:ana)
-    post academias_url, params: dados_validos(territorio_id: "")
+    post academias_url, params: dados_validos(latitude: "", longitude: "")
     assert_response :unprocessable_content
-    assert_select "#academia_territorio_id_erro"
+    assert_select "#academia_latitude_erro"
   end
 end

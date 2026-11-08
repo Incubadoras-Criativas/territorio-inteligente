@@ -23,8 +23,6 @@ pt-BR:
       academia:
         nome: "Nome"
         referencia: "Endereço ou referência"
-        territorio: "Território"
-        territorio_id: "Território"
         latitude: "Latitude"
         longitude: "Longitude"
         categorias: "Categorias"
