@@ -519,7 +519,7 @@ E o mesmo episódio trouxe uma lição de **direitos de imagem**: um escudo de t
 - Toda mensagem de erro oferece uma saída.
 - Dado que aponta para fora do banco precisa de um plano para quando o que ele aponta sumir.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0250 — Academias sem território](0250-academias-sem-territorio.md)
 
 ---
 
