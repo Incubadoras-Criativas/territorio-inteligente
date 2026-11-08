@@ -70,7 +70,7 @@ class FormularioBuilder < ActionView::Helpers::FormBuilder
     @mostrados ||= Set.new
   end
 
-     # Um campo terminado em _id (ex.: categoria_id) mostra os erros dele e os da associação (categoria)
+  # Um campo terminado em _id (ex.: categoria_id) mostra os erros dele e os da associação (categoria)
   def atributos_do_campo(atributo)
     nome = atributo.to_s
     nome.end_with?("_id") ? [ atributo.to_sym, nome.delete_suffix("_id").to_sym ] : [ atributo.to_sym ]
