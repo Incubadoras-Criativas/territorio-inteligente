@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :observacoes, only: [ :new, :create, :edit, :update ]
   end
 
+  get "privacidade", to: "paginas#privacidade"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

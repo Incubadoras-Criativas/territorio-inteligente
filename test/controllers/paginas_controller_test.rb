@@ -27,4 +27,10 @@ class PaginasControllerTest < ActionDispatch::IntegrationTest
     post user_session_url, params: { user: { email: "ninguem@exemplo.com", password: "errada" } }
     assert_select ".alert[role=alert]", text: /inválid/
   end
+
+  test "a política de privacidade é pública" do
+    get privacidade_url
+    assert_response :success
+    assert_select "h1", "Política de privacidade"
+  end
 end
