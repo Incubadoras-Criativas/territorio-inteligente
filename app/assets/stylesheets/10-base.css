@@ -132,3 +132,8 @@ input[type="submit"]:hover {
     border-top: 1px solid var(--cor-roxo);
     opacity: 0.3;
 }
+
+.texto-longo {
+    max-width: 40rem;
+    line-height: 1.6;
+}
