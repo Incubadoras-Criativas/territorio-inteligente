@@ -38,3 +38,9 @@
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
 
+# Credenciais de produção: só existem no servidor
+/config/credentials/production.yml.enc
+/config/credentials/production.key
+
+# Arquivos temporários do Kate
+*.kate-swp
