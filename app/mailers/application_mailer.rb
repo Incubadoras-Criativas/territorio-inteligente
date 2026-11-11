@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Território Inteligente <nao-responda@incubadorascriativas.org.br>"
+  default from: ENV.fetch("MAIL_FROM", "Território Inteligente <nao-responda@example.com>")
   layout "mailer"
 end
