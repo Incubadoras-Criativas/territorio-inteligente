@@ -1,0 +1,71 @@
+<!--
+  MODELO DO GUIA DE UM EQUIPAMENTO
+  1. Copie este arquivo com o nome do slug do seu equipamento: barra-fixa.html
+  2. Troque os textos entre colchetes.
+  3. Fotos: coloque em public/equipamentos/ (sem pessoas!) e use o caminho /equipamentos/nome-da-foto.jpg
+  Não use <html>, <head> nem <body>: o site já tem.
+-->
+
+<p class="equipamento-resumo">O simulador de esqui trabalha os músculos das pernas, glúteos e quadril, além de fortalecer o abdômen, melhorar o equilíbrio, a coordenação motora e o condicionamento cardiovascular.</p>
+
+<p>O simulador de esqui serve para exercitar as pernas e o quadril por meio de movimentos alternados, melhorando a mobilidade articular, o equilíbrio, a coordenação motora, a resistência muscular e o condicionamento físico.</p>
+
+
+<h2>Músculos trabalhados:</h2>
+<ul>
+  <li>Quadríceps (parte anterior das coxas).</li>
+  <li>Posteriores da coxa.</li>
+  <li>Glúteos.</li>
+  <li>Adutores (parte interna das coxas).</li>
+  <li>Abdutores (parte externa das coxas e quadril).</li>
+  <li>Panturrilhas.</li>
+  <li>Abdômen (estabilização corporal).</li>
+</ul>
+
+
+<h2>Capacidades físicas desenvolvidas:</h2>
+<ul>
+  <li>Resistência muscular
+  <li>Resistência cardiorrespiratória.
+  <li>Equilíbrio
+  <li>Coordenação motora
+  <li>Mobilidade articular.
+  <li>Flexibilidade dinâmica.
+  <li>Condicionamento físico geral.
+</ul>
+<h2>Modo de funcionamento:</h2>
+<br/>
+  <p>
+<ul>
+  <li>Posicione-se em pé, colocando um pé em cada plataforma móvel.
+Segure firmemente os pegadores com as duas mãos.
+  <li>Mantenha a coluna ereta, o abdômen contraído e o olhar para a frente.
+  <li>Movimente as pernas alternadamente para os lados, deslizando uma para a direita enquanto a outra vai para a esquerda.
+  li>Continue o movimento de forma ritmada, como se estivesse esquiando.
+  <li>Comece devagar e aumente a velocidade gradualmente, conforme sua capacidade física.
+</ul>
+  </p>
+<br/>
+<h2>Passo a Passo</h2>
+<ul>
+  <li><b>Posicionamento: </b>Segure nas barras de apoio e coloque os pés nas plataformas.</li>
+  <li><b>Início: </b> Movimente uma perna para frente e a outra para trás.</li>
+  <li><b> Execução:</b>Alterne as pernas continuamente, mantendo um ritmo confortável.</li>
+</ul>
+<h2>Cuidados ao utilizar o Simulador de Esqui</h2>
+<ul>
+  <li>Mantenha sempre as mãos firmes nas barras de apoio e faça os movimentos das pernas lentamente, evitando movimentos bruscos e respeitando seus limites físicos.</li>
+</ul>
+<h2>Quem deve evitar ou pedir orientação antes de utilizar o Simulador de Esqui?</h2>
+<ul>
+  <li>Pessoas com dores ou lesões nos joelhos, quadris e tornozelos.
+  <li>Pessoas que passaram por cirurgias recentemente.
+  <li>Pessoas com problemas graves de equilíbrio.
+  <li>Pessoas com doenças cardíacas ou pressão arterial descontrolada.
+  <li>Idosos com limitações de mobilidade.
+  <li>Gestantes, especialmente quando houver dificuldade de equilíbrio.
+  <li>Pessoas que sentem tontura ou dor durante os movimentos.
+
+</ul>
+
+
