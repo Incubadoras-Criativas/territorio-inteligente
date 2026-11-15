@@ -70,24 +70,43 @@
         <%= icone("x") %><span>Fechar</span>
       </button>
 
-      <ul role="list">
-        <li><%= link_to "Início", root_path %></li>
-        <li><%= link_to "Academias", academias_path %></li>
-        <li><%= link_to "Equipamentos", equipamentos_path %></li>
-        <% if user_signed_in? %>
-          <li><%= link_to "Meu perfil", edit_perfil_path %></li>
-          <% if current_user.admin? %>
+      <nav aria-label="Menu completo">
+        <h2 class="menu-secao">Navegar</h2>
+        <ul role="list">
+          <li><%= link_to "Início", root_path %></li>
+          <li><%= link_to "Academias", academias_path %></li>
+          <li><%= link_to "Equipamentos", equipamentos_path %></li>
+        </ul>
+
+        <h2 class="menu-secao">Sua conta</h2>
+        <ul role="list">
+          <% if user_signed_in? %>
+            <li><%= link_to "Meu perfil", edit_perfil_path %></li>
+            <li><%= link_to "Trocar e-mail ou senha", edit_user_registration_path %></li>
+          <% else %>
+            <li><%= link_to "Entrar", new_user_session_path %></li>
+            <li><%= link_to "Cadastrar", new_user_registration_path %></li>
+          <% end %>
+        </ul>
+
+        <% if user_signed_in? && current_user.admin? %>
+          <h2 class="menu-secao">Administração</h2>
+          <ul role="list">
             <li><%= link_to "Usuários", admin_users_path %></li>
             <li><%= link_to "Gerenciar equipamentos", admin_equipamentos_path %></li>
-          <% end %>
-          <li><%= link_to "Trocar e-mail ou senha", edit_user_registration_path %></li>
-          <li><%= button_to "Sair", destroy_user_session_path, method: :delete %></li>
-        <% else %>
-          <li><%= link_to "Entrar", new_user_session_path %></li>
-          <li><%= link_to "Cadastrar", new_user_registration_path %></li>
+          </ul>
         <% end %>
-        <li><%= link_to "Código-fonte (AGPL-3.0)", "https://github.com/Incubadoras-Criativas/territorio-inteligente" %></li>
-      </ul>
+
+        <h2 class="menu-secao">Sobre</h2>
+        <ul role="list" class="menu-sobre">
+          <li><%= link_to "Política de privacidade", privacidade_path %></li>
+          <li><%= link_to "Código-fonte (AGPL-3.0)", "https://github.com/Incubadoras-Criativas/territorio-inteligente" %></li>
+        </ul>
+
+        <% if user_signed_in? %>
+          <%= button_to "Sair", destroy_user_session_path, method: :delete %>
+        <% end %>
+      </nav>
     </div>
 
 
