@@ -95,7 +95,15 @@ body {
 }
 
 .menu-completo ul {
+  display: grid;
   margin: 0;
+  padding: 0;
+}
+
+.menu-completo li a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
 
 /* "Sobre": links discretos, sem cara de botão */
@@ -121,4 +129,13 @@ body {
 
 .fechar-menu:hover {
   background: none;
+}
+
+
+.links-secundarios {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--espaco-1);
+  margin-top: var(--espaco-2);
 }
