@@ -18,6 +18,7 @@ class Equipamento < ApplicationRecord
 
   # A galeria, abaixo do guia
   has_many_attached :fotos do |anexo|
+    anexo.variant :miniatura, resize_to_limit: [ 160, 160 ], format: :webp
     anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
   end
 
