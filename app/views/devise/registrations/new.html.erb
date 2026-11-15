@@ -27,9 +27,15 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <%= f.erros_restantes %>
+  <div class="campo">
+    <%= f.check_box :aceite_privacidade, required: true %>
+    <%= f.label :aceite_privacidade do %>
+      Li e concordo com a <%= link_to "política de privacidade", privacidade_path, target: "_blank" %>
+    <% end %>
+    <%= f.erro_de :aceite_privacidade %>
+  </div>
 
-  <p class="dica">Ao se cadastrar, você concorda com a <%= link_to "política de privacidade", privacidade_path %>.</p>
+  <%= f.erros_restantes %>
 
   <div class="actions">
     <%= f.submit t('.sign_up') %>

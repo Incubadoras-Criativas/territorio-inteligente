@@ -19,6 +19,7 @@ pt-BR:
         nome: "Nome"
         login: "Identificador"
         avatar: "Avatar"
+        aceite_privacidade: "A política de privacidade"
       equipamento:
         nome: "Nome"
         slug: "Endereço"

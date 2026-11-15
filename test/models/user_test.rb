@@ -6,12 +6,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "gera o login a partir do primeiro nome" do
-    user = User.create!(email: "maria@exemplo.com", password: "senha-segura-123", nome: "Maria da Silva")
+    user = User.create!(email: "maria@exemplo.com", password: "senha-segura-123", nome: "Maria da Silva", aceite_privacidade: true)
     assert_equal "maria", user.login
   end
 
   test "numera o login quando o primeiro nome já existe" do
-    user = User.create!(email: "ana2@exemplo.com", password: "senha-segura-123", nome: "Ana Souza")
+    user = User.create!(email: "ana2@exemplo.com", password: "senha-segura-123", nome: "Ana Souza", aceite_privacidade: true)
     assert_equal "ana-1", user.login
   end
 
@@ -43,5 +43,18 @@ class UserTest < ActiveSupport::TestCase
     user = users(:ana)
     user.avatar = "avatar-que-nao-existe.png"
     assert_nil user.avatar_exibivel
+  end
+
+  test "cadastro com e-mail exige o aceite da política de privacidade" do
+    user = User.new(nome: "Ana Souza", email: "ana@example.com", password: "segredo123")
+
+    assert_not user.valid?
+    assert user.errors.of_kind?(:aceite_privacidade, :accepted)
+  end
+
+  test "grava a data do aceite ao criar a conta" do
+    user = User.create!(nome: "Ana Souza", email: "ana@example.com", password: "segredo123", aceite_privacidade: true)
+
+    assert_not_nil user.privacidade_aceita_em
   end
 end
