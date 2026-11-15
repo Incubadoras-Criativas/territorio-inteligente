@@ -1,5 +1,9 @@
 /* required styles */
 
+.mapa-formulario {
+  isolation: isolate;
+}
+
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
