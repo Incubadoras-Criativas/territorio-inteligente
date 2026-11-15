@@ -30,8 +30,10 @@ a {
 /* Estrutura da página */
 main  {
  padding: var(--espaco-2);
+ display: flex;
+ flex-direction: column;
+ gap: var(--espaco-2);
 }
-
 
 
 /* Mensagens do Rails (flash) */
@@ -43,6 +45,17 @@ main  {
 }
 .notice:not(:empty) { background: var(--cor-sucesso); color: var(--cor-branco); }
 .alert:not(:empty)  { background: var(--cor-erro);    color: var(--cor-branco); }
+
+.notice:not(:empty), .alert:not(:empty) {
+    padding: var(--espaco-1) var(--espaco-2);
+    border-radius: var(--raio);
+}
+
+/* Avisos vazios não ocupam lugar na pilha */
+main > .notice:empty,
+main > .alert:empty {
+    display: none;
+}
 
 /* Formulários */
 form {

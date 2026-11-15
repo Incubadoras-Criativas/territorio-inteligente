@@ -21,6 +21,14 @@ class User < ApplicationRecord
   has_many :academias, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
   has_many :observacoes, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
 
+  attribute :aceite_privacidade, :boolean
+
+  validates :aceite_privacidade,
+            acceptance: { allow_nil: false, message: "precisa ser aceita para criar a conta" },
+            on: :create, if: -> { provider.blank? }
+
+  before_create { self.privacidade_aceita_em = Time.current }
+
   def pode_moderar? = admin? || moderador?
 
   def self.from_omniauth(auth)

@@ -70,10 +70,12 @@ body {
 
 /* ---------- Menu completo (popover), sobe do rodapé ---------- */
 .menu-completo {
+  box-sizing: border-box;
   inset: auto 0 0 0;
   width: 100%;
   max-width: none;
   max-height: 80vh;
+  overflow-y: auto;
   margin: 0;
   padding: var(--espaco-2);
   border: 0;
@@ -82,28 +84,37 @@ body {
   color: var(--cor-texto);
 }
 
-.menu-completo::backdrop {
-  background: rgb(0 0 0 / 0.4);
+/* Títulos das seções do menu */
+.menu-secao {
+  margin: var(--espaco-2) 0 var(--espaco-1);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.7;
 }
 
 .menu-completo ul {
   display: grid;
-  gap: var(--espaco-1);
+  margin: 0;
   padding: 0;
 }
 
 .menu-completo li a {
-  display: block;
-  padding: var(--espaco-2);
-  border-radius: var(--raio);
-  background: var(--cor-roxo-claro);
-  font-weight: 600;
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
 
-.menu-completo .button_to button {
-  width: 100%;
-  padding: var(--espaco-2);
+/* "Sobre": links discretos, sem cara de botão */
+.menu-sobre a {
+  background: none;
+  font-weight: 400;
+  padding-block: var(--espaco-1);
+}
+
+.menu-completo .button_to {
+  margin-top: var(--espaco-3, 1.5rem);
 }
 
 .fechar-menu {
@@ -118,4 +129,13 @@ body {
 
 .fechar-menu:hover {
   background: none;
+}
+
+
+.links-secundarios {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--espaco-1);
+  margin-top: var(--espaco-2);
 }
