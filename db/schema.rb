@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_210127) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_16_190427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -103,6 +103,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_210127) do
     t.index ["slug"], name: "index_equipamentos_on_slug", unique: true
   end
 
+  create_table "imagens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "termo_aceito_em"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_imagens_on_user_id"
+  end
+
   create_table "observacoes", force: :cascade do |t|
     t.bigint "academia_id", null: false
     t.bigint "autor_id"
@@ -140,6 +148,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_210127) do
     t.string "uid"
     t.string "avatar"
     t.datetime "privacidade_aceita_em"
+    t.integer "limite_galeria_mb", default: 100, null: false
     t.index "lower((login)::text)", name: "index_users_on_lower_login", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -154,6 +163,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_210127) do
   add_foreign_key "academias", "users", column: "autor_id", on_delete: :nullify
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "imagens", "users"
   add_foreign_key "observacoes", "academias"
   add_foreign_key "observacoes", "users", column: "autor_id", on_delete: :nullify
 end

@@ -1,0 +1,143 @@
+/* 50-galeria.css — Galeria pessoal de imagens */
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--espaco-1);
+  padding: 0;
+}
+
+.galeria li {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.galeria img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--raio);
+}
+
+
+.uso-galeria meter {
+  display: block;
+  width: 100%;
+}
+
+/* O botão fica apagado enquanto o termo não estiver marcado */
+.envio-galeria:has(input[type="checkbox"]:not(:checked)) .botao-enviar {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Contorno de foco no botão quando o campo oculto recebe o Tab */
+.visualmente-oculto:focus-visible + .botao {
+  outline: 3px solid var(--cor-amarelo);
+  outline-offset: 2px;
+}
+
+/* Durante o envio: troca o texto e impede um segundo clique */
+.botao-enviar .quando-enviando,
+.envio-galeria[aria-busy="true"] .botao-enviar .quando-parado {
+  display: none;
+}
+
+.envio-galeria[aria-busy="true"] .botao-enviar .quando-enviando {
+  display: inline;
+}
+
+.envio-galeria[aria-busy="true"] .botao-enviar {
+  pointer-events: none;
+}
+
+/* O campo do envio: botão em cima, dica embaixo, com respiro */
+.campo:has(.botao-enviar) {
+  display: grid;
+  gap: var(--espaco-1);
+  justify-items: start;
+}
+
+.galeria li {
+  position: relative;
+}
+
+.abrir-imagem {
+  display: block;
+}
+
+/* A lixeira: um círculo branco no canto superior direito */
+.remover-imagem {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  color: var(--cor-erro);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+.remover-imagem:hover {
+  background: var(--cor-branco);
+}
+
+.remover-imagem .icone {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.galeria li {
+  position: relative;
+}
+
+.abrir-imagem {
+  display: block;
+}
+
+/* A lixeira: um círculo branco no canto superior direito */
+.remover-imagem {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  color: var(--cor-erro);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+.remover-imagem:hover {
+  background: var(--cor-branco);
+}
+
+.remover-imagem .icone {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.imagem-grande {
+  display: grid;
+  gap: var(--espaco-1);
+  margin: 0;
+}
+
+.imagem-grande img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--raio);
+}
+
+.imagem-grande figcaption {
+  font-size: 0.875rem;
+}

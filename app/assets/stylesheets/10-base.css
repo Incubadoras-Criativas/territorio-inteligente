@@ -86,7 +86,8 @@ input[type="checkbox"] + label {
 }
 
 button,
-input[type="submit"] {
+input[type="submit"],
+.botao {
     justify-self: start;
     padding: var(--espaco-1) var(--espaco-3);
     border: 0;
@@ -106,6 +107,16 @@ input[type="submit"]:hover {
 :focus-visible {
     outline: 3px solid var(--cor-laranja);
     outline-offset: 2px;
+}
+
+/* Um label ou link com cara de botão */
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
 }
 
 /* Botão "Entrar com o Google": cores das regras de marca do Google */
@@ -150,3 +161,4 @@ input[type="submit"]:hover {
     max-width: 40rem;
     line-height: 1.6;
 }
+

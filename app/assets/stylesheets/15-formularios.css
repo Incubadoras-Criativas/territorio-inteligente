@@ -28,7 +28,8 @@
 }
 
 input[type="submit"],
-button {
+button,
+.botao {
   max-width: 100%;
   white-space: normal;
   height: auto;
