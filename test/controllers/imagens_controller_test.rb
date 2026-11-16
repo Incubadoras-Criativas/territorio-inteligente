@@ -35,4 +35,13 @@ class ImagensControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :not_found
   end
+
+  test "não vê a imagem de outra pessoa" do
+    imagem = users(:bia).imagens.create!(arquivo: foto, termo_fotos: true)
+    sign_in users(:ana)
+
+    get imagem_path(imagem)
+
+    assert_response :not_found
+  end
 end

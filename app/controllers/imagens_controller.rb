@@ -7,6 +7,10 @@ class ImagensController < ApplicationController
     @espaco_usado = current_user.espaco_usado
   end
 
+  def show
+    @imagem = current_user.imagens.find(params[:id])
+  end
+
   # Aceita várias imagens de uma vez: cada arquivo vira uma Imagem.
   def create
     envio = params.expect(imagem: [ :termo_fotos, arquivos: [] ])

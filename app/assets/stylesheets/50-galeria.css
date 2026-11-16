@@ -19,9 +19,6 @@
   border-radius: var(--raio);
 }
 
-.galeria .button_to button {
-  width: 100%;
-}
 
 .uso-galeria meter {
   display: block;
@@ -59,4 +56,88 @@
   display: grid;
   gap: var(--espaco-1);
   justify-items: start;
+}
+
+.galeria li {
+  position: relative;
+}
+
+.abrir-imagem {
+  display: block;
+}
+
+/* A lixeira: um círculo branco no canto superior direito */
+.remover-imagem {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  color: var(--cor-erro);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+.remover-imagem:hover {
+  background: var(--cor-branco);
+}
+
+.remover-imagem .icone {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.galeria li {
+  position: relative;
+}
+
+.abrir-imagem {
+  display: block;
+}
+
+/* A lixeira: um círculo branco no canto superior direito */
+.remover-imagem {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  color: var(--cor-erro);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+.remover-imagem:hover {
+  background: var(--cor-branco);
+}
+
+.remover-imagem .icone {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.imagem-grande {
+  display: grid;
+  gap: var(--espaco-1);
+  margin: 0;
+}
+
+.imagem-grande img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--raio);
+}
+
+.imagem-grande figcaption {
+  font-size: 0.875rem;
 }

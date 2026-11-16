@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :imagens, only: %i[index create destroy], path: "galeria"
 
+  resources :imagens, only: %i[index show create destroy], path: "galeria"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

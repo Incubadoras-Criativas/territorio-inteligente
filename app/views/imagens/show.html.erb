@@ -1,0 +1,16 @@
+<% content_for :title, "Imagem da galeria" %>
+
+<p><%= link_to "← Minha galeria", imagens_path %></p>
+
+<figure class="imagem-grande">
+  <%= image_tag @imagem.arquivo.variant(:media), alt: "Imagem enviada em #{l @imagem.created_at, format: :short}" %>
+  <figcaption>
+    Enviada em <%= l @imagem.created_at, format: :short %> ·
+    <%= number_to_human_size(@imagem.arquivo.byte_size) %>
+  </figcaption>
+</figure>
+
+<p><%= link_to "Abrir original", rails_blob_path(@imagem.arquivo), target: "_blank" %></p>
+
+<%= button_to "Remover da galeria", imagem_path(@imagem), method: :delete,
+              form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } %>

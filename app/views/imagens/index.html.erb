@@ -35,9 +35,15 @@
   <ul class="galeria" role="list">
     <% @imagens.each do |imagem| %>
       <li>
-        <%= image_tag imagem.arquivo.variant(:miniatura), alt: "" %>
-        <%= button_to "Remover", imagem_path(imagem), method: :delete,
-                      form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } %>
+        <%= link_to imagem_path(imagem), class: "abrir-imagem" do %>
+          <%= image_tag imagem.arquivo.variant(:miniatura),
+                        alt: "Imagem enviada em #{l imagem.created_at, format: :short}" %>
+        <% end %>
+        <%= button_to imagem_path(imagem), method: :delete, class: "remover-imagem",
+                      aria: { label: "Remover imagem" },
+                      form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } do %>
+          <%= icone("trash") %>
+        <% end %>
       </li>
     <% end %>
   </ul>
