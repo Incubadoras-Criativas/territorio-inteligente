@@ -1,0 +1,46 @@
+<% content_for :title, "Minha galeria" %>
+
+<h1>Minha galeria</h1>
+
+<p class="dica">Só você vê estas imagens.</p>
+
+<p class="uso-galeria">
+  <label for="uso-galeria">
+    <%= number_to_human_size(@espaco_usado) %> de <%= current_user.limite_galeria_mb %> MB usados
+  </label>
+  <meter id="uso-galeria" min="0" max="<%= current_user.limite_galeria_bytes %>"
+         value="<%= @espaco_usado %>" high="<%= (current_user.limite_galeria_bytes * 0.9).to_i %>"></meter>
+</p>
+
+<%= form_with url: imagens_path, scope: :imagem, class: "envio-galeria",
+              data: { controller: "envio-automatico" } do |f| %>
+  <div class="campo">
+    <%= f.check_box :termo_fotos, required: true %>
+    <%= f.label :termo_fotos, t("termos.fotos") %>
+  </div>
+
+  <div class="campo">
+    <%= f.file_field :arquivos, multiple: true, accept: "image/jpeg,image/png,image/webp",
+                     class: "visualmente-oculto",
+                     data: { action: "change->envio-automatico#enviar", tamanho_maximo: Imagem::TAMANHO_MAXIMO } %>
+    <%= f.label :arquivos, class: "botao botao-enviar" do %>
+      <span class="quando-parado">Adicionar fotos</span>
+      <span class="quando-enviando">Enviando…</span>
+    <% end %>
+    <p class="dica">JPG, PNG ou WebP, até 10 MB cada. Pode escolher várias de uma vez.</p>
+  </div>
+<% end %>
+
+<% if @imagens.any? %>
+  <ul class="galeria" role="list">
+    <% @imagens.each do |imagem| %>
+      <li>
+        <%= image_tag imagem.arquivo.variant(:miniatura), alt: "" %>
+        <%= button_to "Remover", imagem_path(imagem), method: :delete,
+                      form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Sua galeria está vazia.</p>
+<% end %>

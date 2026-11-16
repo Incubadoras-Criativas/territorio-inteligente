@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
   get "privacidade", to: "paginas#privacidade"
 
+  resources :imagens, only: %i[index create destroy], path: "galeria"
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
