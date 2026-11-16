@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
   has_many :academias, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
   has_many :observacoes, foreign_key: :autor_id, inverse_of: :autor, dependent: :nullify
+  has_many :imagens, dependent: :destroy
 
   attribute :aceite_privacidade, :boolean
 
@@ -28,6 +29,12 @@ class User < ApplicationRecord
             on: :create, if: -> { provider.blank? }
 
   before_create { self.privacidade_aceita_em = Time.current }
+
+  def limite_galeria_bytes = limite_galeria_mb.megabytes
+
+  def espaco_usado
+    imagens.joins(:arquivo_blob).sum("active_storage_blobs.byte_size")
+  end
 
   def pode_moderar? = admin? || moderador?
 
