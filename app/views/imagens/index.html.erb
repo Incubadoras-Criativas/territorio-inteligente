@@ -20,14 +20,25 @@
   </div>
 
   <div class="campo">
-    <%= f.file_field :arquivos, multiple: true, accept: "image/jpeg,image/png,image/webp",
-                     class: "visualmente-oculto",
-                     data: { action: "change->envio-automatico#enviar", tamanho_maximo: Imagem::TAMANHO_MAXIMO } %>
-    <%= f.label :arquivos, class: "botao botao-enviar" do %>
-      <span class="quando-parado">Adicionar fotos</span>
-      <span class="quando-enviando">Enviando…</span>
-    <% end %>
-    <p class="dica">JPG, PNG ou WebP, até 10 MB cada. Pode escolher várias de uma vez.</p>
+    <div class="botoes-envio">
+      <%= f.file_field :arquivos, id: "imagem_camera", name: "imagem[arquivos][]",
+                       accept: "image/*", capture: "environment",
+                       class: "visualmente-oculto",
+                       data: { action: "change->envio-automatico#enviar", tamanho_maximo: Imagem::TAMANHO_MAXIMO } %>
+      <label for="imagem_camera" class="botao botao-enviar">
+        <span class="quando-parado">Tirar foto</span>
+        <span class="quando-enviando">Enviando…</span>
+      </label>
+
+      <%= f.file_field :arquivos, multiple: true, accept: "image/*",
+                       class: "visualmente-oculto",
+                       data: { action: "change->envio-automatico#enviar", tamanho_maximo: Imagem::TAMANHO_MAXIMO } %>
+      <%= f.label :arquivos, class: "botao botao-enviar" do %>
+        <span class="quando-parado">Escolher fotos</span>
+        <span class="quando-enviando">Enviando…</span>
+      <% end %>
+    </div>
+    <p class="dica">JPG, PNG ou WebP, até 10 MB cada. Em "Escolher fotos", pode marcar várias de uma vez.</p>
   </div>
 <% end %>
 

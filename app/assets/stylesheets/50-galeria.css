@@ -141,3 +141,10 @@
 .imagem-grande figcaption {
   font-size: 0.875rem;
 }
+
+/* Os dois botões lado a lado, quebrando linha se faltar espaço */
+.botoes-envio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
