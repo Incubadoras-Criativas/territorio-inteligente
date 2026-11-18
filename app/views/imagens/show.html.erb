@@ -13,4 +13,4 @@
 <p><%= link_to "Abrir original", rails_blob_path(@imagem.arquivo), target: "_blank" %></p>
 
 <%= button_to "Remover da galeria", imagem_path(@imagem), method: :delete,
-              form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } %>
+              form: { data: { turbo_confirm: imagem.em_uso? ? "Esta imagem está em uso. Quer mesmo removê-la?" : "Remover esta imagem da sua galeria?" } } } %>
