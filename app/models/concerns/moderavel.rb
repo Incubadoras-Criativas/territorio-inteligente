@@ -6,6 +6,7 @@ module Moderavel
   included do
     belongs_to :autor, class_name: "User", optional: true
     scope :visiveis, -> { where(visivel: true) }
+    scope :rascunhos, -> { where(visivel: false) }
   end
 
   class_methods do
@@ -23,4 +24,7 @@ module Moderavel
 
     user.pode_moderar? || (autor_id == user.id && !visivel?)
   end
+
+  # Publica, passando pelas validações. Devolve false se o registro estiver inválido.
+  def publicar = update(visivel: true)
 end

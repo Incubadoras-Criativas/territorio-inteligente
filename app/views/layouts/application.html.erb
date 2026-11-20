@@ -61,8 +61,17 @@
       <% end %>
       <div class="aba">
         <button type="button" class="aba" popovertarget="menu-completo">
-          <%= icone("menu") %><span>Menu</span>
-         </button>
+          <span class="icone-com-aviso">
+            <%= icone("menu") %>
+            <% if pendencias_de_moderacao.positive? %>
+              <span class="ponto-aviso"></span>
+            <% end %>
+          </span>
+          <span>Menu</span>
+          <% if pendencias_de_moderacao.positive? %>
+            <span class="visualmente-oculto">, há itens aguardando moderação</span>
+          <% end %>
+        </button>
       </div>
     </nav>
 
@@ -90,6 +99,20 @@
             <li><%= link_to "Cadastrar", new_user_registration_path %></li>
           <% end %>
         </ul>
+
+        <% if user_signed_in? && current_user.pode_moderar? %>
+          <h2 class="menu-secao">Moderação</h2>
+          <ul role="list">
+            <li>
+              <%= link_to moderacao_path do %>
+                Itens aguardando
+                <% if pendencias_de_moderacao.positive? %>
+                  <span class="contador"><%= pendencias_de_moderacao %></span>
+                <% end %>
+              <% end %>
+            </li>
+          </ul>
+        <% end %>
 
         <% if user_signed_in? && current_user.admin? %>
           <h2 class="menu-secao">Administração</h2>

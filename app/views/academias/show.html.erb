@@ -21,9 +21,9 @@
         <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
           <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "Foto de #{@academia.titulo}" %>
         <% end %>
-        <% if foto.pendente? %>
-          <span class="etiqueta-rascunho">Aguardando moderação</span>
-        <% end %>
+
+        <%= render "fotos/etiqueta", foto: foto %>
+
       </li>
     <% end %>
   </ul>

@@ -1,4 +1,4 @@
-<article class="observacao">
+<article class="observacao" id="<%= dom_id(observacao) %>">
   <header>
     <strong><%= l(observacao.data_da_visita) %></strong>
     <% if (autor = observacao.autor_publico) %>
@@ -33,9 +33,9 @@
             <%= image_tag foto.imagem.arquivo.variant(:miniatura), loading: "lazy",
                           alt: "Foto #{i + 1} da observação de #{l(observacao.data_da_visita)}" %>
           <% end %>
-          <% if foto.pendente? %>
-            <span class="etiqueta-rascunho">Aguardando moderação</span>
-          <% end %>
+
+          <%= render "fotos/etiqueta", foto: foto %>
+
         </li>
       <% end %>
     </ul>

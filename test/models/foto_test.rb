@@ -31,16 +31,26 @@ class FotoTest < ActiveSupport::TestCase
     assert_not repetida.valid?
   end
 
-  test "o autor remove enquanto pendente; quem modera remove sempre" do
+  test "o autor remove enquanto não aprovada; quem modera remove sempre" do
     foto = Foto.create!(imagem: @imagem, fotografavel: @academia, autor: @ana)
-
     assert foto.removivel_por?(@ana)
-    assert foto.removivel_por?(users(:bia))
 
-    foto.aprovada!
+    foto.recusar!(por: users(:bia))
+    assert foto.removivel_por?(@ana)
 
+    foto.aprovar!(por: users(:bia))
     assert_not foto.removivel_por?(@ana)
     assert foto.removivel_por?(users(:bia))
+  end
+
+  test "a moderação registra quem moderou e quando" do
+    foto = Foto.create!(imagem: @imagem, fotografavel: @academia, autor: @ana)
+
+    foto.aprovar!(por: users(:bia))
+
+    assert foto.aprovada?
+    assert_equal users(:bia), foto.moderador
+    assert_not_nil foto.moderado_em
   end
 
   test "apagar a imagem remove a foto do registro" do

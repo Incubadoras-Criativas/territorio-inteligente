@@ -139,3 +139,36 @@ body {
   gap: var(--espaco-1);
   margin-top: var(--espaco-2);
 }
+
+
+/* O número de itens aguardando, no menu */
+.contador {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  margin-left: var(--espaco-1);
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--cor-laranja);
+  color: var(--cor-branco);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+/* O pontinho sobre o ícone do Menu */
+.icone-com-aviso {
+  position: relative;
+  display: inline-grid;
+}
+
+.ponto-aviso {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--cor-laranja);
+  box-shadow: 0 0 0 2px var(--cor-roxo);
+}

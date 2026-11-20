@@ -1,0 +1,69 @@
+<% content_for :title, "Moderação" %>
+
+<h1>Moderação</h1>
+
+<h2>Fotos aguardando (<%= @fotos.size %>)</h2>
+
+<% if @fotos.any? %>
+  <ul class="fila-moderacao" role="list">
+    <% @fotos.each do |foto| %>
+      <li id="<%= dom_id(foto) %>" class="item-moderacao">
+        <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
+          <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "Foto enviada por #{foto.autor.login}" %>
+        <% end %>
+        <div>
+          <p><%= link_to descricao_do_registro(foto.fotografavel), caminho_do_registro(foto.fotografavel) %></p>
+          <p class="dica">por <%= foto.autor.login %> · <%= l foto.created_at, format: :short %></p>
+          <div class="acoes-moderacao">
+            <%= button_to "Aprovar", aprovar_moderacao_foto_path(foto), method: :patch %>
+            <%= button_to "Recusar", recusar_moderacao_foto_path(foto), method: :patch, class: "botao-secundario" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhuma foto aguardando moderação.</p>
+<% end %>
+
+<h2>Academias em rascunho (<%= @academias.size %>)</h2>
+
+<% if @academias.any? %>
+  <ul class="fila-moderacao" role="list">
+    <% @academias.each do |academia| %>
+      <li id="<%= dom_id(academia) %>" class="item-moderacao">
+        <div>
+          <p><%= link_to descricao_do_registro(academia), caminho_do_registro(academia) %></p>
+          <p class="dica">por <%= academia.autor&.login || "autor desconhecido" %> · <%= l academia.created_at, format: :short %></p>
+          <div class="acoes-moderacao">
+            <%= button_to "Publicar", publicar_moderacao_academia_path(academia), method: :patch %>
+            <%= link_to "Revisar", edit_academia_path(academia), class: "botao-secundario" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhuma academia aguardando publicação.</p>
+<% end %>
+
+<h2>Observações em rascunho (<%= @observacoes.size %>)</h2>
+
+<% if @observacoes.any? %>
+  <ul class="fila-moderacao" role="list">
+    <% @observacoes.each do |observacao| %>
+      <li id="<%= dom_id(observacao) %>" class="item-moderacao">
+        <div>
+          <p><%= link_to descricao_do_registro(observacao), caminho_do_registro(observacao) %></p>
+          <p class="dica">por <%= observacao.autor&.login || "autor desconhecido" %> · <%= l observacao.created_at, format: :short %></p>
+          <div class="acoes-moderacao">
+            <%= button_to "Publicar", publicar_moderacao_observacao_path(observacao), method: :patch %>
+            <%= link_to "Revisar", edit_academia_observacao_path(observacao.academia, observacao), class: "botao-secundario" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhuma observação aguardando publicação.</p>
+<% end %>
