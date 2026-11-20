@@ -1,0 +1,40 @@
+/* 60-moderacao.css — A página de moderação */
+
+.fila-moderacao {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: 0;
+}
+
+.item-moderacao {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2);
+  border-radius: var(--raio);
+  background: var(--cor-branco);
+}
+
+.item-moderacao img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: var(--raio);
+}
+
+.acoes-moderacao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+  margin-top: var(--espaco-1);
+}
+
+.etiqueta-recusada {
+  display: inline-block;
+  padding: 0 var(--espaco-1);
+  border-radius: var(--raio);
+  background: var(--cor-erro);
+  color: var(--cor-branco);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}

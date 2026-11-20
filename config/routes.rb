@@ -33,6 +33,17 @@ Rails.application.routes.draw do
 
   resources :imagens, only: %i[index show create destroy], path: "galeria"
 
+  get "moderacao", to: "moderacao/painel#index", as: :moderacao
+
+  namespace :moderacao do
+    resources :fotos, only: [] do
+      member do
+        patch :aprovar
+        patch :recusar
+      end
+    end
+  end
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

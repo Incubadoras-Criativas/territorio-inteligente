@@ -1,0 +1,5 @@
+<% if foto.pendente? %>
+  <span class="etiqueta-rascunho">Aguardando moderação</span>
+<% elsif foto.recusada? %>
+  <span class="etiqueta-recusada">Recusada</span>
+<% end %>

@@ -91,6 +91,13 @@
           <% end %>
         </ul>
 
+        <% if user_signed_in? && current_user.pode_moderar? %>
+          <h2 class="menu-secao">Moderação</h2>
+          <ul role="list">
+            <li><%= link_to "Itens aguardando", moderacao_path %></li>
+          </ul>
+        <% end %>
+
         <% if user_signed_in? && current_user.admin? %>
           <h2 class="menu-secao">Administração</h2>
           <ul role="list">

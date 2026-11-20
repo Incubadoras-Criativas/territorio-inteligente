@@ -13,10 +13,15 @@ class Foto < ApplicationRecord
   validates :imagem_id, uniqueness: { scope: %i[fotografavel_type fotografavel_id] }
   validate :imagem_da_galeria_do_autor
 
+  def aprovar!(por:) = moderar!(:aprovada, por)
+  def recusar!(por:) = moderar!(:recusada, por)
+
+
+  # Quem modera remove sempre; o autor, enquanto a foto não foi aprovada
   def removivel_por?(user)
     return false unless user
 
-    user.pode_moderar? || (autor_id == user.id && pendente?)
+    user.pode_moderar? || (autor_id == user.id && !aprovada?)
   end
 
   private
@@ -25,5 +30,9 @@ class Foto < ApplicationRecord
     return unless imagem && imagem.user_id != autor_id
 
     errors.add(:imagem, "precisa ser da sua galeria")
+  end
+
+  def moderar!(situacao, por)
+    update!(situacao: situacao, moderador: por, moderado_em: Time.current)
   end
 end

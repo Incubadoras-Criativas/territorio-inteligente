@@ -1,0 +1,27 @@
+<% content_for :title, "Moderação" %>
+
+<h1>Moderação</h1>
+
+<h2>Fotos aguardando (<%= @fotos.size %>)</h2>
+
+<% if @fotos.any? %>
+  <ul class="fila-moderacao" role="list">
+    <% @fotos.each do |foto| %>
+      <li id="<%= dom_id(foto) %>" class="item-moderacao">
+        <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
+          <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "Foto enviada por #{foto.autor.login}" %>
+        <% end %>
+        <div>
+          <p><%= link_to descricao_do_registro(foto.fotografavel), caminho_do_registro(foto.fotografavel) %></p>
+          <p class="dica">por <%= foto.autor.login %> · <%= l foto.created_at, format: :short %></p>
+          <div class="acoes-moderacao">
+            <%= button_to "Aprovar", aprovar_moderacao_foto_path(foto), method: :patch %>
+            <%= button_to "Recusar", recusar_moderacao_foto_path(foto), method: :patch, class: "botao-secundario" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhuma foto aguardando moderação.</p>
+<% end %>
