@@ -11,6 +11,17 @@ class ApplicationController < ActionController::Base
 
   default_form_builder FormularioBuilder
 
+  helper_method :pendencias_de_moderacao
+
+  private
+
+  # Só quem modera vê o contador. Calculado uma vez por pedido, mesmo usado em dois lugares do layout.
+  def pendencias_de_moderacao
+    return 0 unless current_user&.pode_moderar?
+
+    @pendencias_de_moderacao ||= Moderacao::Pendencias.total
+  end
+
   protected
 
   def configure_permitted_parameters

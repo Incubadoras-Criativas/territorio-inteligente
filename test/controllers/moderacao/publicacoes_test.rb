@@ -30,4 +30,17 @@ class Moderacao::PublicacoesTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
   end
+
+  test "o contador aparece só para quem modera" do
+    sign_in users(:bia)
+    get root_path
+    assert_select ".contador"
+    assert_select ".ponto-aviso"
+
+    sign_out :user
+    sign_in users(:ana)
+    get root_path
+    assert_select ".contador", count: 0
+    assert_select ".ponto-aviso", count: 0
+  end
 end
