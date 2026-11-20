@@ -5,6 +5,7 @@ class AcademiasController < ApplicationController
 
   def index
     @academias = Academia.permitidas_para(current_user).order(:nome)
+    .includes(fotos: { imagem: { arquivo_attachment: :blob } })
   end
 
   def show

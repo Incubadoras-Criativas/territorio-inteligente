@@ -32,4 +32,11 @@ module Fotografavel
     fotos.select { |foto| ids.include?(foto.id) && foto.removivel_por?(por) }
     .each(&:mark_for_destruction)
   end
+
+  # A foto marcada como capa ou, se não houver, a primeira aprovada.
+  # Trabalha com as fotos já carregadas: na lista, não faz uma consulta por item.
+  def foto_de_capa
+    aprovadas = fotos.select(&:aprovada?)
+    aprovadas.find(&:capa?) || aprovadas.min_by(&:created_at)
+  end
 end
