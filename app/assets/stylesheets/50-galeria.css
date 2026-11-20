@@ -246,3 +246,31 @@
 .fechar-janela:hover {
   background: var(--cor-roxo-claro);
 }
+
+
+/* As fotos escolhidas da galeria, ainda não salvas */
+.previa-fotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+.previa-fotos:empty {
+  display: none;
+}
+
+.previa-foto {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.previa-foto img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: var(--raio);
+  outline: 3px solid var(--cor-laranja);
+  outline-offset: 2px;
+}

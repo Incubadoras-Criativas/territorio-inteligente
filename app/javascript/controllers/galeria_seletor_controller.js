@@ -1,8 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Abre a galeria numa janela e mostra quantas imagens foram escolhidas
+// Abre a galeria numa janela e mostra, no formulário, as imagens escolhidas.
+// Um toque numa miniatura escolhida a desmarca.
 export default class extends Controller {
-  static targets = [ "janela", "resumo" ]
+  static targets = [ "janela", "resumo", "previa" ]
 
   connect() {
     this.atualizar()
@@ -17,11 +18,26 @@ export default class extends Controller {
   }
 
   atualizar() {
-    const total = this.janelaTarget.querySelectorAll("input[type=checkbox]:checked").length
+    const marcadas = [ ...this.janelaTarget.querySelectorAll("input[type=checkbox]:checked") ]
 
+    this.previaTarget.replaceChildren(...marcadas.map((caixa) => this.miniatura(caixa)))
     this.resumoTarget.textContent =
-    total === 0 ? "" :
-    total === 1 ? "1 foto escolhida da galeria." :
-    `${total} fotos escolhidas da galeria.`
+    marcadas.length === 0 ? "" :
+    marcadas.length === 1 ? "1 foto escolhida. Ela será anexada ao salvar." :
+    `${marcadas.length} fotos escolhidas. Elas serão anexadas ao salvar.`
+  }
+
+  // Uma cópia da miniatura da janela, que desmarca a imagem ao ser tocada
+  miniatura(caixa) {
+    const botao = document.createElement("button")
+    botao.type = "button"
+    botao.className = "previa-foto"
+    botao.setAttribute("aria-label", "Desmarcar esta foto")
+    botao.append(caixa.closest("label").querySelector("img").cloneNode())
+    botao.addEventListener("click", () => {
+      caixa.checked = false
+      this.atualizar()
+    })
+    return botao
   }
 }

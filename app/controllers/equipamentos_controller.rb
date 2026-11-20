@@ -1,10 +1,11 @@
 class EquipamentosController < ApplicationController
   def index
-    @equipamentos = equipamentos_permitidos.with_attached_capa.order(:nome)
+    @equipamentos = equipamentos_permitidos.order(:nome).includes(fotos: { imagem: { arquivo_attachment: :blob } })
   end
 
   def show
-    @equipamento = equipamentos_permitidos.find_by!(slug: params[:slug])
+    @equipamento = equipamentos_permitidos.includes(fotos: { imagem: { arquivo_attachment: :blob } })
+    .find_by!(slug: params[:slug])
   end
 
   private

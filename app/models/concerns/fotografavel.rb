@@ -39,4 +39,11 @@ module Fotografavel
     aprovadas = fotos.select(&:aprovada?)
     aprovadas.find(&:capa?) || aprovadas.min_by(&:created_at)
   end
+
+  # Marca uma das fotos já anexadas como capa, e desmarca as outras
+  def definir_capa(foto_id)
+    return if foto_id.blank?
+
+    fotos.each { |foto| foto.capa = (foto.id == foto_id.to_i) }
+  end
 end

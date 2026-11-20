@@ -12,6 +12,13 @@
           <% if foto.pendente? %>
             <span class="etiqueta-rascunho">Aguardando moderação</span>
           <% end %>
+          <% if local_assigns[:escolher_capa] %>
+            <label>
+              <%= radio_button_tag "#{f.object_name}[capa_foto_id]", foto.id, foto.capa?,
+                                   id: "capa_foto_#{foto.id}" %>
+              Capa
+            </label>
+          <% end %>
           <% if foto.removivel_por?(current_user) %>
             <label>
               <%= check_box_tag "#{f.object_name}[remover_foto_ids][]", foto.id, false, id: "remover_foto_#{foto.id}" %>
@@ -27,6 +34,8 @@
     <%= icone("image") %> Escolher da galeria
   </button>
   <p class="dica" data-galeria-seletor-target="resumo" role="status"></p>
+
+  <div class="previa-fotos" data-galeria-seletor-target="previa"></div>
 
   <dialog class="janela-galeria" data-galeria-seletor-target="janela"
             data-action="close->galeria-seletor#atualizar">
