@@ -10,6 +10,10 @@ class Imagem < ApplicationRecord
     anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
   end
 
+  has_many :fotos, dependent: :destroy
+
+  def em_uso? = fotos.exists?
+
   attribute :termo_fotos, :boolean
 
   scope :recentes, -> { order(created_at: :desc) }

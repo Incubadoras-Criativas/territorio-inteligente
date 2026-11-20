@@ -148,3 +148,129 @@
   flex-wrap: wrap;
   gap: var(--espaco-1);
 }
+
+/* A janela de escolha da galeria */
+.janela-galeria {
+  margin: auto;
+  width: min(40rem, 100% - 2rem);
+  max-height: 80vh;
+  padding: var(--espaco-2);
+  border: 0;
+  border-radius: var(--raio);
+}
+
+.janela-galeria::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}
+
+.galeria-escolha {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--espaco-1);
+  margin-block: var(--espaco-2);
+}
+
+.opcao-imagem {
+  position: relative;
+  display: block;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+
+.opcao-imagem img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--raio);
+}
+
+.opcao-imagem input {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* A imagem escolhida ganha a moldura laranja, como o avatar escolhido */
+.opcao-imagem:has(input:checked) {
+  outline: 3px solid var(--cor-laranja);
+  outline-offset: 2px;
+}
+
+.opcao-imagem:has(input:focus-visible) {
+  outline: 3px solid var(--cor-roxo);
+  outline-offset: 2px;
+}
+
+/* As fotos já anexadas, no formulário */
+.fotos-anexadas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-2);
+}
+
+.foto-anexada {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.foto-anexada img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: var(--raio);
+}
+
+.cabecalho-janela {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-1);
+}
+
+.fechar-janela {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--cor-texto);
+}
+
+.fechar-janela:hover {
+  background: var(--cor-roxo-claro);
+}
+
+
+/* As fotos escolhidas da galeria, ainda não salvas */
+.previa-fotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+.previa-fotos:empty {
+  display: none;
+}
+
+.previa-foto {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.previa-foto img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: var(--raio);
+  outline: 3px solid var(--cor-laranja);
+  outline-offset: 2px;
+}

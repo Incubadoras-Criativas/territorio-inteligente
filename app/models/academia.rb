@@ -1,16 +1,12 @@
 class Academia < ApplicationRecord
   include Moderavel
-
-  # belongs_to :autor, class_name: "User", optional: true
+  include Fotografavel
 
   has_many :academia_categorias, dependent: :destroy
   has_many :categorias, through: :academia_categorias
   has_many :academia_equipamentos, dependent: :destroy, autosave: true
   has_many :equipamentos, through: :academia_equipamentos
   has_many :observacoes, dependent: :destroy
-
-  # scope :visiveis, -> { where(visivel: true) }
-
 
   validates :categorias, presence: true
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }

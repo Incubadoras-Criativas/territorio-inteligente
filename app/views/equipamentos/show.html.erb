@@ -7,21 +7,28 @@
 <article class="guia-equipamento">
   <h1><%= @equipamento.nome %></h1>
 
-  <% if @equipamento.capa.attached? %>
-    <%= image_tag @equipamento.capa.variant(:media), alt: "Foto do equipamento #{@equipamento.nome}", class: "capa" %>
+  <% capa = @equipamento.foto_de_capa %>
+  <% if capa %>
+    <%= image_tag capa.imagem.arquivo.variant(:media), alt: "Foto do equipamento #{@equipamento.nome}", class: "capa" %>
   <% end %>
 
   <% if (conteudo = @equipamento.conteudo) %>
-    <%= conteudo.html_safe %>
+    <%= sanitize conteudo %>
   <% else %>
     <p>Este guia ainda está em construção.</p>
   <% end %>
 
-  <% if @equipamento.fotos.attached? %>
+    <% outras = @equipamento.fotos.select(&:aprovada?) - [ capa ] %>
+  <% if outras.any? %>
     <h2>Fotos</h2>
     <ul class="galeria" role="list">
-      <% @equipamento.fotos.each_with_index do |foto, i| %>
-        <li><%= image_tag foto.variant(:media), alt: "Foto #{i + 1} do equipamento #{@equipamento.nome}", loading: "lazy" %></li>
+      <% outras.each_with_index do |foto, i| %>
+        <li>
+          <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
+            <%= image_tag foto.imagem.arquivo.variant(:miniatura), loading: "lazy",
+                          alt: "Foto #{i + 1} do equipamento #{@equipamento.nome}" %>
+          <% end %>
+        </li>
       <% end %>
     </ul>
   <% end %>

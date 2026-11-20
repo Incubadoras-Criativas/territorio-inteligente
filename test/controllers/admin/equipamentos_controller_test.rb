@@ -37,28 +37,25 @@ class Admin::EquipamentosControllerTest < ActionDispatch::IntegrationTest
     assert_select ".field_with_errors", count: 0
   end
 
-  test "admin envia a capa e uma foto da galeria" do
+  test "admin escolhe fotos da galeria e define a capa" do
     sign_in users(:admin)
-    equipamento = equipamentos(:rascunho)
+    imagens = 2.times.map do
+      users(:admin).imagens.create!(
+        arquivo: { io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg" },
+        termo_fotos: true
+      )
+    end
+    equipamento = equipamentos(:remada)
 
-    patch admin_equipamento_url(equipamento), params: { equipamento: {
-                                                                      capa: fixture_file_upload("foto.jpg", "image/jpeg"),
-                                                                      fotos: [ fixture_file_upload("foto.jpg", "image/jpeg") ]
-                                                                     } }
+    patch admin_equipamento_path(equipamento),
+          params: { equipamento: { nome: equipamento.nome, imagem_ids: imagens.map(&:id) } }
+    assert_redirected_to admin_equipamentos_path
+    assert equipamento.fotos.all?(&:aprovada?)
 
-    equipamento.reload
-    assert equipamento.capa.attached?
-    assert_equal 1, equipamento.fotos.count
+    segunda = equipamento.fotos.find_by!(imagem: imagens.last)
+    patch admin_equipamento_path(equipamento),
+          params: { equipamento: { nome: equipamento.nome, capa_foto_id: segunda.id } }
+
+    assert_equal segunda, equipamento.reload.foto_de_capa
   end
-
-  test "arquivo que não é imagem mostra o erro embaixo do campo" do
-    sign_in users(:admin)
-
-    patch admin_equipamento_url(equipamentos(:rascunho)), params: { equipamento: {
-                                                                                  capa: fixture_file_upload("nao-e-imagem.txt", "text/plain")
-                                                                                 } }
-
-    assert_response :unprocessable_content
-    assert_select "#equipamento_capa_erro", text: /JPG, PNG ou WebP/
-        end
 end

@@ -1,26 +1,12 @@
 class Equipamento < ApplicationRecord
   include TemSlug
-  include ValidaImagens
+  include Fotografavel
 
   has_many :academia_equipamentos, dependent: :restrict_with_error
 
   validate :slug_travado_com_guia, on: :update
 
-  valida_imagens :capa, :fotos
-
   scope :visiveis, -> { where(visivel: true) }
-
-  # A foto do cartão e do topo da página
-  has_one_attached :capa do |anexo|
-    anexo.variant :miniatura, resize_to_limit: [ 160, 160 ], format: :webp
-    anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
-  end
-
-  # A galeria, abaixo do guia
-  has_many_attached :fotos do |anexo|
-    anexo.variant :miniatura, resize_to_limit: [ 160, 160 ], format: :webp
-    anexo.variant :media, resize_to_limit: [ 800, 800 ], format: :webp
-  end
 
   def tem_guia? = arquivo.exist?
 

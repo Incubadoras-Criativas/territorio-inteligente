@@ -1,0 +1,71 @@
+<%# Escolha de fotos da galeria. Uso: render "fotos/seletor", f: f %>
+<% registro = f.object %>
+<fieldset class="campo" data-controller="galeria-seletor">
+  <legend>Fotos</legend>
+
+  <% anexadas = registro.fotos.select(&:persisted?) %>
+  <% if anexadas.any? %>
+    <div class="fotos-anexadas">
+      <% anexadas.each do |foto| %>
+        <div class="foto-anexada">
+          <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "" %>
+          <% if foto.pendente? %>
+            <span class="etiqueta-rascunho">Aguardando moderação</span>
+          <% end %>
+          <% if local_assigns[:escolher_capa] %>
+            <label>
+              <%= radio_button_tag "#{f.object_name}[capa_foto_id]", foto.id, foto.capa?,
+                                   id: "capa_foto_#{foto.id}" %>
+              Capa
+            </label>
+          <% end %>
+          <% if foto.removivel_por?(current_user) %>
+            <label>
+              <%= check_box_tag "#{f.object_name}[remover_foto_ids][]", foto.id, false, id: "remover_foto_#{foto.id}" %>
+              Remover
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <button type="button" class="botao-secundario" data-action="galeria-seletor#abrir">
+    <%= icone("image") %> Escolher da galeria
+  </button>
+  <p class="dica" data-galeria-seletor-target="resumo" role="status"></p>
+
+  <div class="previa-fotos" data-galeria-seletor-target="previa"></div>
+
+  <dialog class="janela-galeria" data-galeria-seletor-target="janela"
+            data-action="close->galeria-seletor#atualizar">
+    <header class="cabecalho-janela">
+      <h2>Minha galeria</h2>
+      <button type="button" class="fechar-janela" aria-label="Fechar"
+                data-action="galeria-seletor#fechar">
+        <%= icone("x") %>
+      </button>
+    </header>
+
+    <% escolhidas = Array(params.dig(f.object_name, :imagem_ids)) %>
+    <% disponiveis = current_user.imagens.recentes.with_attached_arquivo
+                                   .where.not(id: anexadas.map(&:imagem_id)) %>
+    <% if disponiveis.any? %>
+      <div class="galeria-escolha">
+        <% disponiveis.each do |imagem| %>
+          <label class="opcao-imagem">
+            <%= check_box_tag "#{f.object_name}[imagem_ids][]", imagem.id, escolhidas.include?(imagem.id.to_s),
+                  id: "imagem_#{imagem.id}" %>
+            <%= image_tag imagem.arquivo.variant(:miniatura),
+                            alt: "Imagem enviada em #{l imagem.created_at, format: :short}" %>
+          </label>
+        <% end %>
+      </div>
+    <% else %>
+      <p>Não há imagens disponíveis na sua galeria.</p>
+    <% end %>
+
+    <p><%= link_to "Enviar fotos para a galeria", imagens_path, target: "_blank" %></p>
+    <button type="button" data-action="galeria-seletor#fechar">Pronto</button>
+  </dialog>
+</fieldset>

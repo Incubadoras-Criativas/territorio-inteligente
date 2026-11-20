@@ -52,7 +52,7 @@
         <% end %>
         <%= button_to imagem_path(imagem), method: :delete, class: "remover-imagem",
                       aria: { label: "Remover imagem" },
-                      form: { data: { turbo_confirm: "Remover esta imagem da sua galeria?" } } do %>
+                      form: { data: { turbo_confirm: imagem.em_uso? ? "Esta imagem está em uso. Quer mesmo removê-la?" : "Remover esta imagem da sua galeria?" } } do %>
           <%= icone("trash") %>
         <% end %>
       </li>

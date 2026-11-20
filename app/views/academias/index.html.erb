@@ -8,11 +8,16 @@
 
 <ul class="lista-usuarios" role="list">
   <% @academias.each do |academia| %>
-    <li>
-      <strong><%= link_to academia.titulo, academia %></strong><br>
-      <% unless academia.visivel? %>
-        · <span class="etiqueta-rascunho-texto">Rascunho</span>
+    <li class="item-academia">
+      <% if (capa = academia.foto_de_capa) %>
+        <%= image_tag capa.imagem.arquivo.variant(:miniatura), alt: "", class: "miniatura" %>
       <% end %>
+      <div>
+        <strong><%= link_to academia.titulo, academia %></strong>
+        <% unless academia.visivel? %>
+          <br><span class="etiqueta-rascunho-texto">Rascunho</span>
+        <% end %>
+      </div>
     </li>
   <% end %>
 </ul>

@@ -1,15 +1,20 @@
 class AcademiasController < ApplicationController
+  include EscolheFotosDaGaleria
+
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :carregar_academia, only: [ :show, :edit, :update ]
   before_action :exigir_permissao_de_edicao, only: [ :edit, :update ]
 
   def index
     @academias = Academia.permitidas_para(current_user).order(:nome)
+    .includes(fotos: { imagem: { arquivo_attachment: :blob } })
   end
 
   def show
+    @fotos = @academia.fotos_visiveis_para(current_user)
     @observacoes = @academia.observacoes.permitidas_para(current_user).recentes
-    .with_rich_text_relato.with_attached_fotos.includes(:autor)
+      .with_rich_text_relato
+      .includes(:autor, fotos: { imagem: { arquivo_attachment: :blob } })
   end
 
   def new
@@ -18,6 +23,7 @@ class AcademiasController < ApplicationController
 
   def create
     @academia = current_user.academias.build(academia_params)
+    aplicar_fotos(@academia)
 
     if @academia.save
       redirect_to new_academia_observacao_path(@academia),
@@ -31,7 +37,9 @@ class AcademiasController < ApplicationController
   end
 
   def update
-    if @academia.update(academia_params)
+    @academia.assign_attributes(academia_params)
+    aplicar_fotos(@academia)
+    if @academia.save
       redirect_to @academia, notice: "Academia atualizada."
     else
       render :edit, status: :unprocessable_content
@@ -41,7 +49,9 @@ class AcademiasController < ApplicationController
   private
 
   def carregar_academia
-    @academia = Academia.permitidas_para(current_user).find(params[:id])
+    @academia = Academia.permitidas_para(current_user)
+    .includes(fotos: { imagem: { arquivo_attachment: :blob } })
+    .find(params[:id])
   end
 
   def exigir_permissao_de_edicao

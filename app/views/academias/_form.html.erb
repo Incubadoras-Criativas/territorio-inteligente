@@ -42,7 +42,6 @@
   <fieldset class="campo">
     <legend>Categorias</legend>
     <%= f.erro_de(:categorias) %>
-    <%= f.erro_de(:categorias) %>
     <%= f.collection_check_boxes :categoria_ids, Categoria.order(:nome), :id, :nome do |c| %>
       <div><%= c.check_box %> <%= c.label %></div>
     <% end %>
@@ -61,6 +60,8 @@
       </div>
     <% end %>
   </fieldset>
+
+  <%= render "fotos/seletor", f: f %>
 
   <% if current_user.pode_moderar? %>
     <div class="campo">
