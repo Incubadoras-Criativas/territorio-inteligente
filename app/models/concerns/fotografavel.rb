@@ -3,7 +3,7 @@ module Fotografavel
   extend ActiveSupport::Concern
 
   included do
-    has_many :fotos, as: :fotografavel, dependent: :destroy
+    has_many :fotos, as: :fotografavel, dependent: :destroy, autosave: true
   end
 
   # Visitante: só as aprovadas. Quem modera: todas. Os demais: as aprovadas e as próprias.
@@ -25,5 +25,11 @@ module Fotografavel
                   situacao: aprovada ? :aprovada : :pendente,
                   moderador: (por if aprovada), moderado_em: (Time.current if aprovada))
     end
+  end
+
+  # Marca para remover, no save, as fotos que a pessoa pode remover. As outras são ignoradas.
+  def remover_fotos(ids, por:)
+    fotos.select { |foto| ids.include?(foto.id) && foto.removivel_por?(por) }
+    .each(&:mark_for_destruction)
   end
 end

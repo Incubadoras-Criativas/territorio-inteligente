@@ -8,6 +8,7 @@ class AcademiasController < ApplicationController
   end
 
   def show
+    @fotos = @academia.fotos_visiveis_para(current_user).includes(imagem: { arquivo_attachment: :blob })
     @observacoes = @academia.observacoes.permitidas_para(current_user).recentes
     .with_rich_text_relato.with_attached_fotos.includes(:autor)
   end
@@ -18,6 +19,7 @@ class AcademiasController < ApplicationController
 
   def create
     @academia = current_user.academias.build(academia_params)
+    aplicar_fotos
 
     if @academia.save
       redirect_to new_academia_observacao_path(@academia),
@@ -31,7 +33,9 @@ class AcademiasController < ApplicationController
   end
 
   def update
-    if @academia.update(academia_params)
+    @academia.assign_attributes(academia_params)
+    aplicar_fotos
+    if @academia.save
       redirect_to @academia, notice: "Academia atualizada."
     else
       render :edit, status: :unprocessable_content
@@ -60,5 +64,13 @@ class AcademiasController < ApplicationController
     campos << :visivel if current_user.pode_moderar?
 
     params.expect(academia: [ *campos, categoria_ids: [], quantidades: {} ])
+  end
+
+  # As imagens escolhidas vêm só da galeria de quem está editando: um id de outra pessoa é ignorado
+  def aplicar_fotos
+    escolhas = params.fetch(:academia, {}).permit(imagem_ids: [], remover_foto_ids: [])
+
+    @academia.anexar_imagens(current_user.imagens.where(id: escolhas[:imagem_ids]), por: current_user)
+    @academia.remover_fotos(Array(escolhas[:remover_foto_ids]).map(&:to_i), por: current_user)
   end
 end

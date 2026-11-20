@@ -14,6 +14,21 @@
   <p><%= @academia.referencia %></p>
 <% end %>
 
+<% if @fotos.any? %>
+  <ul class="galeria" role="list">
+    <% @fotos.each do |foto| %>
+      <li>
+        <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
+          <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "Foto de #{@academia.titulo}" %>
+        <% end %>
+        <% if foto.pendente? %>
+          <span class="etiqueta-rascunho">Aguardando moderação</span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <p>
   <%= link_to "Ver no mapa",
         "https://www.openstreetmap.org/?mlat=#{@academia.latitude}&mlon=#{@academia.longitude}#map=18/#{@academia.latitude}/#{@academia.longitude}",

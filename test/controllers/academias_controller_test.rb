@@ -53,4 +53,47 @@ class AcademiasControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_content
     assert_select "#academia_latitude_erro"
   end
+
+  def foto_da(user)
+    user.imagens.create!(
+      arquivo: { io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg" },
+      termo_fotos: true
+    )
+  end
+
+  test "comum anexa imagem da própria galeria, e a foto nasce pendente" do
+    sign_in users(:ana)
+    imagem = foto_da(users(:ana))
+    academia = academias(:rascunho_da_ana)
+
+    patch academia_path(academia), params: { academia: { nome: academia.nome, imagem_ids: [ imagem.id ] } }
+
+    assert_redirected_to academia_path(academia)
+
+    assert academia.fotos.sole.pendente?
+  end
+
+  test "imagem da galeria de outra pessoa é ignorada" do
+    sign_in users(:ana)
+    imagem_da_bia = foto_da(users(:bia))
+    academia = academias(:rascunho_da_ana)
+
+    assert_no_difference -> { Foto.count } do
+      patch academia_path(academia), params: { academia: { nome: academia.nome, imagem_ids: [ imagem_da_bia.id ] } }
+
+      assert_redirected_to academia_path(academia)
+    end
+  end
+
+  test "moderadora anexa já aprovada" do
+    sign_in users(:bia)
+    imagem = foto_da(users(:bia))
+    academia = academias(:publicada)
+
+    patch academia_path(academia), params: { academia: { nome: academia.nome, imagem_ids: [ imagem.id ] } }
+
+    assert_redirected_to academia_path(academia)
+
+    assert academia.fotos.sole.aprovada?
+  end
 end

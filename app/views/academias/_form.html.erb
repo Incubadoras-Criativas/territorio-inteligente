@@ -42,7 +42,6 @@
   <fieldset class="campo">
     <legend>Categorias</legend>
     <%= f.erro_de(:categorias) %>
-    <%= f.erro_de(:categorias) %>
     <%= f.collection_check_boxes :categoria_ids, Categoria.order(:nome), :id, :nome do |c| %>
       <div><%= c.check_box %> <%= c.label %></div>
     <% end %>
@@ -60,6 +59,67 @@
                              min: 0, id: "academia_quantidades_#{equipamento.id}" %>
       </div>
     <% end %>
+  </fieldset>
+
+  <fieldset class="campo" data-controller="galeria-seletor">
+    <legend>Fotos</legend>
+
+    <% anexadas = academia.fotos.select(&:persisted?) %>
+    <% if anexadas.any? %>
+      <div class="fotos-anexadas">
+        <% anexadas.each do |foto| %>
+          <div class="foto-anexada">
+            <%= image_tag foto.imagem.arquivo.variant(:miniatura), alt: "" %>
+            <% if foto.pendente? %>
+              <span class="etiqueta-rascunho">Aguardando moderação</span>
+            <% end %>
+            <% if foto.removivel_por?(current_user) %>
+              <label>
+                <%= check_box_tag "academia[remover_foto_ids][]", foto.id, false, id: "remover_foto_#{foto.id}" %>
+                Remover
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <button type="button" class="botao-secundario" data-action="galeria-seletor#abrir">
+      <%= icone("image") %> Escolher da galeria
+    </button>
+    <p class="dica" data-galeria-seletor-target="resumo" role="status"></p>
+
+    <dialog class="janela-galeria" data-galeria-seletor-target="janela"
+            data-action="close->galeria-seletor#atualizar">
+      <header class="cabecalho-janela">
+        <h2>Minha galeria</h2>
+        <button type="button" class="fechar-janela" aria-label="Fechar"
+                data-action="galeria-seletor#fechar">
+          <%= icone("x") %>
+        </button>
+      </header>
+
+      <% escolhidas = Array(params.dig(:academia, :imagem_ids)) %>
+      <% disponiveis = current_user.imagens.recentes.with_attached_arquivo
+                                   .where.not(id: anexadas.map(&:imagem_id)) %>
+      <% if disponiveis.any? %>
+        <div class="galeria-escolha">
+          <% disponiveis.each do |imagem| %>
+            <label class="opcao-imagem">
+              <%= check_box_tag "academia[imagem_ids][]", imagem.id, escolhidas.include?(imagem.id.to_s),
+                                id: "imagem_#{imagem.id}" %>
+              <%= image_tag imagem.arquivo.variant(:miniatura),
+                            alt: "Imagem enviada em #{l imagem.created_at, format: :short}" %>
+            </label>
+          <% end %>
+        </div>
+      <% else %>
+        <p>Não há imagens disponíveis na sua galeria.</p>
+      <% end %>
+
+      <p><%= link_to "Enviar fotos para a galeria", imagens_path, target: "_blank" %></p>
+      <button type="button" data-action="galeria-seletor#fechar">Pronto</button>
+    </dialog>
   </fieldset>
 
   <% if current_user.pode_moderar? %>
