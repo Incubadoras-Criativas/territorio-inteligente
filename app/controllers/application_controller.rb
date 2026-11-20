@@ -15,16 +15,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :nome, :aceite_privacidade ])
+  end
+
   # Só quem modera vê o contador. Calculado uma vez por pedido, mesmo usado em dois lugares do layout.
   def pendencias_de_moderacao
     return 0 unless current_user&.pode_moderar?
 
     @pendencias_de_moderacao ||= Moderacao::Pendencias.total
-  end
-
-  protected
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [ :nome, :aceite_privacidade ])
   end
 end
