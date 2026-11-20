@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_192337) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_20_141930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -140,7 +140,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_192337) do
     t.integer "uso"
     t.boolean "visivel", default: false, null: false
     t.boolean "exibir_autor", default: false, null: false
-    t.datetime "termo_fotos_aceito_em"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["academia_id"], name: "index_observacoes_on_academia_id"

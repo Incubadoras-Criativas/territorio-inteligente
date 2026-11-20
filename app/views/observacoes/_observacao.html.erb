@@ -24,10 +24,19 @@
     <div class="relato"><%= observacao.relato %></div>
   <% end %>
 
-  <% if observacao.fotos.attached? %>
+  <% fotos = observacao.fotos_visiveis_para(current_user) %>
+  <% if fotos.any? %>
     <ul class="galeria" role="list">
-      <% observacao.fotos.each_with_index do |foto, i| %>
-        <li><%= image_tag foto.variant(:media), alt: "Foto #{i + 1} da observação de #{l(observacao.data_da_visita)}", loading: "lazy" %></li>
+      <% fotos.each_with_index do |foto, i| %>
+        <li>
+          <%= link_to url_for(foto.imagem.arquivo.variant(:media)), target: "_blank" do %>
+            <%= image_tag foto.imagem.arquivo.variant(:miniatura), loading: "lazy",
+                          alt: "Foto #{i + 1} da observação de #{l(observacao.data_da_visita)}" %>
+          <% end %>
+          <% if foto.pendente? %>
+            <span class="etiqueta-rascunho">Aguardando moderação</span>
+          <% end %>
+        </li>
       <% end %>
     </ul>
   <% end %>

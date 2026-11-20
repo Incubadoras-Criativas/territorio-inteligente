@@ -7,11 +7,11 @@ module Fotografavel
   end
 
   # Visitante: só as aprovadas. Quem modera: todas. Os demais: as aprovadas e as próprias.
+  # Filtra as fotos já carregadas: com includes, não consulta o banco de novo.
   def fotos_visiveis_para(user)
-    return fotos.aprovada unless user
-    return fotos if user.pode_moderar?
-
-    fotos.aprovada.or(fotos.where(autor: user))
+    fotos.select do |foto|
+      foto.aprovada? || user&.pode_moderar? || foto.autor_id == user&.id
+    end
   end
 
   # Anexa imagens da galeria de quem está editando. Funciona em registros novos e já salvos:

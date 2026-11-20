@@ -30,4 +30,20 @@ class ObservacoesControllerTest < ActionDispatch::IntegrationTest
           params: { observacao: { visivel: "1" } }
     assert observacoes(:rascunho_da_ana).reload.visivel?
   end
+
+  test "registra observação só com uma foto da galeria" do
+    sign_in users(:ana)
+    imagem = users(:ana).imagens.create!(
+      arquivo: { io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg" },
+      termo_fotos: true
+    )
+    academia = academias(:publicada)
+
+    assert_difference -> { Foto.count }, 1 do
+      post academia_observacoes_path(academia),
+           params: { observacao: { data_da_visita: Date.current, imagem_ids: [ imagem.id ] } }
+    end
+    assert_redirected_to academia_path(academia)
+    assert Observacao.last.fotos.sole.pendente?
+  end
 end

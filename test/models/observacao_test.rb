@@ -19,16 +19,6 @@ class ObservacaoTest < ActiveSupport::TestCase
     assert_not observacao.valid?
   end
 
-  test "foto nova exige o termo, e o aceite fica registrado" do
-    observacao = academias(:publicada).observacoes.build(conservacao: "boa", autor: users(:ana))
-    observacao.fotos.attach(io: file_fixture("foto.jpg").open, filename: "foto.jpg", content_type: "image/jpeg")
-    assert_not observacao.valid?
-
-    observacao.termo_fotos = true
-    observacao.save!
-    assert observacao.termo_fotos_aceito_em.present?
-  end
-
   test "o autor só aparece se ele quiser" do
     assert_nil observacoes(:publicada).autor_publico
 

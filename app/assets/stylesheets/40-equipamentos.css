@@ -114,9 +114,3 @@
   font-weight: 700;
 }
 
-/* Item da lista de academias: a miniatura à esquerda, o nome à direita */
-.item-academia {
-  display: flex;
-  align-items: center;
-  gap: var(--espaco-2);
-}

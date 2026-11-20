@@ -1,4 +1,6 @@
 class AcademiasController < ApplicationController
+  include EscolheFotosDaGaleria
+
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :carregar_academia, only: [ :show, :edit, :update ]
   before_action :exigir_permissao_de_edicao, only: [ :edit, :update ]
@@ -9,9 +11,10 @@ class AcademiasController < ApplicationController
   end
 
   def show
-    @fotos = @academia.fotos_visiveis_para(current_user).includes(imagem: { arquivo_attachment: :blob })
+    @fotos = @academia.fotos_visiveis_para(current_user)
     @observacoes = @academia.observacoes.permitidas_para(current_user).recentes
-    .with_rich_text_relato.with_attached_fotos.includes(:autor)
+      .with_rich_text_relato
+      .includes(:autor, fotos: { imagem: { arquivo_attachment: :blob } })
   end
 
   def new
@@ -20,7 +23,7 @@ class AcademiasController < ApplicationController
 
   def create
     @academia = current_user.academias.build(academia_params)
-    aplicar_fotos
+    aplicar_fotos(@academia)
 
     if @academia.save
       redirect_to new_academia_observacao_path(@academia),
@@ -35,7 +38,7 @@ class AcademiasController < ApplicationController
 
   def update
     @academia.assign_attributes(academia_params)
-    aplicar_fotos
+    aplicar_fotos(@academia)
     if @academia.save
       redirect_to @academia, notice: "Academia atualizada."
     else
@@ -46,7 +49,9 @@ class AcademiasController < ApplicationController
   private
 
   def carregar_academia
-    @academia = Academia.permitidas_para(current_user).find(params[:id])
+    @academia = Academia.permitidas_para(current_user)
+    .includes(fotos: { imagem: { arquivo_attachment: :blob } })
+    .find(params[:id])
   end
 
   def exigir_permissao_de_edicao
@@ -65,13 +70,5 @@ class AcademiasController < ApplicationController
     campos << :visivel if current_user.pode_moderar?
 
     params.expect(academia: [ *campos, categoria_ids: [], quantidades: {} ])
-  end
-
-  # As imagens escolhidas vêm só da galeria de quem está editando: um id de outra pessoa é ignorado
-  def aplicar_fotos
-    escolhas = params.fetch(:academia, {}).permit(imagem_ids: [], remover_foto_ids: [])
-
-    @academia.anexar_imagens(current_user.imagens.where(id: escolhas[:imagem_ids]), por: current_user)
-    @academia.remover_fotos(Array(escolhas[:remover_foto_ids]).map(&:to_i), por: current_user)
   end
 end
