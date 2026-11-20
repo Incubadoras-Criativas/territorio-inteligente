@@ -986,7 +986,7 @@ O `ID` é o número da foto, que aparece, por exemplo, no `name` da caixa "Remov
 - Num teste de controller, conferir o redirecionamento logo depois do pedido evita passar pelo motivo errado.
 - Um aviso de segurança que volta é uma chance de trocar o "aceito" por uma proteção de verdade.
 
-**Próximo capítulo:** a tela de moderação, com as fotos pendentes, o contador no menu e o resumo diário por e-mail.
+**Próximo capítulo:** [0300 — A moderação](0300-moderacao.md)
 
 ---
 
