@@ -42,6 +42,14 @@ Rails.application.routes.draw do
         patch :recusar
       end
     end
+
+    resources :academias, only: [] do
+      patch :publicar, on: :member
+    end
+
+    resources :observacoes, only: [] do
+      patch :publicar, on: :member
+    end
   end
 
   if Rails.env.development?
