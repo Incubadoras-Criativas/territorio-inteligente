@@ -13,7 +13,7 @@
   <% end %>
 
   <% if (conteudo = @equipamento.conteudo) %>
-    <%= conteudo.html_safe %>
+    <%= sanitize conteudo %>
   <% else %>
     <p>Este guia ainda está em construção.</p>
   <% end %>
