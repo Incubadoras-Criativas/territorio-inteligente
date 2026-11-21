@@ -1,0 +1,9 @@
+Olá, <%= @user.nome %>.
+
+Há <%= pluralize(@total, "item", plural: "itens") %> aguardando moderação no Território Inteligente:
+
+<% if @contagem[:fotos].positive? %>- <%= pluralize(@contagem[:fotos], "foto", plural: "fotos") %>
+<% end %><% if @contagem[:academias].positive? %>- <%= pluralize(@contagem[:academias], "academia em rascunho", plural: "academias em rascunho") %>
+<% end %><% if @contagem[:observacoes].positive? %>- <%= pluralize(@contagem[:observacoes], "observação em rascunho", plural: "observações em rascunho") %>
+<% end %>
+Abrir a moderação: <%= moderacao_url %>

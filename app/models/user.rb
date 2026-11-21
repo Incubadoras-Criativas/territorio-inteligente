@@ -30,6 +30,8 @@ class User < ApplicationRecord
 
   before_create { self.privacidade_aceita_em = Time.current }
 
+  scope :que_moderam, -> { where(role: %i[admin moderador]) }
+
   def limite_galeria_bytes = limite_galeria_mb.megabytes
 
   def espaco_usado
@@ -77,6 +79,12 @@ class User < ApplicationRecord
   # Um avatar removido da galeria não pode quebrar a página de quem o tinha escolhido.
   def avatar_exibivel
     avatar if avatar.present? && avatar.in?(self.class.avatares_disponiveis)
+  end
+
+  # Os e-mails do Devise saem pela fila (Solid Queue), e não no meio do pedido.
+  # Se o servidor de e-mail falhar, o cadastro conclui do mesmo jeito.
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
   private
