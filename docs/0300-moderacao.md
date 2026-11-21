@@ -675,7 +675,7 @@ De novo como **Ana**:
 - O Turbo Stream troca o "recarregar a página" por uma instrução curta, sem JavaScript.
 - Uma conta usada em vários lugares mora num lugar só, e é feita uma vez por pedido.
 
-**Próximo capítulo:** em breve.
+**Próximo capítulo:** [0310 — O resumo diário e os e-mails na fila](0310-resumo-diario.md)
 
 ---
 
