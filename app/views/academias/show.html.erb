@@ -29,8 +29,14 @@
   </ul>
 <% end %>
 
-<p>
-  <%= link_to "Ver no mapa",
+<div class="mapa-ficha" data-controller="mapa"
+     data-mapa-pontos-value="<%= pontos_do_mapa(@academia).to_json %>"
+     role="region" aria-label="Mapa com a localização de <%= @academia.titulo %>"></div>
+
+<p class="links-mapa">
+  <%= link_to "Abrir no app de mapas", "geo:#{@academia.latitude},#{@academia.longitude}?q=#{@academia.latitude},#{@academia.longitude}" %>
+  ·
+  <%= link_to "Ver no OpenStreetMap",
         "https://www.openstreetmap.org/?mlat=#{@academia.latitude}&mlon=#{@academia.longitude}#map=18/#{@academia.latitude}/#{@academia.longitude}",
         target: "_blank", rel: "noopener" %>
 </p>

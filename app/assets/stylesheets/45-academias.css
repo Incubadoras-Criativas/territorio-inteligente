@@ -4,3 +4,15 @@
   align-items: center;
   gap: var(--espaco-2);
 }
+
+/* O mapa da ficha da academia */
+.mapa-ficha {
+  height: 16rem;
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+  isolation: isolate;
+}
+
+.links-mapa {
+  font-size: 0.875rem;
+}

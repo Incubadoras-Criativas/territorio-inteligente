@@ -96,4 +96,16 @@ class AcademiasControllerTest < ActionDispatch::IntegrationTest
 
     assert academia.fotos.sole.aprovada?
   end
+
+  test "a ficha tem o mapa com o ponto da academia" do
+    academia = academias(:publicada)
+
+    get academia_path(academia)
+
+    assert_select "[data-controller=mapa]" do |mapa|
+      pontos = JSON.parse(mapa.first["data-mapa-pontos-value"])
+      assert_equal academia.titulo, pontos.first["titulo"]
+      assert_kind_of Float, pontos.first["lat"]
+    end
+  end
 end
