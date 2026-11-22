@@ -14,7 +14,11 @@ export default class extends Controller {
   connect() {
     const ponto = this.pontoDosCampos()
 
+    this.mapa = L.map(this.mapaTarget).setView(ponto || this.centroValue, ponto ? 17 : 13)
     camadaDeFundo().addTo(this.mapa)
+
+    // Tocar no mapa marca o ponto (e move o pino, se já houver um)
+    this.mapa.on("click", (evento) => this.moverPara(evento.latlng))
 
     if (ponto) {
       this.colocarPino(ponto)
@@ -37,8 +41,8 @@ export default class extends Controller {
     this.avisar("Procurando a sua localização…")
     navigator.geolocation.getCurrentPosition(
       (posicao) => this.encontrou(posicao),
-                                             (erro) => this.falhou(erro),
-                                             { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+      (erro) => this.falhou(erro),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
     )
   }
 
@@ -61,7 +65,14 @@ export default class extends Controller {
     this.precisao?.remove()
     this.precisao = L.circle([ latitude, longitude ], { radius: accuracy, weight: 1 }).addTo(this.mapa)
 
-    this.avisar(`Localização encontrada, com precisão de uns ${Math.round(accuracy)} m. Se precisar, arraste o pino até o lugar exato.`)
+    const metros = Math.round(accuracy)
+
+    if (metros > 100) {
+      const distancia = metros >= 1000 ? `${(metros / 1000).toFixed(1).replace(".", ",")} km` : `${metros} m`
+      this.avisar(`Atenção: a localização está imprecisa (erro de até ${distancia}). Confira o pino e arraste até o lugar exato, ou toque no mapa onde fica a academia.`)
+    } else {
+      this.avisar(`Localização encontrada, com precisão de uns ${metros} m. Se precisar, arraste o pino até o lugar exato.`)
+    }
   }
 
   falhou(erro) {

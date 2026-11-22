@@ -19,5 +19,7 @@ end
 Capybara::Selenium::Driver::ChromeDriver.prepend(LimpezaDoChromeCompativel)
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include Warden::Test::Helpers
+
   driven_by :selenium, using: :headless_chrome, screen_size: [ 320, 712 ]
 end
