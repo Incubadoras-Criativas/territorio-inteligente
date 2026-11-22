@@ -663,3 +663,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 		print-color-adjust: exact;
 		}
 	}
+
+
+	/* Todo mapa do projeto fica no seu próprio "andar": as camadas do Leaflet
+	 *  (z-index de até 1000) não sobem por cima da barra de abas nem do menu */
+	.leaflet-container {
+		isolation: isolate;
+	}

@@ -16,3 +16,31 @@
 .links-mapa {
   font-size: 0.875rem;
 }
+
+/* O mapa grande da capa */
+.mapa-da-capa {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.mapa-capa {
+  height: 60vh;
+  min-height: 18rem;
+  border: 2px solid var(--cor-roxo);
+  border-radius: var(--raio);
+  isolation: isolate;
+}
+
+.acoes-mapa-capa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-1);
+}
+
+/* "Você está aqui": um círculo amarelo com borda roxa, diferente dos pinos */
+.voce-esta-aqui {
+  fill: var(--cor-amarelo);
+  fill-opacity: 1;
+  stroke: var(--cor-roxo);
+}
