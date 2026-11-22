@@ -7,6 +7,21 @@
   feito por quem vive nele.
 </p>
 
+<section class="mapa-da-capa" data-controller="mapa"
+         data-mapa-pontos-value="<%= @academias.map { |academia| ponto_da_academia(academia) }.to_json %>">
+  <div class="mapa-capa" data-mapa-target="area"
+       role="region" aria-label="Mapa das academias ao ar livre"></div>
+
+  <div class="acoes-mapa-capa">
+    <button type="button" class="botao-secundario" data-action="mapa#pertoDeMim">
+      <%= icone("map-pin") %> Perto de mim
+    </button>
+    <p class="dica" data-mapa-target="status" role="status"></p>
+  </div>
+
+  <p class="dica"><%= pluralize(@academias.size, "academia publicada", plural: "academias publicadas") %> no mapa.</p>
+</section>
+
 <% unless user_signed_in? %>
   <p><%= link_to "Quero participar", new_user_registration_path %></p>
 <% end %>

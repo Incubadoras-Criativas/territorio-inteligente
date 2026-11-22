@@ -33,4 +33,14 @@ class PaginasControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Política de privacidade"
   end
+
+  test "a capa mostra no mapa só as academias publicadas" do
+    get root_path
+
+    assert_select "[data-controller=mapa]" do |mapa|
+      titulos = JSON.parse(mapa.first["data-mapa-pontos-value"]).map { |ponto| ponto["titulo"] }
+      assert_includes titulos, academias(:publicada).titulo
+      assert_not_includes titulos, academias(:rascunho_da_ana).titulo
+    end
+  end
 end
