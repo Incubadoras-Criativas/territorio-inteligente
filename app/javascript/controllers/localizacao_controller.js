@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import * as L from "leaflet"
+import { camadaDeFundo, pino } from "mapas"
 
 // Mapa com pino arrastável, ligado aos campos de latitude e longitude.
 // O botão "Usar minha localização" pede as coordenadas ao GPS do celular.
@@ -13,11 +14,7 @@ export default class extends Controller {
   connect() {
     const ponto = this.pontoDosCampos()
 
-    this.mapa = L.map(this.mapaTarget).setView(ponto || this.centroValue, ponto ? 17 : 13)
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.mapa)
+    camadaDeFundo().addTo(this.mapa)
 
     if (ponto) {
       this.colocarPino(ponto)
@@ -87,7 +84,7 @@ export default class extends Controller {
       return
     }
 
-    this.pino = L.marker(latlng, { draggable: true, icon: this.icone(), keyboard: true, title: "Local da academia" })
+    this.pino = L.marker(latlng, { draggable: true, icon: pino(), keyboard: true, title: "Local da academia" })
     .addTo(this.mapa)
     this.pino.on("dragend", () => this.preencherCampos(this.pino.getLatLng()))
   }
@@ -101,11 +98,6 @@ export default class extends Controller {
     const lat = parseFloat(this.latitudeTarget.value)
     const lng = parseFloat(this.longitudeTarget.value)
     return Number.isFinite(lat) && Number.isFinite(lng) ? L.latLng(lat, lng) : null
-  }
-
-  // Pino feito em CSS: dispensa as imagens do Leaflet
-  icone() {
-    return L.divIcon({ className: "pino", iconSize: [ 28, 28 ], iconAnchor: [ 14, 28 ] })
   }
 
   avisar(texto) {
